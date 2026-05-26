@@ -266,7 +266,7 @@ async function
         _retry + 1;
       _msg =
         `Error retrieving block number `+
-        `from network/rpc '${_target_network}', `
+        `from network/rpc '${_target_network}', ` +
         `retrying (${_retry} of ${_retries_max})`;
       console.error(
         _err);
