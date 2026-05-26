@@ -399,7 +399,6 @@ async function
     console.log(
       _rpc);
   }
-  console.log(_target_command);
   if ( _target_command == "blocknumber" ) {
     const
       _block_number_get_args = [

@@ -977,7 +977,16 @@ async function
     _results_type =
       typeof(
         _results);
-  if ( _results_type == "bigint" ) {
+  if ( _results_type == "number" ) {
+    if ( _target_command == "blocknumber" ) {
+      _results =
+        _results.toFixed(
+          0);
+    }
+    console.log(
+      _results);
+  }
+  else if ( _results_type == "bigint" ) {
     console.log(
       _results.toString());
   }
