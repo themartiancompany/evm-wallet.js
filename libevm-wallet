@@ -290,6 +290,61 @@ async function
   return _balance;
 }
 
+function
+  _target_networks_check(
+    _target_networks) {
+  const
+    _target_networks_type,
+    _target_network_type;
+  _target_networks_type =	
+    typeof(
+      _target_networks);
+  if ( _target_networks_type == "undefined" ||
+       _target_networks == [] ||
+       _target_networks == "" ) {
+    _target_networks =
+      [];
+  }
+  if ( 0 < _target_networks.length ) {
+    _target_network =
+      _target_networks[
+        0];
+      _target_network_type =
+        typeof(
+          _target_network);
+    if ( _target_network_type == "object" ) {
+      _target_networks =
+        _target_network;
+    }
+  }
+  else {
+    _target_network =
+      "";
+  }
+  if ( _target_networks.length == 1 ) {
+    _target_network =
+      _target_networks[
+        0];
+      _target_network_type =
+        typeof(
+          _target_network);
+    if ( _target_network_type) == "string" ) {
+      if ( _target_network.includes(
+             ",") ) {
+        const
+          _commas =
+            _target_network.split(",");
+        if ( 1 < _commas.length ) {
+          _target_networks =
+            _commas;
+        }
+      }
+    }
+  }
+  return [ _target_networks,
+           _target_network ]
+}
+
 async function
   _evm_wallet(
     _target_command,
@@ -327,41 +382,10 @@ async function
   const
     _rpc_get =
       _libevm_module._rpc_get;
-  if ( typeof(
-         _target_networks) == "undefined" ||
-       _target_networks == [] ||
-       _target_networks == "" ) {
-    _target_networks =
-      [];
-  }
-  if ( 0 < _target_networks.length ) {
-    _target_network =
-      _target_networks[
-        0];
-    if ( typeof(
-           _target_network) == "object" ) {
-      _target_networks =
-        _target_network;
-    }
-  }
-  else {
-    _target_network =
-      "";
-  }
-  if ( _target_networks.length == 1 ) {
-    if ( typeof(
-           _target_networks[0]) == "string" ) {
-      if ( _target_networks[0].includes(",") ) {
-        const
-          _commas =
-            _target_networks[0].split(",");
-        if ( 2 < _commas.length ) {
-          _target_networks =
-            _commas;
-        }
-      }
-    }
-  }
+  [ _target_networks,
+    _target_network ] =
+    _target_networks_check(
+      _target_networks);
   const
     _rpc =
       _rpc_get(
@@ -374,7 +398,30 @@ async function
     console.log(
       _rpc);
   }
-  if ( _target_command == "gas" ) {
+  if ( _target_command == "blocknumber" ) {
+    const
+      _block_number_get_args = [
+
+      "    <target-network>",
+      "  ( <api-key-path",
+      "    <output-file>",
+      "    <retries-max>",
+      "    <call-timeout> )",
+        _rpc[
+          _target_network],
+        _api_key,
+        "",            // output file
+        _retries_max,
+        _call_timeout,
+      ];
+    const
+      _block_number =
+        await _block_number_get.apply(
+          null,
+          _block_number_get_args);
+    return _block_number;
+  }
+  else if ( _target_command == "gas" ) {
     const
       _price_gas_get_args = [
         _rpc[
