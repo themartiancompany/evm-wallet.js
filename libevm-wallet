@@ -343,7 +343,7 @@ function
     }
   }
   return [ _target_networks,
-           _target_network ]
+           _target_network ];
 }
 
 async function
