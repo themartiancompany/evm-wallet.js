@@ -252,7 +252,7 @@ async function
           "_provider_get_block_number",
           _call_timeout,
           "native",
-	  "getBlockNumber");
+          "getBlockNumber");
       if ( _output_file != "" ) {
           _file_write(
             _output_file,
@@ -261,7 +261,7 @@ async function
       _success =
         true;
     } catch(
-        _err) {
+        _error) {
       _retry =
         _retry + 1;
       _msg =

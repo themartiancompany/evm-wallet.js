@@ -943,6 +943,18 @@ async function
   const
     _overrides_set_up =
       await _overrides_set();
+  const
+    _target_network =
+      target_networks[
+        0];
+  const
+    _target_network_type =
+      typeof(
+        _target_network);
+  if ( _target_network_type == "object" ) {
+    target_networks =
+      _target_network;
+  }
   _config_show();
   const
     app_opts = [
@@ -985,6 +997,8 @@ async function
     }
     console.log(
       _results);
+    _process_exit(
+      0);
   }
   else if ( _results_type == "bigint" ) {
     console.log(
@@ -995,9 +1009,40 @@ async function
       _results);
   }
   else if ( _results_type == "object" ) {
-    for ( _result of _results ) {
-      console.log(
-        _result);
+    if ( target_command == "get" ) {
+      if ( target_key == "balance" ) {
+        if ( target_networks.length < 2 ) {
+          const
+            _target_network =
+              target_networks[
+                  0];
+          console.log(
+            _results[
+              _target_network]);
+	}
+        else {
+          console.log(
+            _results);
+        }
+      }
+    }
+    else {
+      try {
+        for ( _result of _results ) {
+          console.log(
+            _result);
+        }
+      }
+      catch(
+        _error) {
+        console.error(
+          _error);
+        _msg =
+          "Unknown error.";
+        _msg_error(
+          _msg,
+          1);
+      }
     }
   }
   else if ( _results_type == "undefined" ) {

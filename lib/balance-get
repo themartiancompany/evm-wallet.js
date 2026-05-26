@@ -608,7 +608,7 @@ async function
 if ( _cmdline_check(
        "balance-get") ||
      _cmdline_check(
-       "gas-balance")) {
+       "gas-balance") ) {
   _global_variables();
   _cmdline_parse();
   _config_show();
