@@ -294,6 +294,7 @@ function
   _target_networks_check(
     _target_networks) {
   let
+    _target_network,
     _target_networks_type,
     _target_network_type;
   _target_networks_type =	
