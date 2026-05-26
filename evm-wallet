@@ -938,7 +938,8 @@ async function
   _main() {
   let
     _msg,
-    _result;
+    _result,
+    _results;
   const
     _overrides_set_up =
       await _overrides_set();
@@ -968,11 +969,10 @@ async function
       target_value,
       target_networks
     ];
-  const
-    _results =
-      await _evm_wallet.apply(
-        null,
-        app_opts);
+  _results =
+    await _evm_wallet.apply(
+      null,
+      app_opts);
   const
     _results_type =
       typeof(
