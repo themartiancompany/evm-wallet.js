@@ -293,7 +293,7 @@ async function
 function
   _target_networks_check(
     _target_networks) {
-  const
+  let
     _target_networks_type,
     _target_network_type;
   _target_networks_type =	
