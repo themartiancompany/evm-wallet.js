@@ -295,11 +295,11 @@ function
     _target_networks) {
   let
     _target_network,
-    _target_networks_type,
     _target_network_type;
-  _target_networks_type =	
-    typeof(
-      _target_networks);
+  const
+   _target_networks_type =
+     typeof(
+       _target_networks);
   if ( _target_networks_type == "undefined" ||
        _target_networks == [] ||
        _target_networks == "" ) {
