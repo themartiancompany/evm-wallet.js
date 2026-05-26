@@ -380,13 +380,6 @@ if ( _cmdline_check(
   _address_get_cmdline(
     app_opts);
 }
-else {
-  const
-    _msg =
-      "Program 'address-get' ('eoa-fingerprint') imported as a module.";
-  _msg_info(
-    _msg);
-}
 
 module.exports = {
   _address_get:
