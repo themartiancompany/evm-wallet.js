@@ -978,7 +978,7 @@ async function
       typeof(
         _results);
   if ( _results_type == "number" ) {
-    if ( _target_command == "blocknumber" ) {
+    if ( target_command == "blocknumber" ) {
       _results =
         _results.toFixed(
           0);
