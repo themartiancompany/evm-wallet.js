@@ -519,6 +519,7 @@ if ( _cmdline_check(
        "block-number") ) {
   _global_variables();
   _cmdline_parse();
+  _overrides_set();
   _config_show();
   app_opts = [
     target_network,
