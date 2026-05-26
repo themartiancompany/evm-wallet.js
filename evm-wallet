@@ -1015,6 +1015,8 @@ async function
       _msg,
       1);
   }
+  _process_exit(
+    0);
 }
 
 _global_variables();
