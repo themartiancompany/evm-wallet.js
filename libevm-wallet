@@ -328,7 +328,7 @@ function
       _target_network_type =
         typeof(
           _target_network);
-    if ( _target_network_type) == "string" ) {
+    if ( _target_network_type == "string" ) {
       if ( _target_network.includes(
              ",") ) {
         const
