@@ -209,9 +209,9 @@ function
   }
 }
 
-_global_variables();
 
 if ( require.main == module ) {
+  _global_variables();
   _cmdline_parse();
   app_opts = [
     seed_path
