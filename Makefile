@@ -24,6 +24,7 @@
 #    along with this program.
 #    If not, see <https://www.gnu.org/licenses/>.
 
+_NPM ?= true
 SHELL=bash
 PREFIX ?= /usr/local
 _PROJECT=evm-wallet
@@ -104,18 +105,8 @@ build-man:
 	    --init \
 	      "man" || \
 	true; \
-	mkdir \
-	  -p \
-	  "build/man"; \
-	cp \
-	  "man/variables.rst" \
-	  "build/man"; \
-	cp \
-	  "man/gas-transfer.1.rst" \
-	  "build/man"; \
-	cp \
-	  "man/$(_PROJECT).1.rst" \
-	  "build/man"; \
+	cd \
+	  "man"; \
 	_tag="$$( \
 	  git \
 	    tag | \
@@ -124,26 +115,12 @@ build-man:
               head \
 	        -n \
 	          1)"; \
-	sed \
-	  "s/insert.version.here/$${_tag}/" \
-	  -i \
-	  "build/man/variables.rst"; \
-	cat \
-	  "man/$(_PROJECT).1.rst" | \
-	  sed \
-	    "s/$(_PROJECT_NPM)/$(_PROJECT)/g" > \
-	    "build/man/$(_PROJECT_NPM).1.rst"; \
-	rst2man \
-	  "build/man/gas-transfer.1.rst" \
-	  "build/man/gas-transfer.1"; \
-	rst2man \
-	  "build/man/$(_PROJECT_NPM).1.rst" \
-	  "build/man/$(_PROJECT_NPM).1"; \
-	rm \
-	  "build/man/$(_PROJECT).1.rst" \
-	  "build/man/$(_PROJECT_NPM).1.rst"; \
-	rm \
-	  "build/man/variables.rst"
+	_TAG="${_tag}" \
+	make \
+	  build-man
+        mkdir \
+	  -p \
+	  "build/man"
 
 build-npm:
 
@@ -226,10 +203,9 @@ install-doc:
 
 install-man:
 
-	$(_INSTALL_DIR) \
-	  "$(MAN_DIR)/man1"
-	$(_INSTALL_FILE) \
-	  "build/man/$(_PROJECT_NPM).1" \
-	  "$(MAN_DIR)/man1/$(_PROJECT_NPM).1"
+	cd \
+	  "man"; \
+	make \
+	  install-man
 
 .PHONY: check build-man build-npm install install-doc install-man install-npm install-scripts shellcheck
