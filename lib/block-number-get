@@ -243,8 +243,6 @@ async function
         _provider_get_block_number_cmd = [
           _provider
         ];
-      // // TODO:
-      // //   to ask why this doesnt work
       _block_number =
         await _run(
           "sync",
@@ -253,6 +251,15 @@ async function
           _call_timeout,
           "native",
           "getBlockNumber");
+      if ( typeof(
+             _block_number) == "undefined" ) {
+        const
+          _error = {
+            "message":
+              "Timeout reached for block number retrieval."
+	  };
+        throw _error;
+      }
       if ( _output_file != "" ) {
           _file_write(
             _output_file,
