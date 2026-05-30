@@ -127,9 +127,9 @@ build-npm:
 	if [[ ! -d "build/man" ]]; then \
 	  mkdir \
 	    -p \
-	    "build/man"
+	    "build/man"; \
 	  make \
-	    build-man;
+	    build-man; \
 	  cp \
 	    -r \
 	    "man/build/*" \
