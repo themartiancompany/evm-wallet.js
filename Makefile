@@ -105,18 +105,15 @@ build-man:
 	    --init \
 	      "man" || \
 	true; \
-	_tag="$$( \
-	  git \
-	    tag | \
-	    sort \
-	      -V | \
-              head \
-	        -n \
-	          1)"; \
+	_version="$$( \
+	  npm \
+	    view \
+	      "$${PWD}" \
+	      "version")"; \
 	cd \
 	  "man"; \
 	make \
-	  _TAG="$${_tag}" \
+	  _VERSION="$${_version}" \
 	  build-man
 	mkdir \
 	  -p \
