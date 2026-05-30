@@ -10,7 +10,11 @@
       "https://patreon.com/tallero"
   },
   "man": [
-    "./man/evm-wallet.js.1"
+    "./man/block-number.1",
+    "./man/eoa-fingerprint.1",
+    "./man/evm-wallet.1",
+    "./man/evm-wallet.js.1",
+    "./man/gas-transfer.1"
   ],
   "files": [
     "AUTHORS.rst",
