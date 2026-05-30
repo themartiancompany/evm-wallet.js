@@ -105,8 +105,6 @@ build-man:
 	    --init \
 	      "man" || \
 	true; \
-	cd \
-	  "man"; \
 	_tag="$$( \
 	  git \
 	    tag | \
@@ -115,26 +113,23 @@ build-man:
               head \
 	        -n \
 	          1)"; \
+	cd \
+	  "man"; \
 	_TAG="${_tag}" \
 	make \
 	  build-man
 	mkdir \
 	  -p \
 	  "build/man"
+	cp \
+	  -r \
+	  "man/build/"* \
+	  "build/man"
 
 build-npm:
 
-	if [[ ! -d "build/man" ]]; then \
-	  mkdir \
-	    -p \
-	    "build/man"; \
-	  make \
-	    build-man; \
-	  cp \
-	    -r \
-	    "man/build/*" \
-	    "build/man"; \
-	fi
+	make \
+	  build-man
 	for _file in $(NPM_FILES); do \
 	  if [[ -d "$${_file}" ]]; then \
 	    mkdir \
