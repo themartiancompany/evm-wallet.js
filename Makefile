@@ -115,8 +115,8 @@ build-man:
 	          1)"; \
 	cd \
 	  "man"; \
-	_TAG="${_tag}" \
 	make \
+	  _TAG="$${_tag}" \
 	  build-man
 	mkdir \
 	  -p \
