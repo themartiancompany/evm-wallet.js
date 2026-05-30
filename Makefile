@@ -124,8 +124,17 @@ build-man:
 
 build-npm:
 
-	make \
-	  build-man
+	if [[ ! -d "build/man" ]]; then \
+	  mkdir \
+	    -p \
+	    "build/man"
+	  make \
+	    build-man;
+	  cp \
+	    -r \
+	    "man/build/*" \
+	    "build/man"; \
+	fi
 	for _file in $(NPM_FILES); do \
 	  if [[ -d "$${_file}" ]]; then \
 	    mkdir \

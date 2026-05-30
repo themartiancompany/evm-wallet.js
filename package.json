@@ -12,9 +12,11 @@
   "man": [
     "./man/block-number.1",
     "./man/eoa-fingerprint.1",
+    "./man/ether2wei.1",
     "./man/evm-wallet.1",
     "./man/evm-wallet.js.1",
-    "./man/gas-transfer.1"
+    "./man/gas-transfer.1",
+    "./man/mkseed.1"
   ],
   "files": [
     "AUTHORS.rst",
@@ -132,6 +134,8 @@
       "npx webpack --mode 'production' --config 'fs-worker.webpack.config.cjs' --stats-error-details && cp 'fs-worker.js' 'dist/evm-wallet' && cp 'fs-worker.js' 'dist/libevm-wallet'",
     "build-lib":
       "npx webpack --mode 'production' --config 'libevm-wallet.webpack.config.cjs' --stats-error-details && mv 'libevm-wallet.js' 'dist/libevm-wallet'",
+    "build-man":
+      "make build-man",
     "build":
       "npm run lint && npm run build-fs-worker && npm run build-lib && npm run build-bin",
     "lint":
