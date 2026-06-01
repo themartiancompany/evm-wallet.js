@@ -244,13 +244,12 @@ function
     }
     else {
       _msg =
-        "No network or chain id given in input.";
+        "No network or chain id given in input, " +
+        "will return empty provider.";
       const
         _error = {
           "error":
             _msg };
-      _usage(
-        -1);
       throw _msg;
     }
   }
