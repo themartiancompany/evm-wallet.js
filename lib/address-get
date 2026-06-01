@@ -297,7 +297,7 @@ function _cmdline_parse() {
       _array) {
       if ( _index == 2 ) {
         quiet =
-	  _value;
+          _value;
       }
       if ( _index == 3 ) {
         wallet_seed =

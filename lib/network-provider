@@ -171,10 +171,17 @@ function
             _commas;
         }
       }
+    }
+  }
+  return [ _target_networks,
+           _target_network ];
+}
 
 function
   _rpc_auto_detect(
     _chain_id) {
+  let
+    _target_networks;
   const
     _libevm_module =
       require(
@@ -182,10 +189,9 @@ function
   const
     _rpc_get =
       _libevm_module._rpc_get;
-  const
-    _target_networks = [
-      _chain_id
-    ];
+  _target_networks = [
+    _chain_id
+  ];
   [ _target_networks,
     _target_network ] =
     _target_networks_check(
@@ -193,7 +199,8 @@ function
   const
     _rpc =
       _rpc_get(
-        _target_networks);
+        _target_networks)[
+          _chain_id];
   return _rpc;
 }
 
@@ -224,8 +231,8 @@ function
         _chain_id);
   if ( _network_type == "undefined" ||
        _target_network == "" ) {
-    if ( _chain_id_type != "undefined" ||
-         _chain_id == "" ) {
+    if ( _chain_id_type != "undefined" &&
+         _chain_id != "" ) {
       _msg =
         "Getting RPC for network with " +
         `chain ID '${_chain_id}'.`;
@@ -261,6 +268,8 @@ function
       _rpc_auto_detect(
         _target_network);
   }
+  console.log(
+    _target_network);
   if ( typeof(
          _timeout) == "undefined" ||
        _timeout == "" ) {
