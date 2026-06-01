@@ -256,7 +256,7 @@ async function
           _error = {
             "message":
               "Timeout reached for block number retrieval."
-	  };
+          };
         throw _error;
       }
       if ( _output_file != "" ) {
@@ -279,15 +279,21 @@ async function
       _msg_error(
         _msg,
         0);
+      await _provider.destroy();
       await _sleep(
         3000);
+      _provider =
+        await _provider_get.apply(
+          null,
+          _provider_get_opts);
     }
   }
   if ( _success == false &&
        _retry == _retries_max ) {
     _provider.destroy();
     _msg =
-      "Error retrieving block number.";
+      "Failed retrieving block number" +
+      `from RPC '${_rpc}'.`;
     throw _msg;
   }
   return _block_number;
