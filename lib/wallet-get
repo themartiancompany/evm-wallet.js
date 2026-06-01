@@ -119,11 +119,12 @@ function
     _seed) {
   const
     _msg =
-      `The seed '${_seed}' does not exist.`;
+      `Seed has unspecified value '${_seed}'.`;
   const
     _error = {
       "error":
         _msg };
+  _usage();
   throw _error;
 }
 
@@ -143,10 +144,11 @@ function
       _seed);
   }
   else {
-    _seed_exists =
-      _file_exists(
-        _seed);
-    if ( _seed_exists == false ) {
+    const
+      _seed_exists =
+        _file_exists(
+          _seed);
+    if ( ! _seed_exists ) {
       if ( _seed_type == "string" ) {
         _seed_words =
           _seed.split(" ");
@@ -178,10 +180,15 @@ function
       }
       else {
         _msg =
-          `Seed does not contain a valid phrase.`;
-        _msg_error(
-          _msg,
-          1);
+          `The seed '${_seed}' has type ` +
+          `'${_seed_type}', ` +
+          `it's not a valid path and it ` +
+          `does not contain a valid phrase.`;
+        const
+          _error = {
+            "error":
+              _msg };
+        throw _error;
       }
     }
     else {
@@ -211,6 +218,30 @@ function
   return _phrase;
 }
 
+function
+  _usage() {
+  let
+    _line;
+  const
+    _text = [
+      "Returns a wallet object.",
+      "",
+      "  usage:",
+      "    await _wallet_get(",
+      "      _path",
+      "      _password,",
+      "      _seed,",
+      "      _provider,",
+      "      _wallet,",
+      "      _verbose);",
+      ""
+    ];
+  for ( _line of _text ) {
+    console.log(
+      _line);
+  }
+}
+
 function _wallet_get(
   _path,
   _password,
@@ -221,10 +252,17 @@ function _wallet_get(
   let
     _password_show,
     _phrase_show,
-    _seed_exists,
-    _seed_type;
+    _seed_exists;
   _password_show =
     "";
+  const
+    _seed_type =
+      typeof(
+        _seed);
+  const
+    _wallet_type =
+      typeof(
+        _wallet);
   if ( typeof(
          _verbose) == "undefined" ||
        _verbose == "" ) {
@@ -235,12 +273,10 @@ function _wallet_get(
        _password != "" ) {
     _password_show="****" 
   }
-  if ( ( typeof(
-           _seed) == "undefined" ||
+  if ( ( _seed_type == "undefined" ||
          _seed == "" ||
          _seed == [] ) &&
-       ( typeof(
-           _wallet) == "undefined" ||
+       ( _wallet_type == "undefined" ||
          _wallet == "" ||
          _wallet == {} ) ) {
     _seed_missing_error(

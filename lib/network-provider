@@ -122,6 +122,31 @@ function
 }
 
 function
+  _rpc_auto_detect(
+    _chain_id) {
+  const
+    _libevm_module =
+      require(
+        "libevm");
+  const
+    _rpc_get =
+      _libevm_module._rpc_get;
+  const =
+    _target_networks = [
+      _chain_id
+    ];
+  [ _target_networks,
+    _target_network ] =
+    _target_networks_check(
+      _target_networks);
+  const
+    _rpc =
+      _rpc_get(
+        _target_networks);
+  return _rpc;
+}
+
+function
   _provider_get(
     _target_network,
     _api_key,
@@ -132,11 +157,45 @@ function
   let
     _default_network,
     _get_default_provider_opts,
+    _msg,
     _network,
     _network_new_opts,
     _provider,
     _provider_opts,
     _rpc;
+  const
+    _network_type =
+      typeof(
+        _target_network);
+  const
+    _chain_id_type =
+      typeof(
+        _chain_id);
+  if ( _network_type == "undefined" ||
+       _target_network == "" ) {
+    if ( _chain_id_type != "undefined" ||
+         _chain_id == "" ) {
+      _msg =
+        "Getting RPC for network with " +
+        `chain ID '${_chain_id}'.`;
+      _msg_info(
+        _msg);
+      _target_network =
+        _rpc_auto_detect(
+          _chain_id);
+    }
+    else {
+      _msg =
+        "No network or chain id given in input.";
+      const
+        _error = {
+          "error":
+            _msg };
+      _usage(
+        -1);
+      throw _msg;
+    }
+  }
   if ( typeof(
          _timeout) == "undefined" ||
        _timeout == "" ) {
@@ -290,11 +349,13 @@ function
     "    -h                             This help."
   ];
   for ( _line of _text ) {
-    _msg_info(
+    console.log(
       _line);
   }
-  process.exit(
-    _exit_code);
+  if ( -1 < _exit_code ) {
+    process.exit(
+      _exit_code);
+  }
 }
 
 function
