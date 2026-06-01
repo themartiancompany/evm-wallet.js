@@ -246,11 +246,8 @@ function
       _msg =
         "No network or chain id given in input, " +
         "will return empty provider.";
-      const
-        _error = {
-          "error":
-            _msg };
-      throw _msg;
+      _msg_info(
+        _msg);
     }
   }
   if ( ! _target_network.startsWith(
@@ -267,8 +264,6 @@ function
       _rpc_auto_detect(
         _target_network);
   }
-  console.log(
-    _target_network);
   if ( typeof(
          _timeout) == "undefined" ||
        _timeout == "" ) {
