@@ -131,7 +131,7 @@ function
   const
     _rpc_get =
       _libevm_module._rpc_get;
-  const =
+  const
     _target_networks = [
       _chain_id
     ];
