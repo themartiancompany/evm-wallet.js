@@ -122,6 +122,57 @@ function
 }
 
 function
+  _target_networks_check(
+    _target_networks) {
+  let
+    _target_network,
+    _target_network_type;
+  const
+   _target_networks_type =
+     typeof(
+       _target_networks);
+  if ( _target_networks_type == "undefined" ||
+       _target_networks == [] ||
+       _target_networks == "" ) {
+    _target_networks =
+      [];
+  }
+  if ( 0 < _target_networks.length ) {
+    _target_network =
+      _target_networks[
+        0];
+      _target_network_type =
+        typeof(
+          _target_network);
+    if ( _target_network_type == "object" ) {
+      _target_networks =
+        _target_network;
+    }
+  }
+  else {
+    _target_network =
+      "";
+  }
+  if ( _target_networks.length == 1 ) {
+    _target_network =
+      _target_networks[
+        0];
+      _target_network_type =
+        typeof(
+          _target_network);
+    if ( _target_network_type == "string" ) {
+      if ( _target_network.includes(
+             ",") ) {
+        const
+          _commas =
+            _target_network.split(",");
+        if ( 1 < _commas.length ) {
+          _target_networks =
+            _commas;
+        }
+      }
+
+function
   _rpc_auto_detect(
     _chain_id) {
   const
@@ -195,6 +246,20 @@ function
         -1);
       throw _msg;
     }
+  }
+  if ( ! _target_network.startsWith(
+           "https://") &&
+       ! _target_network.startsWith(
+           "wss://") ) {
+    _msg =
+      "Given chain ID as a network url, " +
+      "obtaining an RPC url for the " +
+      `network with chain ID '${_chain_id}'.`;
+    _msg_info(
+      _msg);
+    _target_network =
+      _rpc_auto_detect(
+        _target_network);
   }
   if ( typeof(
          _timeout) == "undefined" ||
@@ -436,5 +501,7 @@ module.exports = {
     _provider_get,
   _msg_info_provider_generated:
     _msg_info_provider_generated,
+  _target_networks_check:
+    _target_networks_check
 };
 

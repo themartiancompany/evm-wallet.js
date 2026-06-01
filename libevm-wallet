@@ -147,15 +147,20 @@ const
     require(
       "./lib/network-provider");
 /* global
+     _msg_info_provider_generated */
+const
+  _msg_info_provider_generated =
+    _network_provider_module._msg_info_provider_generated;
+/* global
      _provider_get */
 const
   _provider_get =
     _network_provider_module._provider_get;
 /* global
-     _msg_info_provider_generated */
+     _target_networks_check */
 const
-  _msg_info_provider_generated =
-    _network_provider_module._msg_info_provider_generated;
+  _target_networks_check =
+    _network_provider_module._target_networks_check;
 const
   _price_gas_get_module =
     require(
@@ -288,62 +293,6 @@ async function
     }
   }
   return _balance;
-}
-
-function
-  _target_networks_check(
-    _target_networks) {
-  let
-    _target_network,
-    _target_network_type;
-  const
-   _target_networks_type =
-     typeof(
-       _target_networks);
-  if ( _target_networks_type == "undefined" ||
-       _target_networks == [] ||
-       _target_networks == "" ) {
-    _target_networks =
-      [];
-  }
-  if ( 0 < _target_networks.length ) {
-    _target_network =
-      _target_networks[
-        0];
-      _target_network_type =
-        typeof(
-          _target_network);
-    if ( _target_network_type == "object" ) {
-      _target_networks =
-        _target_network;
-    }
-  }
-  else {
-    _target_network =
-      "";
-  }
-  if ( _target_networks.length == 1 ) {
-    _target_network =
-      _target_networks[
-        0];
-      _target_network_type =
-        typeof(
-          _target_network);
-    if ( _target_network_type == "string" ) {
-      if ( _target_network.includes(
-             ",") ) {
-        const
-          _commas =
-            _target_network.split(",");
-        if ( 1 < _commas.length ) {
-          _target_networks =
-            _commas;
-        }
-      }
-    }
-  }
-  return [ _target_networks,
-           _target_network ];
 }
 
 async function
