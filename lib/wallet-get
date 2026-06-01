@@ -66,11 +66,14 @@ function _wallet_exists(
     _file_exists(
       _path);
   if ( _exists == true ) {
-    _msg =
-      `Wallet '${_path}' already exists.`;
-    _msg_error(
-      _msg,
-      "1");
+    const
+      _msg =
+        `Wallet '${_path}' already exists.`;
+    const
+      _error = {
+        "error":
+          _msg };
+    throw _error;
   }
 }
 
@@ -114,13 +117,14 @@ function
 function
   _seed_missing_error(
     _seed) {
-  let
-    _msg;
-  _msg =
-    `The seed '${_seed}' does not exist.`;
-  _msg_error(
-    _msg,
-    1)
+  const
+    _msg =
+      `The seed '${_seed}' does not exist.`;
+  const
+    _error = {
+      "error":
+        _msg };
+  throw _error;
 }
 
 function
