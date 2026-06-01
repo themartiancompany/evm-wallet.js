@@ -110,19 +110,19 @@ const
   _wallet_get =
     _wallet_get_module._wallet_get;
 const
-  _network_provider =
+  _network_provider_module =
     require(
       './network-provider');
 /* global
      _provider_get */
 const
   _provider_get =
-    _network_provider._provider_get;
+    _network_provider_module._provider_get;
 /* global
      _msg_info_provider_generated */
 const
   _msg_info_provider_generated =
-    _network_provider._msg_info_provider_generated;
+    _network_provider_module._msg_info_provider_generated;
 
 function
   _global_variables() {
@@ -246,7 +246,7 @@ async function
   _provider_get_opts.push(
     _call_timeout);
   _provider =
-    _provider_get.apply(
+    await _provider_get.apply(
       null,
       _provider_get_opts);
   _msg_info_provider_generated(

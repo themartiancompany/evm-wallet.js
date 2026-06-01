@@ -284,7 +284,7 @@ async function
   }
   const
     _provider =
-      _provider_get.apply(
+      await _provider_get.apply(
         null,
         _provider_get_opts);
   _msg_info_provider_generated(

@@ -98,24 +98,41 @@ async function
     _password_show,
     _provider;
   _provider =
-    _provider_get(
+    await _provider_get(
       _network,
       _api_key_path);
-  _msg_info_obj(
-    "Wallet path",
-    _path);
+  const
+    _seed_type =
+      typeof(
+        _seed);
+  if ( _seed_type == "string" ) {
+    const
+      _seed_phrase =
+        _seed.split(" ");
+    const
+      _phrase_length =
+        _seed_phrase.length
+    if ( _phrase_length != 12 &&
+         _phrase_length != 24 ) {
+      _msg_info_obj(
+        "Seed path",
+        _seed);
+    }
+  }
+  if ( _path != "" ) {
+    _msg_info_obj(
+      "Wallet path",
+      _path);
+  }
   _password_show =
     "";
   if ( _password != "" ) {
     _password_show =
       "****";
+    _msg_info_obj(
+      "Wallet password",
+      _password_show);
   }
-  _msg_info_obj(
-    "Wallet password",
-    _password_show);
-  _msg_info_obj(
-    "Seed path",
-    _seed);
   _wallet =
     _wallet_get(
       _path,
@@ -159,23 +176,26 @@ function
     "  <api-key-path>      Path on disk of the API key for",
     "                      the network service provider.",
     "  <quiet>             Whether to display additional output.",
-    `                      Default: ${quiet}`
+    `                      Default: ${quiet}`,
+    ""
   ];
-  for ( _line in _text ) {
+  for ( _line of _text ) {
     _msg_info(
       _line);
   }
-  process.exit(
-    _exit);
+  if ( -1 < _exit ) {
+    _process_exit(
+      _exit);
+  }
 }
 
-function
+async function
   _wallet_new_cmdline(
     app_opts) {
   let
     _wallet;
   _wallet =
-    _wallet_new.apply(
+    await _wallet_new.apply(
       null,
       app_opts);
   console.log(
@@ -236,8 +256,7 @@ if ( _cmdline_check(
     api_key_path,
     quiet
   ];
-  _wallet_new.apply(
-    null,
+  _wallet_new_cmdline(
     app_opts);
 }
 

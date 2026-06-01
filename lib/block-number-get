@@ -172,7 +172,6 @@ function
     "";
 }
 
-
 async function
   _block_number_get(
     _target_network,
@@ -226,7 +225,7 @@ async function
   _provider_get_opts.push(
     _call_timeout);
   _provider =
-    _provider_get.apply(
+    await _provider_get.apply(
       null,
       _provider_get_opts);
   _msg_info_provider_generated(
@@ -276,7 +275,7 @@ async function
         `from network/rpc '${_target_network}', ` +
         `retrying (${_retry} of ${_retries_max})`;
       console.error(
-        _err);
+        _error);
       _msg_error(
         _msg,
         0);
@@ -286,6 +285,7 @@ async function
   }
   if ( _success == false &&
        _retry == _retries_max ) {
+    _provider.destroy();
     _msg =
       "Error retrieving block number.";
     throw _msg;

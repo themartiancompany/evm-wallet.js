@@ -37,39 +37,65 @@ const
 const
   _fetchRequest =
     _ethers.FetchRequest;
-
 const
   _libcrash =
     require(
       "crash-js");
+/* global
+     _dirname */
 const
   _dirname =
     _libcrash._dirname;
+/* global
+     _file_read */
 const
   _file_read =
     _libcrash._file_read;
+/* global
+     _file_write */
 const
   _file_write =
     _libcrash._file_write;
+/* global
+     _path_join */
 const
   _path_join =
     _libcrash._path_join;
+/* global
+     _msg_info */
 const
   _msg_info =
     _libcrash._msg_info;
+/* global
+     _msg_info_obj */
 const
   _msg_info_obj =
     _libcrash._msg_info_obj;
+/* global
+     _msg_error */
 const
   _msg_error =
     _libcrash._msg_error;
+/* global
+     _sleep */
 const
   _sleep =
     _libcrash._sleep;
 const
+  _provider_get_module =
+    require(
+      './network-provider');
+/* global
+     _provider_get */
+const
+  _provider_get =
+    _provider_get_module._provider_get;
+const
   _wallet_get_module =
     require(
       './wallet-get');
+/* global
+     _wallet_get */
 const
   _wallet_get =
     _wallet_get_module._wallet_get;
@@ -77,6 +103,8 @@ const
   _price_gas_get_module =
     require(
       './price-gas-get');
+/* global
+     _price_gas_get */
 const
   _price_gas_get =
     _price_gas_get_module._price_gas_get;
@@ -201,7 +229,7 @@ async function
   _provider_get_opts.push(
     _timeout);
   _provider =
-    _provider_get.apply(
+    await _provider_get.apply(
       null,
       _provider_get_opts);
   _msg_info_provider_generated(

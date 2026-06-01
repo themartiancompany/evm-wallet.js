@@ -1019,7 +1019,7 @@ async function
           console.log(
             _results[
               _target_network]);
-	}
+        }
         else {
           console.log(
             _results);

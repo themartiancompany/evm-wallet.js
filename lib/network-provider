@@ -70,53 +70,68 @@ function
   _msg_info_provider_generated(
     _provider) {
   let
+    _get_connection_type,
     _key,
     _timeout,
     _msg;
-  if ( typeof (
-         _provider) == "object" ) {
-    if ( typeof(
-           _provider._getConnection) == "undefined" ) {
+  const
+    _provider_type =
+      typeof(
+        _provider);
+  // Really it's always object.
+  if ( _provider_type == "undefined" ) {
+    _msg =
+      "Provider undefined."
+    _error = {
+      "error":
+        _msg };
+    throw _error;
+  else if ( _provider_type == "object" ) {
+    _get_connection_type =
+      typeof(
+        _provider._getConnection);
+    if ( _get_connection_type == "undefined" ) {
       _msg =
         "Probably a dummy connection method";
       _msg_info(
         _msg);
     }
-  }
-  else if ( typeof (
-         _provider) == "JsonRpcProvider" ) {
-    _msg =
-      "Json RPC provider."
-    _msg_info(
-      _msg);
-    if ( typeof(
-           _provider._getConnection) != "undefined" ) 
-      _timeout =
-        _provider._getConnection().timeout;
+    else if ( _get_connection_type == "JsonRpcProvider" ) {
+      _get_connection_type =
+        typeof(
+          _provider._getConnection);
       _msg =
-        `Provider '${_provider}' with ` +
-        `timeout '${_timeout}' generated.`;
+        "Json RPC provider."
       _msg_info(
         _msg);
-  }
-  else {
-    // _msg =
-    //   "The provider has no '_getConnection' method.";
-    // _msg_info(
-    //   _msg);
-    // if ( quiet == "n" ) {
-    //   console.log(
-    //     typeof(
-    //       _provider));
-    //   console.log(
-    //     _provider.connection);
-    // }
-    for ( _key in _provider) {
-      _msg=
-        `Provider key: ${_key}, ` +
-        `value '${_provider[_key]}'`;
-      _msg_info(
-        _msg);
+      if ( _get_connection_type != "undefined" ) 
+        _timeout =
+          _provider._getConnection().timeout;
+        _msg =
+          `Provider '${_provider}' with ` +
+          `timeout '${_timeout}' generated.`;
+        _msg_info(
+          _msg);
+    }
+    else {
+      // _msg =
+      //   "The provider has no '_getConnection' method.";
+      // _msg_info(
+      //   _msg);
+      // if ( quiet == "n" ) {
+      //   console.log(
+      //     typeof(
+      //       _provider));
+      //   console.log(
+      //     _provider.connection);
+      // }
+      for ( _key in _provider) {
+        _msg=
+          `Provider key: ${_key}, ` +
+          `value '${_provider[_key]}'`;
+        _msg_info(
+          _msg);
+      }
     }
   }
 }
@@ -204,7 +219,7 @@ function
   return _rpc;
 }
 
-function
+async function
   _provider_get(
     _target_network,
     _api_key,
@@ -321,14 +336,14 @@ function
   }
   _get_default_provider_opts.push(
     _default_network);
-  if ( _chain_name == "" &&
-       _chain_name == undefined &&
+  if ( _chain_name == "" ||
+       _chain_name == undefined ||
        _chain_name == null ) {
     _chain_name =
       "";
   }
   _network_new_opts.push(
-      _chain_name);
+    _chain_name);
   if ( _chain_id != "" &&
        _chain_id != undefined &&
        _chain_id != null && 
@@ -357,7 +372,7 @@ function
       _request._getConnection().timeout =
         _timeout;
       _provider =
-        new _json_rpc_provider(
+        await new _json_rpc_provider(
 	  _request);
     }
   }
@@ -365,9 +380,10 @@ function
     _get_default_provider_opts.push(
       _provider_opts);
   }
-  _provider = _get_default_provider.apply(
-    null,
-    _get_default_provider_opts);
+  _provider =
+    await _get_default_provider.apply(
+      null,
+      _get_default_provider_opts);
   _msg_info_provider_generated(
     _provider);
   return _provider;
