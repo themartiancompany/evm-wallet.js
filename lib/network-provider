@@ -86,6 +86,7 @@ function
       "error":
         _msg };
     throw _error;
+  }
   else if ( _provider_type == "object" ) {
     _get_connection_type =
       typeof(

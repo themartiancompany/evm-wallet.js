@@ -293,7 +293,7 @@ async function
     _provider.destroy();
     _msg =
       "Failed retrieving block number" +
-      `from RPC '${_rpc}'.`;
+      `from network '${_target_network}'.`;
     throw _msg;
   }
   return _block_number;
