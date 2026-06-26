@@ -43,11 +43,9 @@ const
   _output_file_name =
     `${_input_file_name}.js`;
 const
-  _output = {
-    path:
-      _output_dir,
-    filename:
-      _output_file_name
+  _node_fs_ignore = {
+    resourceRegExp:
+      /^node:fs$/
 };
 const
   _yargs_ignore =
@@ -65,6 +63,10 @@ const
   _ignore_plugin =
     _webpack.IgnorePlugin; 
 const
+  _node_fs_ignore_plugin =
+    new _ignore_plugin(
+          _node_fs_ignore);
+const
   _yargs_ignore_plugin =
     new _ignore_plugin(
           _yargs_ignore);
@@ -72,6 +74,13 @@ const
   _yargs_helpers_ignore_plugin =
     new _ignore_plugin(
           _yargs_helpers_ignore);
+const
+  _output = {
+    path:
+      _output_dir,
+    filename:
+      _output_file_name
+};
 module.exports = {
   entry:
     _input_file_path,
@@ -122,6 +131,7 @@ module.exports = {
     { yargs:
         'yargs' },
   plugins: [
+    _node_fs_ignore_plugin,
     _yargs_ignore_plugin,
     _yargs_helpers_ignore_plugin
   ]

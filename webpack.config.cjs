@@ -50,6 +50,10 @@ const
       _output_file_name
 };
 const
+  _node_fs_ignore =
+  { resourceRegExp:
+      /^node:fs$/ };
+const
   _yargs_ignore =
   { resourceRegExp:
       /^yargs$/ };
@@ -64,6 +68,10 @@ const
 const
   _ignore_plugin =
     _webpack.IgnorePlugin; 
+const
+  _node_fs_ignore_plugin =
+    new _ignore_plugin(
+          _node_fs_ignore);
 const
   _yargs_ignore_plugin =
     new _ignore_plugin(
@@ -82,6 +90,10 @@ module.exports = {
   },
   resolve: {
     alias: {
+      "node:fs":
+        _path.resolve(
+          __dirname,
+          'node_modules/opfs/opfs'),
       "evm-wallet.js":
         _path.resolve(
           __dirname,
@@ -126,6 +138,7 @@ module.exports = {
     { yargs:
         'yargs' },
   plugins: [
+    _node_fs_ignore_plugin,
     _yargs_ignore_plugin,
     _yargs_helpers_ignore_plugin
   ]
