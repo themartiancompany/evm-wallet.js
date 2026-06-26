@@ -47,8 +47,15 @@ const
   _libcrash =
     require(
       "crash-js");
-_cmdline_check =
-  _libcrash._cmdline_check;
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+const
+  _msg_info =
+    _libcrash._msg_info;
+const
+  _msg_error =
+    _libcrash._msg_error;
 
 function
   _global_variables() {

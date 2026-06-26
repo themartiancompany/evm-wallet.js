@@ -351,12 +351,11 @@ function
 async function 
   _address_get_cmdline(
     _app_opts) {
-  let
-    _address;
-  _address =
-    await _address_get.apply(
-      null,
-      _app_opts);
+  const
+    _address =
+      await _address_get.apply(
+        null,
+        _app_opts);
   console.log(
     _address);
 }

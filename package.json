@@ -36,7 +36,10 @@
     "ur",
     "themartiancompany",
     "dogeos",
-    "ethereum"
+    "ethereum",
+    "evmfs",
+    "libevm",
+    "evm-toolchain"
   ],
   "homepage":
     "https://github.com/themartiancompany/evm-wallet",
@@ -76,7 +79,9 @@
     "webpack":
       "^5.102.1",
     "webpack-cli":
-      "^6.0.1"
+      "^6.0.1",
+    "ws":
+      "8.21.0"
   },
   "dependencies": {
     "crash-js":
