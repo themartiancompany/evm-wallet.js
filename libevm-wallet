@@ -75,15 +75,6 @@ const
   _stat =
     _crash_js_module._stat;
 const
-  _evm_chains_info_module =
-    require(
-      "evm-chains-info");
-/* global
-     _evm_chains_info */
-const
-  _evm_chains_info =
-    _evm_chains_info_module._evm_chains_info;
-const
   _address_get_module =
     require(
       "./lib/address-get");
