@@ -109,6 +109,8 @@
     "libevm-wallet",
   "bin":
     { 
+      "block":
+        "lib/block-get",
       "block-number":
         "lib/block-number-get",
       "evm-wallet":

@@ -1,0 +1,362 @@
+#!/usr/bin/env node
+
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+/**    ----------------------------------------------------------------------
+ *     block-get
+ *     ----------------------------------------------------------------------
+ *     Copyright ©
+ *       Pellegrino Prevete
+ *         2024, 2025, 2026
+ * 
+ *     All rights reserved
+ *     ----------------------------------------------------------------------
+ * 
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ * 
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ * 
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+const
+  { ethers } =
+    require(
+      "ethers");
+const
+  _ethers =
+    ethers;
+const
+  _libcrash =
+    require(
+      "crash-js");
+/* global
+     _argv_get */
+const
+  _argv_get =
+    _libcrash._argv_get;
+/* global
+     _basename */
+const
+  _basename =
+    _libcrash._basename;
+/* global
+     _cmdline_check */
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+/* global
+     _dirname */
+const
+  _dirname =
+    _libcrash._dirname;
+/* global
+     _file_exists */
+const
+  _file_exists =
+    _libcrash._file_exists;
+/* global
+     _file_read */
+const
+  _file_read =
+    _libcrash._file_read;
+/* global
+     _file_write */
+const
+  _file_write =
+    _libcrash._file_write;
+/* global
+     _msg_info */
+const
+  _msg_info =
+    _libcrash._msg_info;
+/* global
+     _msg_info_obj */
+const
+  _msg_info_obj =
+    _libcrash._msg_info_obj;
+/* global
+     _msg_error */
+const
+  _msg_error =
+    _libcrash._msg_error;
+/* global
+     _path_join */
+const
+  _path_join =
+    _libcrash._path_join;
+/* global
+     _process_exit */
+const
+  _process_exit =
+    _libcrash._process_exit;
+const
+  _network_provider =
+    require(
+      './network-provider');
+/* global
+     _provider_get */
+const
+  _provider_get =
+    _network_provider._provider_get;
+/* global
+     _msg_info_provider_generated */
+const
+  _msg_info_provider_generated =
+    _network_provider._msg_info_provider_generated;
+
+function
+  _global_variables() {
+  app_name =
+    "block-get";
+  target_network =
+    "";
+  api_key_path =
+    "";
+  chain_id =
+    "";
+  chain_name =
+    "";
+  output_type =
+    "";
+  output_file =
+    "";
+  quiet =
+    "";
+}
+
+async function
+  _block_get(
+    _target_network,
+    _api_key_path,
+    _chain_id,
+    _chain_name,
+    _output_type,
+    _output_file) {
+  let
+    _address,
+    _api_key,
+    _output,
+    _provider_get_opts,
+    _wallet_dir,
+    _wallet_password,
+    _wallet_path_list;
+  _api_key =
+    "";
+  const
+    _api_key_path_type =
+      typeof(
+        _api_key_path);
+  const
+    _output_type_type =
+      typeof(
+        _output_type);
+  if ( _output_type_type == "undefined" ) {
+    _output_type =
+      "";
+  }
+  if ( _api_key_path_type == "string" ) {
+    if ( _api_key_path != "" ) {
+      if ( _file_exists(
+             _api_key_path) )
+      _api_key =
+        _file_read(
+          _api_key_path);
+    }
+  }
+  _provider_get_opts = [
+    _target_network,
+    _api_key,
+    _chain_id,
+    _chain_name
+  ];
+  _provider =
+    _provider_get.apply(
+      null,
+      _provider_get_opts);
+  _msg_info_provider_generated(
+    _provider);
+  const
+    _block =
+      _provider.getBlock(
+        0);
+  if ( _output_type == "hash" ) {
+    _output =
+      _genesis_block.hash;
+  }
+  else if ( _output_type == "" ) {
+    _output =
+      _genesis_block;
+  }
+  if ( _output_file != undefined &&
+       _output_file != "" ) {
+    _file_write(
+      _output_file,
+      _output);
+  }
+  return _output;
+}
+
+function
+  _config_show() {
+  let
+    _line,
+    _text;
+  _text = [
+    `  ${app_name} configuration:`,
+    `   Target network: ${target_network}`,
+    `          API key: ${api_key_path}`,
+    `      Output file: ${output_file}`,
+  ]
+  for ( _line of _text ) {
+    _msg_info(
+      _line);
+  }
+}
+
+function
+  _usage(
+    _exit_code) {
+  let
+    _line;
+  const
+    _exit_code_type =
+      typeof(
+        _exit_code);
+  if ( _exit_code_type == "undefined" ||
+       _exit_code == "" ) {
+    _exit_code =
+      0;
+  }
+  const
+    _argv =
+      _argv_get();
+  const
+    _program =
+      _basename(
+        _argv[
+          "$0"]);
+  const
+    _text = [
+      "Displays current block for a blockchain.",
+      "",
+      "usage:",
+      `  ${_program}`,
+      "  ( <quiet>",
+      "    <target-network>",
+      "    <api-key-path>",
+      "    <output-file> )",
+      "",
+      "args:",
+      "",
+      "  quiet              It can be 'y' or 'n'.",
+      "",
+      "  target-network     Chain ID or RPC address.",
+      "",
+      "  api-key-path       Etherscan-like service API key, optional.",
+      "",
+      "  output-file        If specified will save the output",
+      "                     to a file, otherwise will print it.",
+      "",
+      "options:",
+      "",
+      "  -h, --help         Displays this help.",
+      ""
+    ];
+  for ( _line of _text ) {
+    console.log(
+      _line);
+  }
+  if ( -1 < _exit_code ) {
+    _process_exit(
+      _exit_code);
+  }
+}
+
+
+function _cmdline_parse() {
+  quiet =
+    "y";
+  process.argv.forEach(
+    function (
+      _value,
+      _index,
+      _array) {
+      if ( _index == 2 ) {
+        quiet =
+          _value;
+      }
+      if ( _index == 3 ) {
+        target_network =
+          _value;
+      }
+      if ( _index == 4 ) {
+        api_key_path =
+          _value;
+      }
+      if ( _index == 5 ) {
+        output_file =
+          _value;
+      }
+      if ( _value == "-h" ||
+           _value == "--help" ) {
+        _overrides_set();
+        quiet =
+          "n";
+        _usage(
+          0);
+      }
+  });
+}
+
+function
+  _overrides_set() {
+  if ( typeof(
+         chain_id) == "undefined" ||
+       chain_id == "" ) {
+    chain_id = "100";
+  }
+}
+
+async function 
+  _block_get_cmdline(
+    _app_opts) {
+  const
+    _block =
+      await _block_get.apply(
+        null,
+        _app_opts);
+  console.log(
+    _block);
+}
+
+if ( _cmdline_check(
+       "block-get") ||
+     _cmdline_check(
+       "block") ) {
+  _global_variables();
+  _cmdline_parse();
+  _overrides_set();
+  _config_show();
+  app_opts = [
+    target_network,
+    api_key_path,
+    chain_id,
+    chain_name,
+    output_file
+  ];
+  _block_get_cmdline(
+    app_opts);
+}
+
+module.exports = {
+  _block_get:
+    _block_get
+};
