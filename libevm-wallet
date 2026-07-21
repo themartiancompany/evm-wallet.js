@@ -308,7 +308,10 @@ async function
     _wallet_name,
     _wallet_seed) {
   let
-    _address_get_args;
+    _address_get_args,
+    _error,
+    _msg,
+    _wallet_address_get_args;
   if ( _config_dir == "" ||
        typeof(_config_dir) === "undefined" ) {
     _config_dir =
@@ -317,6 +320,20 @@ async function
   if ( _wallet_name == "" ||
        typeof(
          _wallet_name) === "undefined" ) {
+    if ( _wallet_seed == "" ||
+       typeof(
+         _wallet_seed) == "undefined" ) {
+      _msg =
+        "Either one between the wallet name " +
+        "or the wallet seed argument must be non-empty. " +
+        "_wallet_address_get(_config_path, " +
+        "_wallet_name, _wallet_seed)";
+      _error = {
+        "message":
+          _msg
+      };
+      throw _error
+    }
     const
       _address_get_args = [
         _wallet_seed,
@@ -361,13 +378,26 @@ async function
               _address_get_args);
       }
       else {
-        const
-          _msg =
-            "Found no recorded address nor seed for " +
-            `name '${_wallet_name}' in '${_config_path}'.`;
-        throw _msg;
+        _msg =
+          "Found no recorded address nor seed for " +
+          `name '${_wallet_name}' in '${_config_path}'.`;
+        _error = {
+          "message":
+            _msg
+        };
+        throw _error;
       }
     }
+  }
+  else {
+    _msg =
+      "Argument 'wallet name' must " +
+      "be of type 'string'.";
+    _error = {
+      "message":
+        _msg
+    };
+    throw _error;
   }
   return _wallet_address;
 }
