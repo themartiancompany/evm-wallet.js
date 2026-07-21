@@ -209,8 +209,17 @@ async function
     _home =
       _homedir_get();
   const
+    _app_name =
+      "evm-wallet";
+  const
+    _msg =
+      "Auto-detecting " +
+      "config file. Setting " +
+      "canonical XDG_CONFIG_DIR " +
+      `'${_app_name}'.`;
+  const
     _config_dir =
-      `${_home}/.config/evm-wallet`;
+      `${_home}/.config/${_app_name}`;
   return _config_dir;
 }
 
@@ -637,6 +646,8 @@ module.exports = {
     _balance_send,
   _block_number_get:
     _block_number_get,
+  _conf_dir_get:
+    _conf_dir_get,
   _evm_wallet:
     _evm_wallet,
   _ethers_to_wei:
