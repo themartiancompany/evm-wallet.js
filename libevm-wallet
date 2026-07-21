@@ -50,6 +50,11 @@ const
   _file_exists =
     _crash_js_module._file_exists;
 /* global
+     _homedir_get */
+const
+  _homedir_get =
+    _crash_js_module._homedir_get;
+/* global
      _mkdir */
 const
   _mkdir =
@@ -199,6 +204,17 @@ const
     _wallet_new_module._wallet_new;
 
 async function
+  _conf_dir_get() {
+  const
+    _home =
+      _homedir_get();
+  const
+    _config_dir =
+      `${_home}/.config/evm-wallet`;
+  return _config_dir;
+}
+
+async function
   _balance_update(
     _cache_dir,
     _wallet_name,
@@ -284,6 +300,76 @@ async function
     }
   }
   return _balance;
+}
+
+async function
+  _wallet_address_get(
+    _config_dir,
+    _wallet_name,
+    _wallet_seed) {
+  let
+    _address_get_args;
+  if ( _config_dir == "" ||
+       typeof(_config_dir) === "undefined" ) {
+    _config_dir =
+      _conf_dir_get();
+  }
+  if ( _wallet_name == "" ||
+       typeof(
+         _wallet_name) === "undefined" ) {
+    const
+      _address_get_args = [
+        _wallet_seed,
+        "",                       // Network
+        "",                       // API Key
+        "",                       // Chain ID
+        "",                       // Chain name
+        ""                        // Output file
+      ];
+    const
+      _wallet_address =
+        _address_get.apply(
+          null,
+          _address_get_args);
+  }
+  else if ( _wallet_name != "" ) {
+    const
+      _wallet_address_path =
+        `${_config_dir}/${_wallet_name}-address.txt`
+    if ( _file_exists(
+           _wallet_address_path) ) {
+      _wallet_address =
+        _file_read(
+          _wallet_address_path);
+    }
+    else {
+      if ( _file_exists(
+             _wallet_seed) ) {
+        const
+          _address_get_args = [
+            _wallet_seed,
+            "",                   // Network
+            "",                   // API Key
+            "",                   // Chain ID
+            "",                   // Chain name
+            _wallet_address_path  // Output file
+          ];
+        const
+          _wallet_address =
+            _address_get.apply(
+              null,
+              _address_get_args);
+      }
+      else {
+        const
+          _msg =
+            "Found no recorded address nor seed for " +
+            `name '${_wallet_name}' in '${_config_path}'.`;
+        throw _msg;
+      }
+    }
+  }
+  return _wallet_address;
 }
 
 async function
@@ -398,20 +484,15 @@ async function
       return _balance;
     }
     else if ( _target_key == "address" ) {
-      const
-        _address_get_args = [
-          _wallet_seed,
-          "",                 // Network
-          "",                 // API Key
-          "",                 // Chain ID
-          "",                 // Chain name
-          ""                  // Output file
-        ];
-      const
-        _wallet_address =
-          _address_get.apply(
-            null,
-            _address_get_args);
+      _wallet_address_get_args = [
+        _config_dir,
+        _wallet_name,
+        _wallet_seed,
+      ];
+      _wallet_address =
+        await _wallet_address_get.apply(
+          null,
+          _wallet_address_get_args);
       return _wallet_address;
     }
     else {
@@ -540,6 +621,8 @@ module.exports = {
     _price_gas_transaction_get,
   _seed_new:
     _seed_new,
+  _wallet_address_get:
+    _wallet_address_get,
   _wallet_get:
     _wallet_get,
   _wallet_new:
