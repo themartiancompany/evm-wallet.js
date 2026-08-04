@@ -354,7 +354,7 @@ async function
       ];
     const
       _wallet_address =
-        _address_get.apply(
+        await _address_get.apply(
           null,
           _address_get_args);
   }
@@ -382,7 +382,7 @@ async function
           ];
         const
           _wallet_address =
-            _address_get.apply(
+            await _address_get.apply(
               null,
               _address_get_args);
       }

@@ -89,7 +89,7 @@
     "ethers":
       "^6.13.2",
     "libevm":
-      "^0.0.30",
+      "^0.0.32",
     "yargs":
       "18.0.0"
   },
@@ -101,7 +101,7 @@
     "evm-wallet.js":
       "./libevm-wallet",
     "libevm":
-      "^0.0.30"
+      "^0.0.32"
   },
   "type":
     "commonjs",
