@@ -27,13 +27,6 @@
  */
 
 const
-  { ethers } =
-    require(
-      "ethers");
-const
-  _ethers =
-    ethers;
-const
   _libcrash =
     require(
       "crash-js");
@@ -57,6 +50,11 @@ const
 const
   _dirname =
     _libcrash._dirname;
+/* global
+     _exit */
+const
+  _exit =
+    _libcrash._exit;
 /* global
      _file_exists */
 const
@@ -88,15 +86,20 @@ const
   _msg_error =
     _libcrash._msg_error;
 /* global
+     _override_set */
+const
+  _override_set =
+    _libcrash._override_set;
+/* global
      _path_join */
 const
   _path_join =
     _libcrash._path_join;
 /* global
-     _process_exit */
+     _require */
 const
-  _process_exit =
-    _libcrash._process_exit;
+  _require =
+    _libcrash._require;
 const
   _network_provider =
     require(
@@ -275,7 +278,7 @@ function
       _line);
   }
   if ( -1 < _exit_code ) {
-    _process_exit(
+    _exit(
       _exit_code);
   }
 }
@@ -318,10 +321,10 @@ function _cmdline_parse() {
 
 function
   _overrides_set() {
-  if ( typeof(
-         chain_id) == "undefined" ||
-       chain_id == "" ) {
-    chain_id = "100";
+  _override_set(
+    "chain",
+    "id",
+    "100");
   }
 }
 

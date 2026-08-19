@@ -2,41 +2,38 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/**    ----------------------------------------------------------------------
+
+/**    ----------------------------------------------------------------
+ *     price-gas-transaction-get
+ *     ----------------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
  *         2024, 2025, 2026
  * 
  *     All rights reserved
- *     ----------------------------------------------------------------------
+ *     ----------------------------------------------------------------
  * 
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     This program is free software: you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License as
+ *     published by the Free Software Foundation, either version 3 of
+ *     the License, or (at your option) any later version.
  * 
  *     This program is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU General Public License for more details.
  * 
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     You should have received a copy of the GNU General Public
+ *     License along with this program.
+ *     If not, see <https://www.gnu.org/licenses/>.
  */
 
-const
-  { ethers } =
-    require(
-      "ethers");
-const
-  _ethers =
-    ethers;
-const
-  _wei_to_ether =
-    _ethers.formatEther;
-const
-  _fetchRequest =
-    _ethers.FetchRequest;
+/* Crash Javascript global variables */
+
+/* global
+     quiet:
+       writable */
+
 const
   _libcrash =
     require(
@@ -46,6 +43,11 @@ const
 const
   _dirname =
     _libcrash._dirname;
+/* global
+     _exit */
+const
+  _exit =
+    _libcrash._exit;
 /* global
      _file_read */
 const
@@ -111,24 +113,59 @@ const
 
 function
   _global_variables() {
+  /* global
+       app_name:
+         writable */
   app_name =
     "price-gas-transaction-get";
+  /* global
+       app_opts:
+         writable */
+  app_opts =
+    [];
+  /* global
+       selection_mode:
+         writable */
   selection_mode =
     "";
+  /* global
+       wallet_seed:
+         writable */
   wallet_seed =
     "";
+  /* global
+       target_network:
+         writable */
   target_network =
     "";
+  /* global
+       api_key:
+         writable */
   api_key =
     "";
+  /* global
+       target_address:
+         writable */
   target_address =
     "";
+  /* global
+       display_unit:
+         writable */
   display_unit =
     "";
+  /* global
+       output_type:
+         writable */
   output_type =
     "";
+  /* global
+       output_file:
+         writable */
   output_file =
     "";
+  /* global
+       retries_max:
+         writable */
   retries_max =
     "";
   quiet =
@@ -356,21 +393,22 @@ function
 function
   _config_show() {
   let
-    _line,
-    _text;
-  _text = [
-    `         Display unit: ${display_unit}`,
-    `       Selection mode: ${selection_mode}`,
-    `          Output type: ${output_type}`,
-    `          Output file: ${output_file}`,
-    `Credentials options:`,
-    `          Wallet seed: ${wallet_seed}`,
-    `       Target address: ${target_address}`,
-    `    Network options:`,
-    `       Target network: ${target_network}`,
-    `              API Key: ${api_key}`,
-    `      Maximum retries: ${retries_max}`
-  ]
+    _line;
+  const
+    _text = [
+      `${app_name} configuration:`,
+      `         Display unit: ${display_unit}`,
+      `       Selection mode: ${selection_mode}`,
+      `          Output type: ${output_type}`,
+      `          Output file: ${output_file}`,
+      `Credentials options:`,
+      `          Wallet seed: ${wallet_seed}`,
+      `       Target address: ${target_address}`,
+      `    Network options:`,
+      `       Target network: ${target_network}`,
+      `              API Key: ${api_key}`,
+      `      Maximum retries: ${retries_max}`
+    ];
   for ( _line of _text ) {
     _msg_info(
       _line);
@@ -424,7 +462,7 @@ function
     console.log(
       _line);
   }
-  process.exit(
+  _exit(
     _exit_code);
 }
 
@@ -516,8 +554,6 @@ async function
     _error) {
     _msg_error(
       _error,
-      1);
-    process.exit(
       1);
   }
 }

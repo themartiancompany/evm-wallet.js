@@ -24,36 +24,69 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const 
-  { ethers } =
-    require(
-      "ethers");
-_ethers = 
-  ethers;
-_hdnode_wallet =
-  _ethers.HDNodeWallet
-
 const
   _libcrash =
     require(
       "crash-js");
 _cmdline_check =
   _libcrash._cmdline_check;
-_msg_info = 
-  _libcrash._msg_info;
-_msg_info_obj = 
-  _libcrash._msg_info_obj;
-_msg_error = 
-  _libcrash._msg_error;
-_file_exists =
-  _libcrash._file_exists;
-_file_read =
-  _libcrash._file_read;
+/* global
+     _exit */
+const
+  _exit =
+    _libcrash._exit;
+/* global
+     _msg_info */
+const
+  _msg_info = 
+    _libcrash._msg_info;
+/* global
+     _msg_info_obj */
+const
+  _msg_info_obj = 
+    _libcrash._msg_info_obj;
+/* global
+     _msg_error */
+const
+  _msg_error = 
+    _libcrash._msg_error;
+/* global
+     _file_exists */
+const
+  _file_exists =
+    _libcrash._file_exists;
+/* global
+     _file_read */
+const
+  _file_read =
+    _libcrash._file_read;
+/* global
+     _require */
+const
+  _require =
+    _libcrash._require;
+const 
+  { ethers } =
+    _require(
+      "ethers");
+_ethers = 
+  ethers;
+/* global
+     _hdnode_wallet */
+_hdnode_wallet =
+  _ethers.HDNodeWallet
 
 
-function _global_variables() {
+function
+  _global_variables() {
+  /* global
+       app_name */
   app_name =
     "wallet-get";
+  /* global
+       app_opts */
+  app_opts =
+    [];
 }
 
 
@@ -219,7 +252,8 @@ function
 }
 
 function
-  _usage() {
+  _usage(
+    _exit_code) {
   let
     _line;
   const
@@ -240,6 +274,8 @@ function
     console.log(
       _line);
   }
+  _exit(
+    _exit_code);
 }
 
 function _wallet_get(

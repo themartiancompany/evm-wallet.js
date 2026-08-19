@@ -604,7 +604,7 @@ async function
     _msg_error(
       _error,
       1);
-    _process.exit(
+    _exit(
       0);
   }
 }

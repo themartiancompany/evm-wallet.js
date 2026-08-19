@@ -36,6 +36,12 @@ const
   _dirname =
     _libcrash._dirname;
 /* global
+     _exit:
+       writable */
+const
+  _exit =
+    _libcrash._exit;
+/* global
      _file_read:
        writable */
 const
@@ -84,12 +90,6 @@ const
 const
   _ethers =
     ethers;
-/* global
-     _wei_to_ether:
-       writable */
-const
-  _wei_to_ether =
-    _ethers.formatEther;
 /* global
      _parse_units:
        writable */
@@ -382,7 +382,7 @@ function
     console.log(
       _line);
   }
-  process.exit(
+  _exit(
     _exit_code);
 }
 

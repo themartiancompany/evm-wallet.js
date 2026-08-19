@@ -2,20 +2,21 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/**    ----------------------------------------------------------------------
+
+/**    ----------------------------------------------------------------
  *     block-number-get
- *     ----------------------------------------------------------------------
+ *     ----------------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
  *         2024, 2025, 2026
  * 
  *     All rights reserved
- *     ----------------------------------------------------------------------
+ *     ----------------------------------------------------------------
  * 
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     This program is free software: you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License as
+ *     published by the Free Software Foundation, either version 3 of
+ *     the License, or (at your option) any later version.
  * 
  *     This program is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -23,21 +24,10 @@
  *     GNU General Public License for more details.
  * 
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.
+ *     If not, see <https://www.gnu.org/licenses/>.
  */
 
-const
-  { ethers } =
-    require(
-      "ethers");
-const
-  _ethers =
-    ethers;
-/* global
-     _wei_to_ether */
-const
-  _wei_to_ether =
-    _ethers.formatEther;
 const
   _libcrash =
     require(
@@ -53,12 +43,17 @@ const
   _basename =
     _libcrash._basename;
 /* global
-     dirname */
+     _dirname */
 const
   _dirname =
     _libcrash._dirname;
 /* global
-     dirname */
+     _exit */
+const
+  _exit =
+    _libcrash._exit;
+/* global
+     _file_read */
 const
   _file_read =
     _libcrash._file_read;
@@ -88,10 +83,10 @@ const
   _path_join =
     _libcrash._path_join;
 /* global
-     _process_exit */
+     _require */
 const
-  _process_exit =
-    _libcrash._process_exit;
+  _require =
+    _libcrash._require;
 /* global
      _run */
 const
@@ -332,7 +327,7 @@ function
   if ( _info_get ) {
     const
       _libevm_module =
-        require(
+        _require(
           "libevm");
     const
       _rpc_get =
@@ -438,7 +433,7 @@ function
     console.log(
       _line);
   }
-  _process_exit(
+  _exit(
     _exit_code);
 }
 
@@ -512,15 +507,13 @@ async function
       _block_number.toString());
     // process.stdout.write(
     //   _block_number.toString());
-    _process_exit(
+    _exit(
       0);
   }
   catch(
     _error) {
     _msg_error(
       _error,
-      1);
-    _process_exit(
       1);
   }
 }

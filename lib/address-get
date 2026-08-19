@@ -49,6 +49,11 @@ const
   _dirname =
     _libcrash._dirname;
 /* global
+     _exit */
+const
+  _exit =
+    _libcrash._exit;
+/* global
      _file_read */
 const
   _file_read =
@@ -74,15 +79,15 @@ const
   _msg_error =
     _libcrash._msg_error;
 /* global
+     _override_set */
+const
+  _override_set =
+    _libcrash._override_set;
+/* global
      _path_join */
 const
   _path_join =
     _libcrash._path_join;
-/* global
-     _process_exit */
-const
-  _process_exit =
-    _libcrash._process_exit;
 const
   _wallet_get_module =
     require(
@@ -275,7 +280,7 @@ function
     console.log(
       _line);
   }
-  _process_exit(
+  _exit(
     _exit_code);
 }
 
@@ -325,7 +330,7 @@ function _cmdline_parse() {
       "No arguments given.",
       0);
     _usage(
-      0);
+      1);
   }
 }
 
@@ -334,10 +339,10 @@ function
   // if ( target_network == "" ) {
   //   target_network = "https://127.0.0.1";
   // }
-  if ( typeof(
-         chain_id) == "undefined" ||
-       chain_id == "" ) {
-    chain_id = "100";
+  _override_set(
+    "chain",
+    "id",
+    "100");
   }
 }
 

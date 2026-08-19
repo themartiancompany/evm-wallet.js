@@ -24,51 +24,93 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const
-  { ethers } =
-    require(
-      "ethers");
-_ethers =
-  ethers;
+/* Crash Javascript global variables */
+
+/* global
+     quiet:
+       writable */
+
 const
   _libcrash =
     require(
       "crash-js");
-_cmdline_check =
-  _libcrash._cmdline_check;
-_msg_info = 
-  _libcrash._msg_info;
-_msg_info_obj = 
-  _libcrash._msg_info_obj;
-_msg_error = 
-  _libcrash._msg_error;
+/* global
+     _cmdline_check */
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+/* global
+     _exit */
+const
+  _exit =
+    _libcrash._exit;
+/* global
+     _msg_info */
+const
+  _msg_info = 
+    _libcrash._msg_info;
+/* global
+     _msg_info_obj */
+const
+  _msg_info_obj = 
+    _libcrash._msg_info_obj;
+/* global
+     _msg_error */
+const
+  _msg_error = 
+    _libcrash._msg_error;
 const
   _network_provider_module =
     require(
       './network-provider');
+/* global
+     _provider_get */
 _provider_get =
   _network_provider_module._provider_get;
 const
   _wallet_get_module =
     require(
       './wallet-get');
+/* global
+     _wallet_get */
 _wallet_get =
   _wallet_get_module._wallet_get;
 
 function
   _global_variables() {
+  /* global
+       app_name:
+         writable */
   app_name =
     "wallet-new";
+  /* global
+       app_opts:
+         writable */
   app_opts =
     [];
+  /* global
+       wallet_path:
+         writable */
   wallet_path =
     "";
+  /* global
+       wallet_password:
+         writable */
   wallet_password =
     "";
+  /* global
+       wallet_seed:
+         writable */
   wallet_seed =
     "";
+  /* global
+       target_network:
+         writable */
   target_network =
     "";
+  /* global
+       api_key_path:
+         writable */
   api_key_path =
     "";
   quiet =
@@ -78,10 +120,9 @@ function
 function
   _seed_missing_error(
     _seed) {
-  let
-    _msg;
-  _msg =
-    `The seed '${_seed}' does not exist.`;
+  const
+    _msg =
+      `The seed '${_seed}' does not exist.`;
   _msg_error(
     _msg,
     1)
@@ -152,40 +193,40 @@ function
 
 function
   _usage(
-    _exit) {
+    _exit_code) {
   let
-    _line,
-    _text;
-  _text = [
-    "Usage:",
-    "  Returns a Wallet object.",
-    "",
-    "  wallet-new",
-    "    <path>",
-    "    <password>",
-    "    <seed>",
-    "    <network>",
-    "    <api-key-path>",
-    "    <quiet>",
-    "",
-    "Arguments:",
-    "  <path>              Wallet path.",
-    "  <password>          Wallet password path",
-    "  <seed>              Seed file path.",
-    "  <network>           Network RPC.",
-    "  <api-key-path>      Path on disk of the API key for",
-    "                      the network service provider.",
-    "  <quiet>             Whether to display additional output.",
-    `                      Default: ${quiet}`,
-    ""
-  ];
+    _line;
+  const
+    _text = [
+      "Usage:",
+      "  Returns a Wallet object.",
+      "",
+      "  wallet-new",
+      "    <path>",
+      "    <password>",
+      "    <seed>",
+      "    <network>",
+      "    <api-key-path>",
+      "    <quiet>",
+      "",
+      "Arguments:",
+      "  <path>              Wallet path.",
+      "  <password>          Wallet password path",
+      "  <seed>              Seed file path.",
+      "  <network>           Network RPC.",
+      "  <api-key-path>      Path on disk of the API key for",
+      "                      the network service provider.",
+      "  <quiet>             Whether to display additional output.",
+      `                      Default: ${quiet}`,
+      ""
+    ];
   for ( _line of _text ) {
     _msg_info(
       _line);
   }
   if ( -1 < _exit ) {
-    _process_exit(
-      _exit);
+    _exit(
+      _exit_code);
   }
 }
 
@@ -237,6 +278,12 @@ function
       }
   });
   if ( wallet_path == "" ) {
+    const
+      _msg =
+        "No wallet path specified.";
+    _msg_error(
+      _msg,
+      0);
     _usage(
       1);
   }

@@ -25,32 +25,52 @@
  */
 
 const
-  { ethers } =
+  _libcrash =
     require(
+      "crash-js");
+/* global
+     _cmdline_check:
+       writable */
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+/* global
+     _msg_info:
+       writable */
+const
+  _msg_info =
+    _libcrash._msg_info;
+/* global
+     _msg_error:
+       writable */
+const
+  _msg_error =
+    _libcrash._msg_error;
+/* global
+     _require:
+       writable */
+const
+  _require =
+    _libcrash._require;
+const
+  { ethers } =
+    _require(
       "ethers");
 const
   _ethers =
     ethers;
+/* global
+     _wei_to_ether:
+       writable */
 const
   _wei_to_ether =
     _ethers.formatEther;
+/* global
+     _parse_units:
+       writable */
 const
   _parse_units =
     _ethers.parseUnits;
-
-const
-  _libcrash =
-    require(
-      "crash-js");
-const
-  _cmdline_check =
-    _libcrash._cmdline_check;
-const
-  _msg_info =
-    _libcrash._msg_info;
-const
-  _msg_error =
-    _libcrash._msg_error;
 
 function
   _global_variables() {
@@ -160,5 +180,7 @@ if ( _cmdline_check(
 
 module.exports = {
   _ethers_to_wei:
+    _ethers_to_wei,
+  _ether_to_wei:
     _ethers_to_wei
 };

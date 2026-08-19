@@ -76,18 +76,18 @@ const
 const
   _msg_error =
     _libcrash._msg_error;
+/* global
+     _require */
+const
+  _require =
+    _libcrash._require;
 const
   { ethers } =
-    require(
+    _require(
       "ethers");
 const
   _ethers =
     ethers;
-/* global
-     _wei_to_ether */
-const
-  _wei_to_ether =
-    _ethers.formatEther;
 /* global
      _parse_units */
 const
@@ -417,7 +417,7 @@ function
   if ( _info_get ) {
     const
       _libevm_module =
-        require(
+        _require(
           "libevm");
     const
       _rpc_get =
@@ -667,5 +667,9 @@ if ( _cmdline_check(
 
 module.exports = {
   _balance_send:
-    _balance_send
+    _balance_send,
+  _ether_to_wei:
+    _ether_to_wei,
+  _ethers_to_wei:
+    _ether_to_wei
 };

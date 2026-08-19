@@ -2,60 +2,97 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/**    ----------------------------------------------------------------------
+/**    ----------------------------------------------------------------
+ *     network-provider
+ *     ----------------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
  *         2024, 2025, 2026
  * 
  *     All rights reserved
- *     ----------------------------------------------------------------------
+ *     ----------------------------------------------------------------
  * 
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     This program is free software: you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License as
+ *     published by the Free Software Foundation, either version 3 of
+ *     the License, or (at your option) any later version.
  * 
  *     This program is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU General Public License for more details.
  * 
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     You should have received a copy of the GNU General Public
+ *     License along with this program.
+ *     If not, see <https://www.gnu.org/licenses/>.
  */
 
-const
-  { ethers } =
-    require(
-      "ethers");
-const
-  _ethers =
-    ethers;
-const
-  _fetch_request =
-    _ethers.FetchRequest;
-const
-  _get_default_provider =
-    _ethers.getDefaultProvider;
-const
-  _json_rpc_provider =
-    _ethers.JsonRpcProvider;
-const
-  _network_class =
-    _ethers.Network;
 const
   _libcrash =
     require(
       "crash-js");
+/* global
+     _cmdline_check:
+       writable */
 const
   _cmdline_check =
     _libcrash._cmdline_check;
+/* global
+     _exit:
+       writable */
+const
+  _exit =
+    _libcrash._exit;
+/* global
+     _msg_info:
+       writable */
 const
   _msg_info =
     _libcrash._msg_info;
+/* global
+     _msg_error:
+       writable */
 const
   _msg_error =
     _libcrash._msg_error;
+/* global
+     _require:
+       writable */
+const
+  _require =
+    _libcrash._require;
+const
+  { ethers } =
+    _require(
+      "ethers");
+const
+  _ethers =
+    ethers;
+/* global
+     _fetch_request:
+       writable */
+const
+  _fetch_request =
+    _ethers.FetchRequest;
+/* global
+     _get_default_provider:
+       writable */
+const
+  _get_default_provider =
+    _ethers.getDefaultProvider;
+/* global
+     _json_rpc_provider:
+       writable */
+const
+  _json_rpc_provider =
+    _ethers.JsonRpcProvider;
+/* global
+     _network_class:
+       writable */
+const
+  _network_class =
+    _ethers.Network;
+
 
 function
   _global_variables() {
@@ -445,7 +482,7 @@ function
       _line);
   }
   if ( -1 < _exit_code ) {
-    process.exit(
+    _exit(
       _exit_code);
   }
 }
