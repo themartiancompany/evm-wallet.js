@@ -33,7 +33,6 @@
        wallet_name:
          writable */
 
-
 /* eslint-disable
      no-unused-vars */
 
@@ -689,8 +688,6 @@ async function
             1];
     }
     else {
-      /* eslint-disable-next-line
-           no-global-assign */
       wallet_name =
         _argv[
           "_"][
@@ -712,8 +709,6 @@ async function
               2].toString();
     }
     else {
-      /* eslint-disable-next-line
-           no-global-assign */
       target_key =
         _argv[
           "_"][

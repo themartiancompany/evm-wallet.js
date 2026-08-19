@@ -336,14 +336,14 @@ function _cmdline_parse() {
 
 function
   _overrides_set() {
-  // if ( target_network == "" ) {
-  //   target_network = "https://127.0.0.1";
-  // }
+  // _override_set(
+  //   "target",
+  //   "network",
+  //   "127.0.0.1");
   _override_set(
     "chain",
     "id",
     "100");
-  }
 }
 
 async function 

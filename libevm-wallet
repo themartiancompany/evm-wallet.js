@@ -45,6 +45,11 @@ const
   _cat =
     _crash_js_module._cat;
 /* global
+     _file_read */
+const
+  _file_read =
+    _crash_js_module._file_read;
+/* global
      _file_exists */
 const
   _file_exists =
@@ -325,6 +330,7 @@ async function
     _address_get_args,
     _error,
     _msg,
+    _wallet_address,
     _wallet_address_get_args;
   if ( _config_dir == "" ||
        typeof(_config_dir) === "undefined" ) {
@@ -346,7 +352,7 @@ async function
         "message":
           _msg
       };
-      throw _error
+      throw _error;
     }
     const
       _address_get_args = [
@@ -357,16 +363,15 @@ async function
         "",                       // Chain name
         ""                        // Output file
       ];
-    const
-      _wallet_address =
-        await _address_get.apply(
-          null,
-          _address_get_args);
+    _wallet_address =
+      await _address_get.apply(
+        null,
+        _address_get_args);
   }
   else if ( _wallet_name != "" ) {
     const
       _wallet_address_path =
-        `${_config_dir}/${_wallet_name}-address.txt`
+        `${_config_dir}/${_wallet_name}-address.txt`;
     if ( _file_exists(
            _wallet_address_path) ) {
       _wallet_address =
@@ -385,16 +390,15 @@ async function
             "",                   // Chain name
             _wallet_address_path  // Output file
           ];
-        const
-          _wallet_address =
-            await _address_get.apply(
-              null,
-              _address_get_args);
+        _wallet_address =
+          await _address_get.apply(
+            null,
+            _address_get_args);
       }
       else {
         _msg =
           "Found no recorded address nor seed for " +
-          `name '${_wallet_name}' in '${_config_path}'.`;
+          `name '${_wallet_name}' in '${_config_dir}'.`;
         _error = {
           "message":
             _msg
@@ -528,22 +532,25 @@ async function
       return _balance;
     }
     else if ( _target_key == "address" ) {
-      _wallet_address_get_args = [
-        _config_dir,
-        _wallet_name,
-        _wallet_seed,
-      ];
-      _wallet_address =
-        await _wallet_address_get.apply(
-          null,
-          _wallet_address_get_args);
+      const
+        _wallet_address_get_args = [
+          _config_dir,
+          _wallet_name,
+          _wallet_seed,
+        ];
+      const
+        _wallet_address =
+          await _wallet_address_get.apply(
+            null,
+            _wallet_address_get_args);
       return _wallet_address;
     }
     else {
       _msg =
         `Unknown key '${_target_key}'.`;
-      _msg_info(
-        _msg);
+      _msg_error(
+        _msg,
+        1);
     }
   }
   else if ( _target_command == "send" ) {
