@@ -285,7 +285,8 @@ function
 }
 
 
-function _cmdline_parse() {
+function
+  _cmdline_parse() {
   quiet =
     "y";
   process.argv.forEach(

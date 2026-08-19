@@ -519,14 +519,11 @@ async function
   }
 }
 
-
-if ( _cmdline_check(
-       "block-number-get") ||
-     _cmdline_check(
-       "block-number") ) {
+async function
+  _main() {
   _global_variables();
-  _cmdline_parse();
-  _overrides_set();
+  await _cmdline_parse();
+  await _overrides_set();
   _config_show();
   app_opts = [
     target_network,
@@ -535,8 +532,19 @@ if ( _cmdline_check(
     retries_max,
     call_timeout
   ];
-  _block_number_get_cmdline(
-    app_opts);
+  const
+    _return =
+      _block_number_get_cmdline(
+        app_opts);
+  _echo(
+    _return);
+}
+
+if ( _cmdline_check(
+       "block-number-get") ||
+     _cmdline_check(
+       "block-number") ) {
+  _main();
 }
 
 module.exports = {

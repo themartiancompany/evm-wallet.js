@@ -59,6 +59,11 @@ const
   _file_write =
     _libcrash._file_write;
 /* global
+     _override_set */
+const
+  _override_set =
+    _libcrash._override_set;
+/* global
      _msg_info */
 const
   _msg_info =
@@ -342,7 +347,7 @@ async function
   return _balance;
 }
 
-function
+async function
   _overrides_set() {
   let
     _info_get,
@@ -382,7 +387,7 @@ function
   if ( _info_get ) {
     const
       _libevm_module =
-        require(
+        await _require(
           "libevm");
     const
       _rpc_get =
@@ -392,24 +397,18 @@ function
         [ target_network ])[
         target_network];
   }
-  if ( typeof(
-         display_unit) == "undefined" ||
-       display_unit == "" ) {
-    display_unit =
-      "ether";
-  }
-  if ( typeof(
-         retries_max) == "undefined" ||
-       retries_max == "" ) {
-    retries_max =
-      "1";
-  }
-  if ( typeof(
-         call_timeout) == "undefined" ||
-       call_timeout == "" ) {
-    call_timeout =
-      "30000";
-  }
+  _override_set(
+    "display",
+    "unit",
+    "ether");
+  _override_set(
+    "retries",
+    "max",
+    "1");
+  _override_set(
+    "call",
+    "timeout",
+    "30000");
 }
 
 function
@@ -514,7 +513,7 @@ function
 }
 
 
-function _cmdline_parse() {
+async function _cmdline_parse() {
   let
     _msg;
   quiet =
@@ -562,7 +561,7 @@ function _cmdline_parse() {
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
-        _overrides_set();
+        await _overrides_set();
         quiet =
           "n";
         _usage(
@@ -578,7 +577,7 @@ function _cmdline_parse() {
     _msg_error(
       _msg,
       0);
-    _overrides_set();
+    await _overrides_set();
     _usage(
       1);
   }

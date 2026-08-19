@@ -59,6 +59,11 @@ const
   _file_write =
     _libcrash._file_write;
 /* global
+    _override_set */
+const
+  _override_set =
+    _libcrash._override_set;
+/* global
     _path_join:
       writable */
 const
@@ -362,18 +367,18 @@ async function
 
 function
   _overrides_set() {
-  if ( display_unit == "" ) {
-    display_unit =
-      "wei";
-  }
-  if ( output_type == "" ) {
-    output_type =
-      "price";
-  }
-  if ( retries_max == "" ) {
-    retries_max =
-      "1";
-  }
+  _override_set(
+    "display",
+    "unit",
+    "wei");
+  _override_set(
+    "output",
+    "type",
+    "price");
+  _override_set(
+    "retries",
+    "max",
+    "1");
 }
 
 function

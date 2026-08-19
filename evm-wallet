@@ -56,6 +56,11 @@ const
   _cmdline_check =
     _libcrash._cmdline_check;
 /* global
+     _exit */
+const
+_exit =
+  _libcrash._exit;
+/* global
      _homedir_get */
 const
   _homedir_get =
@@ -75,11 +80,6 @@ const
 const
   _msg_error =
     _libcrash._msg_error;
-/* global
-     _process_exit */
-const
-_process_exit =
-  _libcrash._process_exit;
 const
   _libevm_wallet =
     require(
@@ -615,7 +615,7 @@ function
     console.log(
       _line);
   }
-  _process_exit(
+  _exit(
     _exit_code);
 }
 
@@ -992,7 +992,7 @@ async function
     }
     console.log(
       _results);
-    _process_exit(
+    _exit(
       0);
   }
   else if ( _results_type == "bigint" ) {
@@ -1055,7 +1055,7 @@ async function
       _msg,
       1);
   }
-  _process_exit(
+  _exit(
     0);
 }
 

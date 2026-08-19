@@ -452,7 +452,7 @@ async function
     _receipt;
   const
     _libevm_module =
-      _require(
+      await _require(
         "libevm");
   const
     _rpc_get =
@@ -583,7 +583,7 @@ async function
       try {
         const
           _erc20_tools_module =
-            _require(
+            await _require(
               "erc20-tools");
         const
           _token_send =

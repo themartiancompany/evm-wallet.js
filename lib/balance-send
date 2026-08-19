@@ -47,6 +47,11 @@ const
   _dirname =
     _libcrash._dirname;
 /* global
+     _echo */
+const
+  _echo =
+    _libcrash._echo;
+/* global
      _exit */
 const
   _exit =
@@ -429,16 +434,14 @@ async function
         [ target_network ])[
         target_network];
   }
-  if ( typeof(
-         measure_unit) == "undefined" ||
-       measure_unit == "" ) {
-    measure_unit = "ether";
-  }
-  if ( typeof(
-         call_timeout) == "undefined" ||
-       call_timeout == "" ) {
-    call_timeout = "ether";
-  }
+  _override_set(
+    "measure",
+    "unit",
+    "ether");
+  _override_set(
+    "call",
+    "timeout",
+    "30000");
 }
 
 function
@@ -646,13 +649,11 @@ async function
     _receipt);
 }
 
-if ( _cmdline_check(
-        "balance-send") ||
-      _cmdline_check(
-        "gas-transfer") ) {
+async function
+  _main() {
   _global_variables();
-  _cmdline_parse();
-  _overrides_set();
+  await _cmdline_parse();
+  await _overrides_set();
   _config_show();
   app_opts = [
     wallet_seed,
@@ -663,9 +664,20 @@ if ( _cmdline_check(
     measure_unit,
     call_timeout
   ];
-  _balance_send_cmdline.apply(
-    null,
-    app_opts);
+  const
+    _return =
+      await _balance_send_cmdline.apply(
+        null,
+        app_opts);
+  _echo(
+    _return);
+}
+
+if ( _cmdline_check(
+        "balance-send") ||
+      _cmdline_check(
+        "gas-transfer") ) {
+  _main();
 }
 
 module.exports = {
