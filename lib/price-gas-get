@@ -95,12 +95,14 @@ const
   _sleep =
     _libcrash._sleep;
 const
-  { ethers } =
+  _ethers_module =
     _require(
       "ethers");
+/* global
+     _ethers */
 const
   _ethers =
-    ethers;
+    _ethers_module.ethers;
 /* global
     _wei_to_ether:
       writable */

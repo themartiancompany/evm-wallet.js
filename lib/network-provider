@@ -62,12 +62,14 @@ const
   _require =
     _libcrash._require;
 const
-  { ethers } =
+  _ethers_module =
     _require(
       "ethers");
+/* global
+     _ethers */
 const
   _ethers =
-    ethers;
+    _ethers_module.ethers;
 /* global
      _fetch_request:
        writable */

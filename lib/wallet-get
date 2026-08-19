@@ -28,8 +28,9 @@ const
   _libcrash =
     require(
       "crash-js");
-_cmdline_check =
-  _libcrash._cmdline_check;
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
 /* global
      _exit */
 const
@@ -65,17 +66,20 @@ const
 const
   _require =
     _libcrash._require;
-const 
-  { ethers } =
+const
+  _ethers_module =
     _require(
       "ethers");
-_ethers = 
-  ethers;
+/* global
+     _ethers */
+const 
+  _ethers = 
+    ethers_module.ethers;
 /* global
      _hdnode_wallet */
-_hdnode_wallet =
-  _ethers.HDNodeWallet
-
+const
+  _hdnode_wallet =
+    _ethers.HDNodeWallet;
 
 function
   _global_variables() {

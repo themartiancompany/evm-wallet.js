@@ -91,7 +91,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      "evm-wallet.js":
+      "evm-wallet":
         _path.resolve(
           __dirname,
           'libevm-wallet'),

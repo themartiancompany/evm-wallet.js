@@ -100,8 +100,6 @@
   "overrides": {
     "evm-wallet":
       "./libevm-wallet",
-    "evm-wallet.js":
-      "./libevm-wallet",
     "libevm":
       "^0.0.33"
   },
