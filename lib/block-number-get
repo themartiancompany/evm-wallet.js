@@ -446,6 +446,7 @@ function
 async function
   _cmdline_parse() {
   let
+    _help_display,
     _msg;
   quiet =
     "y";
@@ -480,13 +481,17 @@ async function
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
-        await _overrides_set();
-        quiet =
-          "n";
-        _usage(
-          0);
+        _help_display =
+          true;
       }
   });
+  if ( _help_display ) {
+    await _overrides_set();
+    quiet =
+      "n";
+    _usage(
+      0);
+  }
   if ( target_network == "" ) {
     _msg =
       "No network given in input.";

@@ -518,13 +518,15 @@ function
 }
 
 
-async function _cmdline_parse() {
+async function
+  _cmdline_parse() {
   let
+    _help_display,
     _msg;
   quiet =
     "y";
   process.argv.forEach(
-    function (
+    async function (
       _value,
       _index,
       _array) {
@@ -566,13 +568,17 @@ async function _cmdline_parse() {
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
-        await _overrides_set();
-        quiet =
-          "n";
-        _usage(
-          0);
+        _help_display =
+          true;
       }
   });
+  if ( _help_display ) {
+    await _overrides_set();
+    quiet =
+      "n";
+    _usage(
+      0);
+  }
   if ( wallet_seed == "" &&
        target_address == "" ) {
     _msg =
@@ -618,6 +624,8 @@ async function
 async function
   _main() {
   _global_variables();
+  await _cmdline_parse();
+  await _overrides_set();
   _config_show();
   app_opts = [
     wallet_seed,
@@ -637,7 +645,6 @@ if ( _cmdline_check(
        "balance-get") ||
      _cmdline_check(
        "gas-balance") ) {
-  _cmdline_parse();
   _main();
 }
 
