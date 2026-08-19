@@ -25,12 +25,12 @@
     "dist",
     "lib",
     "libevm-wallet",
-    "libevm-wallet.webpack.config.js",
+    "libevm-wallet.webpack.config.cjs",
     "evm-wallet",
-    "fs-worker.webpack.config.js",
+    "fs-worker.webpack.config.cjs",
     "package.json",
     "serve.json",
-    "webpack.config.js"
+    "webpack.config.cjs"
   ],
   "keywords": [
     "ur",
