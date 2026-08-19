@@ -53,6 +53,11 @@ const
   _dirname =
     _libcrash._dirname;
 /* global
+     _echo */
+const
+  _echo =
+    _libcrash._echo;
+/* global
      _exit */
 const
   _exit =
@@ -435,7 +440,7 @@ function
       `                      Default: ${call_timeout}`,
   ];
   for ( _line of _text ) {
-    console.log(
+    _echo(
       _line);
   }
   _exit(
@@ -514,7 +519,7 @@ async function
       await _block_number_get.apply(
         null,
         _app_opts);
-    console.log(
+    _echo(
       _block_number.toString());
     // process.stdout.write(
     //   _block_number.toString());
