@@ -83,7 +83,7 @@ const
     _libcrash._require;
 const
   _ethers_module =
-    _require(
+    await _require(
       "ethers");
 /* global
      _ethers */
@@ -379,7 +379,7 @@ async function
   return [ _tx, _receipt ];
 }
 
-function
+async function
   _overrides_set() {
   let
     _info_get,
@@ -419,7 +419,7 @@ function
   if ( _info_get ) {
     const
       _libevm_module =
-        _require(
+        await _require(
           "libevm");
     const
       _rpc_get =
@@ -534,7 +534,8 @@ function
     _exit_code);
 }
 
-function _cmdline_parse() {
+async function
+  _cmdline_parse() {
   let
     _msg;
   quiet =
@@ -578,7 +579,7 @@ function _cmdline_parse() {
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
-        _overrides_set();
+        await _overrides_set();
         quiet =
           "n";
         _usage(
@@ -599,7 +600,7 @@ function _cmdline_parse() {
   if ( typeof(
          target_address) == "undefined" ||
        target_address == "") {
-    _overrides_set();
+    await _overrides_set();
     quiet =
       "n";
     _msg =
@@ -613,7 +614,7 @@ function _cmdline_parse() {
   if ( typeof(
          target_amount) == "undefined" ||
        target_amount == "") {
-    _overrides_set()
+    await _overrides_set()
     _msg =
       "No target address given in input.";
     _msg_error(

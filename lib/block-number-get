@@ -294,7 +294,7 @@ async function
   return _block_number;
 }
 
-function
+async function
   _overrides_set() {
   let
     _info_get;
@@ -327,7 +327,7 @@ function
   if ( _info_get ) {
     const
       _libevm_module =
-        _require(
+        await _require(
           "libevm");
     const
       _rpc_get =
@@ -438,7 +438,8 @@ function
 }
 
 
-function _cmdline_parse() {
+async function
+  _cmdline_parse() {
   let
     _msg;
   quiet =
@@ -474,7 +475,7 @@ function _cmdline_parse() {
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
-        _overrides_set();
+        await _overrides_set();
         quiet =
           "n";
         _usage(
@@ -487,7 +488,7 @@ function _cmdline_parse() {
     _msg_error(
       _msg,
       0);
-    _overrides_set();
+    await _overrides_set();
     _usage(
       1);
   }

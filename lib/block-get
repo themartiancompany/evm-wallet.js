@@ -95,11 +95,6 @@ const
 const
   _path_join =
     _libcrash._path_join;
-/* global
-     _require */
-const
-  _require =
-    _libcrash._require;
 const
   _network_provider =
     require(

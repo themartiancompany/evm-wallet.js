@@ -68,13 +68,13 @@ const
     _libcrash._require;
 const
   _ethers_module =
-    _require(
+    await _require(
       "ethers");
 /* global
      _ethers */
 const 
   _ethers = 
-    ethers_module.ethers;
+    _ethers_module.ethers;
 /* global
      _hdnode_wallet */
 const
