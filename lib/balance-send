@@ -2,45 +2,31 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/**    ----------------------------------------------------------------------
+/**    ----------------------------------------------------------------
+ *     balance-send
+ *     ----------------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
  *         2024, 2025, 2026
  * 
  *     All rights reserved
- *     ----------------------------------------------------------------------
+ *     ----------------------------------------------------------------
  * 
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     This program is free software: you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License as
+ *     published by the Free Software Foundation, either version 3 of
+ *     the License, or (at your option) any later version.
  * 
  *     This program is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU General Public License for more details.
  * 
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     You should have received a copy of the GNU General Public
+ *     License along with this program.
+ *     If not, see <https://www.gnu.org/licenses/>.
  */
 
-const
-  { ethers } =
-    require(
-      "ethers");
-const
-  _ethers =
-    ethers;
-/* global
-     _wei_to_ether */
-const
-  _wei_to_ether =
-    _ethers.formatEther;
-/* global
-     _parse_units */
-const
-  _parse_units =
-    _ethers.parseUnits;
 const
   _libcrash =
     require(
@@ -60,6 +46,11 @@ const
 const
   _dirname =
     _libcrash._dirname;
+/* global
+     _exit */
+const
+  _exit =
+    _libcrash._exit;
 /* global
      _file_read */
 const
@@ -85,11 +76,24 @@ const
 const
   _msg_error =
     _libcrash._msg_error;
-/* global
-     _process_exit */
 const
-  _process_exit =
-    _libcrash._process_exit;
+  { ethers } =
+    require(
+      "ethers");
+const
+  _ethers =
+    ethers;
+/* global
+     _wei_to_ether */
+const
+  _wei_to_ether =
+    _ethers.formatEther;
+/* global
+     _parse_units */
+const
+  _parse_units =
+    _ethers.parseUnits;
+
 const
   _wallet_get_module =
     require(
@@ -465,9 +469,16 @@ function
 }
 
 function
-  _usage() {
+  _usage(
+    _exit_code) {
   let
     _line;
+  if ( typeof(
+         _exit_code) == "undefined" ||
+       _exit_code == "" ) {
+    _exit_code =
+      0;
+  }
   const
     _argv =
       _argv_get();
@@ -517,7 +528,8 @@ function
     console.log(
       _line);
   }
-  _process_exit();
+  _exit(
+    _exit_code);
 }
 
 function _cmdline_parse() {

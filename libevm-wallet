@@ -75,6 +75,11 @@ const
   _path_join =
     _crash_js_module._path_join;
 /* global
+     _require */
+const
+  _require =
+    _crash_js_module._require;
+/* global
      _stat */
 const
   _stat =
@@ -443,7 +448,7 @@ async function
     _receipt;
   const
     _libevm_module =
-      require(
+      _require(
         "libevm");
   const
     _rpc_get =
@@ -571,7 +576,7 @@ async function
       try {
         const
           _erc20_tools_module =
-            require(
+            _require(
               "erc20-tools");
         const
           _token_send =

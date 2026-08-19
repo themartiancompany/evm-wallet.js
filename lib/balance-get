@@ -25,18 +25,6 @@
  */
 
 const
-  { ethers } =
-    require(
-      "ethers");
-const
-  _ethers =
-    ethers;
-/* global
-     _wei_to_ether */
-const
-  _wei_to_ether =
-    _ethers.formatEther;
-const
   _libcrash =
     require(
       "crash-js");
@@ -56,7 +44,12 @@ const
   _dirname =
     _libcrash._dirname;
 /* global
-     dirname */
+     _exit */
+const
+  _exit =
+    _libcrash._exit;
+/* global
+     _file_read */
 const
   _file_read =
     _libcrash._file_read;
@@ -86,10 +79,10 @@ const
   _path_join =
     _libcrash._path_join;
 /* global
-     _process_exit */
+     _require */
 const
-  _process_exit =
-    _libcrash._process_exit;
+  _require =
+    _libcrash._require;
 /* global
      _run */
 const
@@ -100,6 +93,18 @@ const
 const
   _sleep =
     _libcrash._sleep;
+const
+  { ethers } =
+    _require(
+      "ethers");
+const
+  _ethers =
+    ethers;
+/* global
+     _wei_to_ether */
+const
+  _wei_to_ether =
+    _ethers.formatEther;
 const
   _wallet_get_module =
     require(
@@ -502,7 +507,7 @@ function
     console.log(
       _line);
   }
-  _process_exit(
+  _exit(
     _exit_code);
 }
 
@@ -591,7 +596,7 @@ async function
       _balance.toString());
     // process.stdout.write(
     //   _balance.toString());
-    _process_exit(
+    _exit(
       0);
   }
   catch(

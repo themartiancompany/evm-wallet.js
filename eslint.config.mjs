@@ -53,8 +53,9 @@ export default defineConfig([
        "prefer-const":
          "error" },
    files:
-     [ "**/*js,mjs,cjs}",
+     [ "**/*.{js,mjs,cjs}",
        `**/${_project}*`,
+       `**/lib/*`,
        `**/lib${_project}*`
      ],
    plugins:
@@ -76,6 +77,7 @@ export default defineConfig([
    files:
      [ "**/*.js",
        `**/${_project}*`,
+       `**/lib/*`,
        `**/lib${_project}*`
      ],
    languageOptions:

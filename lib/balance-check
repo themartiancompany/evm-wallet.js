@@ -26,49 +26,83 @@
  */
 
 const
-  { ethers } =
+  _libcrash =
     require(
+      "crash-js");
+/* global
+     _dirname:
+       writable */
+const
+  _dirname =
+    _libcrash._dirname;
+/* global
+     _file_read:
+       writable */
+const
+  _file_read =
+    _libcrash._file_read;
+/* global
+     _path_join:
+       writable */
+const
+  _path_join =
+    _libcrash._path_join;
+/* global
+     _msg_info:
+       writable */
+const
+  _msg_info =
+    _libcrash._msg_info;
+/* global
+     _msg_info_obj:
+       writable */
+const
+  _msg_info_obj =
+    _libcrash._msg_info_obj;
+/* global
+     _msg_error:
+       writable */
+const
+  _msg_error =
+    _libcrash._msg_error;
+/* global
+     _require:
+       writable */
+const
+  _require =
+    _libcrash._require;
+/* global
+     _sleep:
+       writable */
+const
+  _sleep =
+    _libcrash._sleep;
+const
+  { ethers } =
+    _require(
       "ethers");
 const
   _ethers =
     ethers;
+/* global
+     _wei_to_ether:
+       writable */
 const
   _wei_to_ether =
     _ethers.formatEther;
+/* global
+     _parse_units:
+       writable */
 const
   _parse_units =
     _ethers.parseUnits;
-
-const
-  _libcrash =
-    require(
-      "crash-js");
-const
-  _dirname =
-    _libcrash._dirname;
-const
-  _file_read =
-    _libcrash._file_read;
-const
-  _path_join =
-    _libcrash._path_join;
-const
-  _msg_info =
-    _libcrash._msg_info;
-const
-  _msg_info_obj =
-    _libcrash._msg_info_obj;
-const
-  _msg_error =
-    _libcrash._msg_error;
-const
-  _sleep =
-    _libcrash._sleep;
-
 const
   _wallet_get_module =
     require(
       './wallet-get');
+/* global
+     _wallet_get:
+       writable */
 const
   _wallet_get =
     _wallet_get_module._wallet_get;
@@ -76,6 +110,9 @@ const
   _balance_get_module =
     require(
       './balance-get');
+/* global
+     _balance_get:
+       writable */
 const
   _balance_get =
     _balance_get_module._balance_get;
@@ -83,9 +120,15 @@ const
   _network_provider_module =
     require(
       './network-provider');
+/* global
+     _provider_get:
+       writable */
 const
   _provider_get =
     _network_provider_module._provider_get;
+/* global
+     _msg_info_provider_generated:
+       writable */
 const
   _msg_info_provider_generated =
     _network_provider_module._msg_info_provider_generated;

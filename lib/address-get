@@ -25,13 +25,6 @@
  */
 
 const
-  { ethers } =
-    require(
-      "ethers");
-const
-  _ethers =
-    ethers;
-const
   _libcrash =
     require(
       "crash-js");
