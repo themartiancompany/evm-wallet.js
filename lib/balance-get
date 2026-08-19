@@ -34,6 +34,11 @@ const
   _argv_get =
     _libcrash._argv_get;
 /* global
+     _cmdline_check */
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+/* global
      _basename */
 const
   _basename =
@@ -610,13 +615,9 @@ async function
   }
 }
 
-
-if ( _cmdline_check(
-       "balance-get") ||
-     _cmdline_check(
-       "gas-balance") ) {
+async function
+  _main() {
   _global_variables();
-  _cmdline_parse();
   _config_show();
   app_opts = [
     wallet_seed,
@@ -628,8 +629,16 @@ if ( _cmdline_check(
     retries_max,
     call_timeout
   ];
-  _balance_get_cmdline(
+  await balance_get_cmdline(
     app_opts);
+}
+
+if ( _cmdline_check(
+       "balance-get") ||
+     _cmdline_check(
+       "gas-balance") ) {
+  _cmdline_parse();
+  _main();
 }
 
 module.exports = {
