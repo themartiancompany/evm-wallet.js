@@ -93,7 +93,7 @@ const
     _libcrash._require;
 const
   _ethers_module =
-    await _require(
+    _require(
       "ethers");
 /* global
      _ethers */

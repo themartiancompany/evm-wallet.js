@@ -85,7 +85,7 @@ const
     _libcrash._sleep;
 const
   _ethers_module =
-    await _require(
+    _require(
       "ethers");
 /* global
      _ethers */
