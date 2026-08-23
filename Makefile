@@ -25,7 +25,7 @@
 #    If not, see <https://www.gnu.org/licenses/>.
 
 _NPM ?= true
-SHELL=bash
+SHELL ?= bash
 PREFIX ?= /usr/local
 _PROJECT=evm-wallet
 _PROJECT_NPM=$(_PROJECT).js
@@ -35,9 +35,15 @@ USR_DIR=$(DESTDIR)$(PREFIX)
 BIN_DIR=$(DESTDIR)$(PREFIX)/bin
 LIB_DIR=$(DESTDIR)$(PREFIX)/lib/$(_PROJECT)
 MAN_DIR?=$(DESTDIR)$(PREFIX)/share/man
-NODE_DIR=$(PREFIX)/lib/node_modules/$(_PROJECT)
+NODE_DIR=$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)
 BUILD_NPM_DIR=build
 
+_MAKE_LINK=\
+  ln \
+    -s
+_MAKE_EXE=\
+  chmod \
+    755
 _INSTALL_FILE=\
   install \
     -vDm644
@@ -220,20 +226,20 @@ install-scripts:
 	                '.files[]')) \
 	    "$(LIB_DIR)/nodejs"; \
 	  $(_MAKE_EXE) \
-	    "$(LIB_DIR)/nodejs/$(_PROJECT_NPM)"; \
+	    "$(LIB_DIR)/nodejs/$(_PROJECT)"; \
 	  rm \
 	    -vf \
-	    "$(BIN_DIR)/$(_PROJECT)"; \
-	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT)" ]]; then \
+	    "$(BIN_DIR)/$(_PROJECT_NPM)"; \
+	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT_NPM)" ]]; then \
 	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs/$(_PROJECT_NPM)" \
-	      "$(BIN_DIR)/$(_PROJECT)"; \
-	  fi; \
-	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT_NPM)" && \
-	        ! -e "$(BIN_DIR)/$(_PROJECT_NPM)" ]]; then \
-	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs/$(_PROJECT_NPM)" \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/$(_PROJECT)" \
 	      "$(BIN_DIR)/$(_PROJECT_NPM)"; \
+	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT)" && \
+	        ! -e "$(BIN_DIR)/$(_PROJECT)" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/$(_PROJECT)" \
+	      "$(BIN_DIR)/$(_PROJECT)"; \
 	  fi; \
 	  rm \
 	    "$(LIB_DIR)/node_modules" || \
@@ -249,12 +255,12 @@ install-scripts:
 	    "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)"; \
 	  if [[ ! -s "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)" ]]; then \
 	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs" \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs" \
 	      "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)"; \
 	  fi; \
 	  if [[ ! -s "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" ]]; then \
 	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs" \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs" \
 	      "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" || \
 	      true; \
 	  fi; \
@@ -287,7 +293,7 @@ install-npm:
 	  "$(DESTDIR)$(PREFIX)/lib"; \
 	ln \
 	  -s \
-	  "$(NODE_DIR)" \
+          "$(PREFIX)/lib/node_modules/$(_PROJECT)" \
 	  "$(LIB_DIR)" || \
 	true
 
@@ -325,9 +331,9 @@ uninstall-scripts:
 
 	rm  \
 	  -vrf \
+	  "$(BIN_DIR)/$(_PROJECT_NPM)" \
 	  "$(LIB_DIR)/nodejs" \
-	  "$(LIB_DIR)/$(_PROJECT_NPM)" \
-	  "$(DESTDIR)$(PREFIX)/lib/$(_PROJECT)" \
+	  "$(DESTDIR)$(PREFIX)/lib/$(_PROJECT_NPM)" \
 	  "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" \
 	  "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)"
 
