@@ -28,8 +28,8 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
 /* global
      _argv_get */
 const
@@ -97,7 +97,7 @@ const
     _libcrash._path_join;
 const
   _network_provider =
-    require(
+    await import(
       './network-provider');
 /* global
      _provider_get */
@@ -354,7 +354,15 @@ if ( _cmdline_check(
     app_opts);
 }
 
-module.exports = {
-  _block_get:
-    _block_get
+// ES6 module exports
+
+export {
+  _block_get
 };
+
+// Common Javascript exports
+
+// module.exports = {
+//   _block_get:
+//     _block_get
+// };

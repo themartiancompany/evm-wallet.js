@@ -32,8 +32,8 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
 /* global
     _dirname:
       writable */
@@ -116,7 +116,7 @@ const
     _ethers.formatEther;
 const
   _wallet_get_module =
-    require(
+    await import(
       './wallet-get');
 /* global
     _wallet_get:
@@ -126,7 +126,7 @@ const
     _wallet_get_module._wallet_get;
 const
   _network_provider_module =
-    require(
+    await import(
       './network-provider');
 /* global
     _provider_get:
@@ -561,7 +561,11 @@ if ( _cmdline_check(
     app_opts);
 }
 
-module.exports = {
-  _price_gas_get:
-    _price_gas_get
+export {
+  _price_gas_get
 };
+
+// module.exports = {
+//   _price_gas_get:
+//     _price_gas_get
+// };

@@ -30,8 +30,8 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
 /* global
      _argv_get */
 const
@@ -109,7 +109,7 @@ const
     _libcrash._sleep;
 const
   _wallet_get_module =
-    require(
+    await import(
       './wallet-get');
 /* global
      _wallet_get */
@@ -118,7 +118,7 @@ const
     _wallet_get_module._wallet_get;
 const
   _network_provider =
-    require(
+    await import(
       './network-provider');
 /* global
      _provider_get */
@@ -361,13 +361,13 @@ async function
   }
 }
 
-function
+async function
   _config_show() {
   let
     _line;
   const
     _argv =
-      _argv_get();
+      await _argv_get();
   const
     _program =
       _basename(
@@ -539,7 +539,7 @@ async function
   _global_variables();
   await _cmdline_parse();
   await _overrides_set();
-  _config_show();
+  await _config_show();
   app_opts = [
     target_network,
     api_key,
@@ -555,14 +555,18 @@ async function
     _return);
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "block-number-get") == true ||
-     _cmdline_check(
+     await _cmdline_check(
        "block-number") == true ) {
   _main();
 }
 
-module.exports = {
-  _block_number_get:
-    _block_number_get
+export {
+  _block_number_get
 };
+
+// module.exports = {
+//   _block_number_get:
+//     _block_number_get
+// };

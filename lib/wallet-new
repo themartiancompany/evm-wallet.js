@@ -32,8 +32,8 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
 /* global
      _cmdline_check */
 const
@@ -59,9 +59,14 @@ const
 const
   _msg_error = 
     _libcrash._msg_error;
+/* global
+     _override_set */
+const
+  _override_set = 
+    _libcrash._override_set;
 const
   _network_provider_module =
-    require(
+    await import(
       './network-provider');
 /* global
      _provider_get */
@@ -69,7 +74,7 @@ _provider_get =
   _network_provider_module._provider_get;
 const
   _wallet_get_module =
-    require(
+    await import(
       './wallet-get');
 /* global
      _wallet_get */
@@ -185,10 +190,10 @@ async function
 
 function
   _overrides_set() {
-  if ( target_network == "" ) {
-    target_network =
-      "gnosis";
-  }
+  _override_set(
+    "target",
+    "network",
+    "gnosis");
 }
 
 function
@@ -290,11 +295,11 @@ function
 }
 
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "wallet-new") ) {
   _global_variables();
-  _cmdline_parse();
-  _overrides_set();
+  await _cmdline_parse();
+  await _overrides_set();
   app_opts=[
     wallet_path,
     wallet_password,
@@ -307,7 +312,11 @@ if ( _cmdline_check(
     app_opts);
 }
 
-module.exports = {
-  _wallet_new:
-    _wallet_new
+export {
+  _wallet_new
 };
+
+// module.exports = {
+//   _wallet_new:
+//     _wallet_new
+// };

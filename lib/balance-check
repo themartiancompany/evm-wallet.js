@@ -27,8 +27,8 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
 /* global
      _dirname:
        writable */
@@ -100,7 +100,7 @@ const
     _ethers.parseUnits;
 const
   _wallet_get_module =
-    require(
+    await import(
       './wallet-get');
 /* global
      _wallet_get:
@@ -110,7 +110,7 @@ const
     _wallet_get_module._wallet_get;
 const
   _balance_get_module =
-    require(
+    await import(
       './balance-get');
 /* global
      _balance_get:
@@ -120,7 +120,7 @@ const
     _balance_get_module._balance_get;
 const
   _network_provider_module =
-    require(
+    await import(
       './network-provider');
 /* global
      _provider_get:
@@ -483,9 +483,16 @@ if ( _cmdline_check(
     app_opts);
 }
 
-module.exports = {
-  _balance_check:
-    _balance_check,
-  _msg_error_balance_insufficient:
-    _msg_error_balance_insufficient
+export {
+  _balance_check,
+  _msg_error_balance_insufficient
 };
+
+// Common Javascript exports
+
+// module.exports = {
+//   _balance_check:
+//     _balance_check,
+//   _msg_error_balance_insufficient:
+//     _msg_error_balance_insufficient
+// };

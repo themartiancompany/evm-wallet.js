@@ -37,7 +37,7 @@
 
 const
   _crash_js_module =
-    require(
+    await import(
       "crash-js");
 /* global
      _cat */
@@ -91,7 +91,7 @@ const
     _crash_js_module._stat;
 const
   _address_get_module =
-    require(
+    await import(
       "./lib/address-get");
 /* global
      _address_get */
@@ -100,7 +100,7 @@ const
     _address_get_module._address_get;
 const
   _balance_check_module =
-    require(
+    await import(
       "./lib/balance-check");
 /* global
      _balance_check */
@@ -114,7 +114,7 @@ const
     _balance_check_module._msg_error_balance_insufficient;
 const
   _balance_get_module =
-    require(
+    await import(
       "./lib/balance-get");
 /* global
      _balance_get */
@@ -123,7 +123,7 @@ const
     _balance_get_module._balance_get;
 const
   _balance_send_module =
-    require(
+    await import(
       "./lib/balance-send");
 /* global
      _balance_send */
@@ -132,7 +132,7 @@ const
     _balance_send_module._balance_send;
 const
   _block_number_get_module =
-    require(
+    await import(
       "./lib/block-number-get");
 /* global
      _block_number_get_get */
@@ -141,7 +141,7 @@ const
     _block_number_get_module._block_number_get;
 const
   _ethers_to_wei_module =
-    require(
+    await import(
       "./lib/ethers-to-wei");
 /* global
      _ethers_to_wei */
@@ -150,7 +150,7 @@ const
     _ethers_to_wei_module._ethers_to_wei;
 const
   _network_provider_module =
-    require(
+    await import(
       "./lib/network-provider");
 /* global
      _msg_info_provider_generated */
@@ -169,7 +169,7 @@ const
     _network_provider_module._target_networks_check;
 const
   _price_gas_get_module =
-    require(
+    await import(
       "./lib/price-gas-get");
 /* global
      _price_gas_get */
@@ -178,7 +178,7 @@ const
     _price_gas_get_module._price_gas_get;
 const
   _price_gas_transaction_get_module =
-    require(
+    await import(
       "./lib/price-gas-transaction-get");
 /* global
      _price_gas_transaction_get */
@@ -187,7 +187,7 @@ const
     _price_gas_transaction_get_module._price_gas_transaction_get;
 const
   _seed_new_module =
-    require(
+    await import(
       "./lib/seed-new");
 /* global
      _seed_new */
@@ -196,7 +196,7 @@ const
     _seed_new_module._seed_new;
 const
   _wallet_get_module =
-    require(
+    await import(
       "./lib/wallet-get");
 /* global
      _wallet_get */
@@ -205,7 +205,7 @@ const
     _wallet_get_module._wallet_get;
 const
   _wallet_new_module =
-    require(
+    await import(
       "./lib/wallet-new");
 /* global
      _wallet_new */
@@ -645,39 +645,63 @@ async function
   }
 }
 
-module.exports = {
-  _address_get:
+// ES6 module exports
+
+export {
     _address_get,
-  _balance_check:
     _balance_check,
-  _msg_error_balance_insufficient:
     _msg_error_balance_insufficient,
-  _balance_get:
     _balance_get,
-  _balance_send:
     _balance_send,
-  _block_number_get:
     _block_number_get,
-  _conf_dir_get:
     _conf_dir_get,
-  _evm_wallet:
     _evm_wallet,
-  _ethers_to_wei:
     _ethers_to_wei,
-  _provider_get:
     _provider_get,
-  _msg_info_provider_generated:
     _msg_info_provider_generated,
-  _price_gas_get:
     _price_gas_get,
-  _price_gas_transaction_get:
     _price_gas_transaction_get,
-  _seed_new:
     _seed_new,
-  _wallet_address_get:
     _wallet_address_get,
-  _wallet_get:
     _wallet_get,
-  _wallet_new:
     _wallet_new
 };
+
+// Common Javascript exports
+
+// module.exports = {
+//   _address_get:
+//     _address_get,
+//   _balance_check:
+//     _balance_check,
+//   _msg_error_balance_insufficient:
+//     _msg_error_balance_insufficient,
+//   _balance_get:
+//     _balance_get,
+//   _balance_send:
+//     _balance_send,
+//   _block_number_get:
+//     _block_number_get,
+//   _conf_dir_get:
+//     _conf_dir_get,
+//   _evm_wallet:
+//     _evm_wallet,
+//   _ethers_to_wei:
+//     _ethers_to_wei,
+//   _provider_get:
+//     _provider_get,
+//   _msg_info_provider_generated:
+//     _msg_info_provider_generated,
+//   _price_gas_get:
+//     _price_gas_get,
+//   _price_gas_transaction_get:
+//     _price_gas_transaction_get,
+//   _seed_new:
+//     _seed_new,
+//   _wallet_address_get:
+//     _wallet_address_get,
+//   _wallet_get:
+//     _wallet_get,
+//   _wallet_new:
+//     _wallet_new
+// };

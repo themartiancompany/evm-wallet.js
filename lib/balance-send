@@ -29,8 +29,8 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
 /* global
      _argv_get */
 const
@@ -108,7 +108,7 @@ const
 
 const
   _wallet_get_module =
-    require(
+    await import(
       './wallet-get');
 /* global
      _wallet_get */
@@ -117,7 +117,7 @@ const
     _wallet_get_module._wallet_get;
 const
   _balance_check_module =
-    require(
+    await import(
       './balance-check');
 /* global
      _balance_check */
@@ -131,7 +131,7 @@ const
     _balance_check_module._msg_error_balance_insufficient
 const
   _network_provider_module =
-    require(
+    await import(
       './network-provider');
 /* global
      _provider_get */
@@ -211,6 +211,10 @@ function
     _amount,
     "ether");
 }
+
+const
+  _ether_to_wei =
+    _ethers_to_wei;
 
 function
   _send_msg_info(
@@ -370,7 +374,7 @@ async function
       "Transaction response:";
     _msg_info(
       _msg);
-    console.log(
+    _echo(
       _tx);
   }
   const
@@ -383,7 +387,7 @@ async function
       "Transaction receipt:";
     _msg_info(
       _msg);
-    console.log(
+    _echo(
       _receipt);
   }
   return [ _tx, _receipt ];
@@ -535,7 +539,7 @@ function
       `                      Default: ${call_timeout}`,
     ];
   for ( _line of _text ) {
-    console.log(
+    _echo(
       _line);
   }
   _exit(
@@ -549,11 +553,13 @@ async function
     _msg;
   quiet =
     "y";
-  process.argv.forEach(
+  const
+    _argv =
+      await _argv_get();
+  _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
         quiet =
           _value;
@@ -649,13 +655,13 @@ async function
   await _balance_send.apply(
     null,
     app_opts);
-  console.log(
+  _echo(
     "Transaction response:");
-  console.log(
+  _echo(
     _tx);
-  console.log(
+  _echo(
     "Transaction receipt:");
-  console.log(
+  _echo(
     _receipt);
 }
 
@@ -664,7 +670,7 @@ async function
   _global_variables();
   await _cmdline_parse();
   await _overrides_set();
-  _config_show();
+  await _config_show();
   app_opts = [
     wallet_seed,
     target_address,
@@ -683,18 +689,28 @@ async function
     _return);
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
         "balance-send") ||
-      _cmdline_check(
+     await _cmdline_check(
         "gas-transfer") ) {
   _main();
 }
 
-module.exports = {
-  _balance_send:
-    _balance_send,
-  _ether_to_wei:
-    _ether_to_wei,
-  _ethers_to_wei:
-    _ether_to_wei
+// ES6 module exports
+
+export {
+  _balance_send,
+  _ether_to_wei,
+  _ethers_to_wei
 };
+
+// Common Javascript module exports
+
+// module.exports = {
+//   _balance_send:
+//     _balance_send,
+//   _ether_to_wei:
+//     _ether_to_wei,
+//   _ethers_to_wei:
+//     _ethers_to_wei
+// };

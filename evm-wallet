@@ -38,8 +38,8 @@
 
 const
   _libcrash =
-  require(
-    'crash-js');
+    await import(
+      "libcrash-js");
 /* global
      _argv_get */
 const
@@ -61,6 +61,11 @@ const
 _exit =
   _libcrash._exit;
 /* global
+     _get */
+const
+  _get =
+    _libcrash._get;
+/* global
      _homedir_get */
 const
   _homedir_get =
@@ -80,9 +85,19 @@ const
 const
   _msg_error =
     _libcrash._msg_error;
+/* global
+     _require */
+const
+  _require =
+    _libcrash._require;
+/* global
+     _set */
+const
+  _set =
+    _libcrash._set;
 const
   _libevm_wallet =
-    require(
+    await import(
       "./libevm-wallet");
 /* global
      _evm_wallet:
@@ -91,7 +106,7 @@ _evm_wallet =
   _libevm_wallet._evm_wallet;
 const
   _libevm_module =
-    require(
+    await _require(
       "libevm");
 /* global
      _libevm_cmdline_parse */
@@ -636,7 +651,7 @@ async function
     };
   const
     _argv =
-      _argv_get(
+      await _argv_get(
         _argv_args);
   const
     _options =
@@ -1061,11 +1076,11 @@ async function
 
 _global_variables();
 _libevm_global_variables();
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "evm-wallet.js") == true ||
-     _cmdline_check(
+     await _cmdline_check(
        "evm-wallet") == true ) {
-  _cmdline_parse();
+  await _cmdline_parse();
 }
 else {
   _url_parse();

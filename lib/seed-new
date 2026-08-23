@@ -35,13 +35,23 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
+/* global
+     _argv_get */
+const
+  _argv_get =
+    _libcrash._argv_get;
 /* global
      _dirname */
 const
   _dirname =
     _libcrash._dirname;
+/* global
+     _echo */
+const
+  _echo =
+    _libcrash._echo;
 /* global
      _exit */
 const
@@ -83,8 +93,9 @@ const
       "ethers");
 /* global
      _ethers */
-_ethers = 
-  _ethers_module.ethers;
+const
+  _ethers = 
+    _ethers_module.ethers;
 /* global
      _wallet_class */
 const
@@ -175,7 +186,7 @@ function
     }
   }
   else {
-    console.log(
+    _echo(
       _phrase);
   }
 }
@@ -216,11 +227,14 @@ function
     _exit_code);
 }
 
-function
+async function
   _cmdline_parse() {
   quiet =
     "y";
-  process.argv.forEach(
+  const
+    _argv =
+      await _argv_get();
+  _argv.forEach(
     function (
       _value,
       _index,
@@ -241,12 +255,12 @@ function
 }
 
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "seed-new") ||
-     _cmdline_check(
+     await _cmdline_check(
        "mkseed")  ) {
   _global_variables();
-  _cmdline_parse();
+  await _cmdline_parse();
   app_opts = [
     seed_path
   ];
@@ -255,11 +269,18 @@ if ( _cmdline_check(
     app_opts);
 }
 
-module.exports = {
-  _mkseed:
-    _mkseed
+export {
+  _mkseed
 };
 
-// console.log('wallet.address:', wallet.address)
-// console.log('wallet.mnemonic.phrase:', wallet.mnemonic.phrase)
-// console.log('wallet.privateKey:', wallet.privateKey)
+// module.exports = {
+//   _mkseed:
+//     _mkseed
+// };
+
+// _echo(
+//   `wallet.address: '${wallet.address}'`);
+// _echo(
+//   `wallet.mnemonic.phrase: '${wallet.mnemonic.phrase}'`);
+// _echo(
+//   `wallet.privateKey: 'wallet.privateKey'`);

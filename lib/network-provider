@@ -29,8 +29,8 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
 /* global
      _cmdline_check:
        writable */
@@ -246,7 +246,7 @@ function
     _target_networks;
   const
     _libevm_module =
-      require(
+      await _require(
         "libevm");
   const
     _rpc_get =
@@ -562,12 +562,17 @@ if ( _cmdline_check(
     app_opts);
 }
 
-module.exports = {
-  _provider_get:
-    _provider_get,
-  _msg_info_provider_generated:
-    _msg_info_provider_generated,
-  _target_networks_check:
-    _target_networks_check
+export {
+  _provider_get,
+  _msg_info_provider_generated,
+  _target_networks_check
 };
 
+// module.exports = {
+//   _provider_get:
+//     _provider_get,
+//   _msg_info_provider_generated:
+//     _msg_info_provider_generated,
+//   _target_networks_check:
+//     _target_networks_check
+// };

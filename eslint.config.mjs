@@ -37,10 +37,13 @@ const
     "dist/**",
     "eslint.config.js",
     "evm-wallet.js",
+    "**/*.evm-wallet.js",
     "fs-worker.js",
+    "**/*.fs-worker.js",
     "libevm-wallet.js",
-    "man/**",
-    "node_modules/**"
+    "**/*.libevm-wallet.js",
+    "node_modules/**",
+    "man/**"
   ];
 
 export default defineConfig([
@@ -75,10 +78,7 @@ export default defineConfig([
        "prefer-const":
          "error" },
    files:
-     [ "**/*.js",
-       `**/${_project}*`,
-       `**/lib/*`,
-       `**/lib${_project}*`
+     [ "**/*.{cjs,js}",
      ],
    languageOptions:
      { sourceType:

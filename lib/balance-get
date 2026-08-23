@@ -26,8 +26,8 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
 /* global
      _argv_get */
 const
@@ -119,7 +119,7 @@ const
     _ethers.formatEther;
 const
   _wallet_get_module =
-    require(
+    await import(
       './wallet-get');
 /* global
      _wallet_get */
@@ -128,7 +128,7 @@ const
     _wallet_get_module._wallet_get;
 const
   _network_provider_module =
-    require(
+    await import(
       './network-provider');
 /* global
      _provider_get */
@@ -416,13 +416,13 @@ async function
     "30000");
 }
 
-function
+async function
   _config_show() {
   let
     _line;
   const
     _argv =
-      _argv_get();
+      await _argv_get();
   const
     _program =
       _basename(
@@ -626,7 +626,7 @@ async function
   _global_variables();
   await _cmdline_parse();
   await _overrides_set();
-  _config_show();
+  await _config_show();
   app_opts = [
     wallet_seed,
     target_network,
@@ -641,12 +641,20 @@ async function
     app_opts);
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "balance-get") ||
-     _cmdline_check(
+     await _cmdline_check(
        "gas-balance") ) {
   _main();
 }
+
+// ES6 module exports
+
+export {
+  _balance_get
+};
+
+// Common Javascript exports
 
 module.exports = {
   _balance_get:

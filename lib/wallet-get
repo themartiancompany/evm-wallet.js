@@ -26,8 +26,8 @@
 
 const
   _libcrash =
-    require(
-      "crash-js");
+    await import(
+      "libcrash-js");
 const
   _cmdline_check =
     _libcrash._cmdline_check;
@@ -349,12 +349,16 @@ function _wallet_get(
   return _signer;
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "wallet-get") ) {
   _global_variables();
 }
 
-module.exports = {
-  _wallet_get:
-    _wallet_get
+export {
+  _wallet_get
 };
+
+// module.exports = {
+//   _wallet_get:
+//     _wallet_get
+// };
