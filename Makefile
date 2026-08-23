@@ -69,82 +69,6 @@ NPM_FILES=\
 
 all: build-man build-npm
 
-check: eslint
-
-eslint:
-
-	npm \
-	  install \
-	  --save-dev; \
-	npx \
-	  eslint \
-	    "."
-
-install: install-scripts install-doc install-examples install-man
-
-install-scripts:
-
-	if [[ "$(_NPM)" == "false" ]]; then \
-	  $(_INSTALL_DIR) \
-	    "$(LIB_DIR)/nodejs"; \
-	  cp \
-	    -r \
-	    $$(printf \
-	         "$${PWD}/%s " \
-	         $$(cat \
-	              "$${PWD}/package.json" | \
-	              jq \
-	                --raw-output \
-	                '.files[]')) \
-	    "$(LIB_DIR)/nodejs"; \
-	  $(_MAKE_EXE) \
-	    "$(LIB_DIR)/nodejs/$(_PROJECT_NPM)"; \
-	  rm \
-	    -vf \
-	    "$(BIN_DIR)/$(_PROJECT)"; \
-	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT)" ]]; then \
-	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs/$(_PROJECT_NPM)" \
-	      "$(BIN_DIR)/$(_PROJECT)"; \
-	  fi; \
-	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT_NPM)" && \
-	        ! -e "$(BIN_DIR)/$(_PROJECT_NPM)" ]]; then \
-	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs/$(_PROJECT_NPM)" \
-	      "$(BIN_DIR)/$(_PROJECT_NPM)"; \
-	  fi; \
-	  rm \
-	    "$(LIB_DIR)/node_modules" || \
-	    true; \
-	  if [[ ! -s "$(LIB_DIR)/node_modules" ]]; then \
-	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/node_modules" \
-	      "$(LIB_DIR)/nodejs/node_modules"; \
-	  fi; \
-	  rm \
-	    -rf \
-	    "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)" \
-	    "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)"; \
-	  if [[ ! -s "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)" ]]; then \
-	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs" \
-	      "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)"; \
-	  fi; \
-	  if [[ ! -s "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" ]]; then \
-	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs" \
-	      "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" || \
-	      true; \
-	  fi; \
-	elif [[ "$(_NPM)" == "true" ]]; then \
-	  make \
-	    install-npm; \
-	  $(_MAKE_LINK) \
-	    "$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" \
-	    "$(LIB_DIR)/nodejs" || \
-	  true; \
-	fi
-
 build-man:
 
 	git \
@@ -266,6 +190,82 @@ build-webpack:
 	cp \
 	  "lib$(_PROJECT).js" \
 	  "dist/lib$(_PROJECT)/lib$(_PROJECT).js"
+
+check: eslint
+
+eslint:
+
+	npm \
+	  install \
+	  --save-dev; \
+	npx \
+	  eslint \
+	    "."
+
+install: install-scripts install-doc install-examples install-man
+
+install-scripts:
+
+	if [[ "$(_NPM)" == "false" ]]; then \
+	  $(_INSTALL_DIR) \
+	    "$(LIB_DIR)/nodejs"; \
+	  cp \
+	    -r \
+	    $$(printf \
+	         "$${PWD}/%s " \
+	         $$(cat \
+	              "$${PWD}/package.json" | \
+	              jq \
+	                --raw-output \
+	                '.files[]')) \
+	    "$(LIB_DIR)/nodejs"; \
+	  $(_MAKE_EXE) \
+	    "$(LIB_DIR)/nodejs/$(_PROJECT_NPM)"; \
+	  rm \
+	    -vf \
+	    "$(BIN_DIR)/$(_PROJECT)"; \
+	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT)" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs/$(_PROJECT_NPM)" \
+	      "$(BIN_DIR)/$(_PROJECT)"; \
+	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT_NPM)" && \
+	        ! -e "$(BIN_DIR)/$(_PROJECT_NPM)" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs/$(_PROJECT_NPM)" \
+	      "$(BIN_DIR)/$(_PROJECT_NPM)"; \
+	  fi; \
+	  rm \
+	    "$(LIB_DIR)/node_modules" || \
+	    true; \
+	  if [[ ! -s "$(LIB_DIR)/node_modules" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/node_modules" \
+	      "$(LIB_DIR)/nodejs/node_modules"; \
+	  fi; \
+	  rm \
+	    -rf \
+	    "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)" \
+	    "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)"; \
+	  if [[ ! -s "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs" \
+	      "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)"; \
+	  fi; \
+	  if [[ ! -s "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT_NPM)/nodejs" \
+	      "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" || \
+	      true; \
+	  fi; \
+	elif [[ "$(_NPM)" == "true" ]]; then \
+	  make \
+	    install-npm; \
+	  $(_MAKE_LINK) \
+	    "$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" \
+	    "$(LIB_DIR)/nodejs" || \
+	  true; \
+	fi
 
 install-npm:
 
