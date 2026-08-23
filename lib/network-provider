@@ -239,7 +239,7 @@ function
            _target_network ];
 }
 
-function
+async function
   _rpc_auto_detect(
     _chain_id) {
   let
@@ -301,7 +301,7 @@ async function
       _msg_info(
         _msg);
       _target_network =
-        _rpc_auto_detect(
+        await _rpc_auto_detect(
           _chain_id);
     }
     else {
