@@ -126,7 +126,9 @@ in many ways.
 Check the Fur documentation for more information.
 
 The package has also been published
-on the NPM Registry as `evm-wallet.js`
+on the NPM Registry as
+[`evm-wallet.js`](
+  https://npmjs.com/packages/evm-wallet.js)
 and so it can be installed from there by typing
 
 ```bash
