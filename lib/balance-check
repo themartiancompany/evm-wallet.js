@@ -40,6 +40,11 @@ const
   _basename =
     _libcrash._basename;
 /* global
+     _cmdline_check */
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+/* global
      _dirname:
        writable */
 const
@@ -502,7 +507,9 @@ async function
 }
 
 if ( await _cmdline_check(
-       "balance-check") ) {
+       "balance-check") 
+     await _cmdline_check(
+       "") {
   _global_variables();
   _cmdline_parse();
   _config_show();
