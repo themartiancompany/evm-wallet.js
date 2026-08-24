@@ -59,6 +59,11 @@ const
   _echo =
     _libcrash._echo;
 /* global
+     _echo2 */
+const
+  _echo2 =
+    _libcrash._echo2;
+/* global
      _exit */
 const
   _exit =
@@ -343,7 +348,7 @@ async function
       _msg =
         `Error retrieving balance, ` +
         `retrying (${_retry} of ${_retries_max})`;
-      console.error(
+      _echo2(
         _err);
       _msg_error(
         _msg,
@@ -426,18 +431,15 @@ async function
     "30000");
 }
 
-async function
+function
   _config_show() {
   let
     _line;
   const
-    _argv =
-      await _argv_get();
-  const
     _program =
       _basename(
         _argv[
-          "$0"]);
+          "1"]);
   const
     _text = [
       `  ${_program} configuration:`,
@@ -468,13 +470,10 @@ function
       0;
   }
   const
-    _argv =
-      _argv_get();
-  const
     _program =
       _basename(
         _argv[
-          "$0"]);
+          "1"]);
   const
     _text = [
       "Usage:",
@@ -535,11 +534,10 @@ async function
     _msg;
   quiet =
     "y";
-  process.argv.forEach(
+  _argv.forEach(
     async function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
         quiet =
           _value;
