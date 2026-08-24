@@ -235,14 +235,22 @@ install-scripts:
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/$(_PROJECT)" \
 	      "$(BIN_DIR)/$(_PROJECT_NPM)"; \
 	  fi; \
-	    $(_MAKE_EXE) \
-	      "$(LIB_DIR)/nodejs/lib/address-get" \
-	      "$(BIN_DIR)/eoa-fingerprint"; \
 	  if [[ ! -s "$(BIN_DIR)/eoa-fingerprint" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/address-get" \
 	      "$(BIN_DIR)/eoa-fingerprint"; \
 	  fi; \
+	  $(_MAKE_EXE) \
+	    "$(LIB_DIR)/nodejs/lib/address-get" \
+	    "$(BIN_DIR)/eoa-fingerprint"; \
+	  if [[ ! -s "$(BIN_DIR)/gas-balance" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-get" \
+	      "$(BIN_DIR)/gas-balance"; \
+	  fi; \
+	  $(_MAKE_EXE) \
+	    "$(LIB_DIR)/nodejs/lib/balance-get" \
+	    "$(BIN_DIR)/gas-balance"; \
 	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT)" && \
 	        ! -e "$(BIN_DIR)/$(_PROJECT)" ]]; then \
 	    $(_MAKE_LINK) \
@@ -340,6 +348,8 @@ uninstall-scripts:
 	rm  \
 	  -vrf \
 	  "$(BIN_DIR)/$(_PROJECT_NPM)" \
+	  "$(BIN_DIR)/eoa-fingerprint" \
+	  "$(BIN_DIR)/gas-balance" \
 	  "$(LIB_DIR)/nodejs" \
 	  "$(DESTDIR)$(PREFIX)/lib/$(_PROJECT_NPM)" \
 	  "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" \

@@ -29,6 +29,11 @@ const
     await import(
       "libcrash-js");
 /* global
+     _argv */
+const
+  _argv =
+    _libcrash._argv;
+/* global
      _argv_get */
 const
   _argv_get =
@@ -48,6 +53,11 @@ const
 const
   _dirname =
     _libcrash._dirname;
+/* global
+     _echo */
+const
+  _echo =
+    _libcrash._echo;
 /* global
      _exit */
 const
@@ -472,12 +482,12 @@ function
       "    <quiet>",
       "    <seed-path>",
       "    <target-network>",
-      "    (<api-keys-path)",
-      "    (<target-address>)",
-      "    (<display-unit>)",
-      "    (<output-file>)",
-      "    (<retries-max>)",
-      "    (<call-timeout>)",
+      "  ( <api-keys-path",
+      "    <target-address>",
+      "    <display-unit>",
+      "    <output-file>",
+      "    <retries-max>",
+      "    <call-timeout> )",
       "",
       "Arguments:",
       "",
@@ -510,7 +520,7 @@ function
       `                      Default: ${call_timeout}`,
   ];
   for ( _line of _text ) {
-    console.log(
+    _echo(
       _line);
   }
   _exit(
@@ -597,17 +607,17 @@ async function
 async function
   _balance_get_cmdline(
     _app_opts) {
-  let
-    _balance;
   try {
-    _balance =
-      await _balance_get.apply(
-        null,
-        _app_opts);
-    console.log(
-      _balance.toString());
-    // process.stdout.write(
-    //   _balance.toString());
+    const
+      _balance =
+        await _balance_get.apply(
+          null,
+          _app_opts);
+    const
+      _balance_string =
+        _balance.toString();
+    _echo(
+      _balance_string);
     _exit(
       0);
   }
@@ -656,7 +666,7 @@ export {
 
 // Common Javascript exports
 
-module.exports = {
-  _balance_get:
-    _balance_get
-};
+// module.exports = {
+//   _balance_get:
+//     _balance_get
+// };

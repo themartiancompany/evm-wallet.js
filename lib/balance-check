@@ -35,6 +35,11 @@ const
   _argv =
     _libcrash._argv;
 /* global
+     _basename */
+const
+  _basename =
+    _libcrash._basename;
+/* global
      _dirname:
        writable */
 const
@@ -76,6 +81,12 @@ const
 const
   _msg_error =
     _libcrash._msg_error;
+/* global
+     _override_set:
+       writable */
+const
+  _override_set =
+    _libcrash._override_set;
 /* global
      _path_join:
        writable */
@@ -334,13 +345,14 @@ async function
 
 function
   _overrides_set() {
-  if ( measure_unit == "" ) {
-    measure_unit = "ether";
-  }
-  if ( retries_max == "" ) {
-    retries_max =
-      "3";
-  }
+  _override_set(
+    "measure",
+    "unit",
+    "ether");
+  _override_set(
+    "retries",
+    "max",
+    "3");
 }
 
 function
@@ -367,36 +379,41 @@ function
   _usage(
     _exit_code) {
   let
-    _line,
-    _text;
-  _text = [
-    "Checks if wallet balance is more or less than a given amount.",
-    "",
-    "Usage:",
-    "  balance-check",
-    "    <quiet>",
-    "    <seed-path>",
-    "    <amount>",
-    "    (<target-network>)",
-    "    (<api-key>)",
-    "    (<measure-unit>)",
-    "",
-    "Arguments:",
-    "  <seed-path>         Path on disk of the file",
-    "                      containing the seed phrase.",
-    "  <amount>            How much balance to send.",
-    "",
-    "Optional arguments:",
-    "  <target-network>    Name of the network to connect to.",
-    "  <api-key>           Path on disk of the API key for",
-    "                      the network service provider.",
-    "                      Default: the wallet address.",
-    "                      corresponding to the seed.",
-    "  <measure-unit>      Can be 'wei' or 'ether'.",
-    `                      Default: '${display_unit}'`,
-    "  <retries-max>       Maximum number of retries.",
-    `                      Default: ${retries_max}`,
-  ];
+    _line;
+  const
+    _program =
+      _basename(
+        _argv[
+          "$0"]);
+  const
+    _text = [
+      "Checks if wallet balance is more or less than a given amount.",
+      "",
+      "Usage:",
+      `  ${_program}`,
+      "    <quiet>",
+      "    <seed-path>",
+      "    <amount>",
+      "  ( <target-network>",
+      "    <api-key>",
+      "    <measure-unit> )",
+      "",
+      "Arguments:",
+      "  <seed-path>         Path on disk of the file",
+      "                      containing the seed phrase.",
+      "  <amount>            How much balance to send.",
+      "",
+      "Optional arguments:",
+      "  <target-network>    Name of the network to connect to.",
+      "  <api-key>           Path on disk of the API key for",
+      "                      the network service provider.",
+      "                      Default: the wallet address.",
+      "                      corresponding to the seed.",
+      "  <measure-unit>      Can be 'wei' or 'ether'.",
+      `                      Default: '${display_unit}'`,
+      "  <retries-max>       Maximum number of retries.",
+      `                      Default: ${retries_max}`,
+    ];
   for ( _line of _text ) {
     _echo(
       _line);
@@ -414,8 +431,7 @@ function
   _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
         quiet =
           _value;

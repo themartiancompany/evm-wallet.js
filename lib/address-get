@@ -261,7 +261,7 @@ function
   }
 }
 
-async function
+function
   _usage(
     _exit_code) {
   let
@@ -276,7 +276,7 @@ async function
     _program =
       _basename(
         _argv[
-          "$0"]);
+          0]);
   const
     _text = [
       "Returns the EOA fingerprint of a seed (the address)",
@@ -314,7 +314,6 @@ async function
   _exit(
     _exit_code);
 }
-
 
 function
   _cmdline_parse() {
@@ -360,7 +359,7 @@ function
     _msg_error(
       "No arguments given.",
       0);
-        _usage(
+    _usage(
       1);
   }
 }
@@ -385,7 +384,7 @@ async function
       await _address_get.apply(
         null,
         _app_opts);
-  console.log(
+  _echo(
     _address);
 }
 
