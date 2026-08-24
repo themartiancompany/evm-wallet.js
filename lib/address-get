@@ -276,7 +276,7 @@ function
     _program =
       _basename(
         _argv[
-          0]);
+          1]);
   const
     _text = [
       "Returns the EOA fingerprint of a seed (the address)",
