@@ -32,11 +32,17 @@ const
     await import(
       "libcrash-js");
 /* global
-     _argv_get:
+     _argv:
        writable */
 const
-  _argv_get =
-    _libcrash._argv_get;
+  _argv =
+    _libcrash._argv;
+/* global
+     _basename:
+       writable */
+const
+  _basename =
+    _libcrash._basename;
 /* global
      _cmdline_check:
        writable */
@@ -44,11 +50,23 @@ const
   _cmdline_check =
     _libcrash._cmdline_check;
 /* global
+     _echo:
+       writable */
+const
+  _echo =
+    _libcrash._echo;
+/* global
      _exit:
        writable */
 const
   _exit =
     _libcrash._exit;
+/* global
+     _global_get:
+       writable */
+const
+  _global_get =
+    _libcrash._global_get;
 /* global
      _msg_info:
        writable */
@@ -120,6 +138,10 @@ function
     "app",
     "name",
     "network-provider");
+  _set(
+    "app",
+    "opts",
+    []);
   _set(
     "target",
     "network",
@@ -474,15 +496,21 @@ async function
 function
   _config_show() {
   let
-    _line,
-    _text;
-  _text = [
-    `   Target network: ${target_network}`,
-    `          API Key: ${api_key}`,
-    `         Chain ID: ${chain_id}`,
-    `       Chain Name: ${chain_name}`,
-    `          Timeout: ${connection-timeout}`
-  ]
+    _line;
+  const
+    _program =
+      _basename(
+        _argv[
+          "1"]);
+  const
+    _text = [
+      `  ${_program} configuration:`,
+      `   Target network: ${target_network}`,
+      `          API Key: ${api_key}`,
+      `         Chain ID: ${chain_id}`,
+      `       Chain Name: ${chain_name}`,
+      `          Timeout: ${connection-timeout}`
+    ]
   for ( _line of _text ) {
     _msg_info(
       _line);
@@ -493,29 +521,36 @@ function
   _usage(
     _exit_code) {
   let
-    _line,
-    _text;
-  _text = [
-    "Usage:",
-    "  network-provider",
-    "    <target-network>",
-    "    <api-key-path>",
-    "    (<chain-id>)",
-    "    (<chain-name>)",
-    "",
-    "Args:",
-    "  <target-network>                 Network on which the transaction",
-    "                                   resides.",
-    "  <api-key-path>                   Path of the API key for the",
-    "                                   contract ABI provider service.",
-    "  <chain-id>                       Chain ID for the network.",
-    "  <chain-name>                     Name for the network.",
-    "",
-    "  Options:",
-    "    -h                             This help."
-  ];
+    _line;
+  const
+    _program =
+      _basename(
+        _argv[
+          1]);
+  const
+    _text = [
+      "",
+      "Usage:",
+      `  ${program}`,
+      "    <target-network>",
+      "    <api-key-path>",
+      "  ( <chain-id>",
+      "    <chain-name> )",
+      "",
+      "Args:",
+      "  <target-network>                 Network on which the transaction",
+      "                                   resides.",
+      "  <api-key-path>                   Path of the API key for the",
+      "                                   contract ABI provider service.",
+      "  <chain-id>                       Chain ID for the network.",
+      "  <chain-name>                     Name for the network.",
+      "",
+      "  Options:",
+      "    -h                             This help.",
+      ""
+    ];
   for ( _line of _text ) {
-    console.log(
+    _echo(
       _line);
   }
   if ( -1 < _exit_code ) {
@@ -524,36 +559,42 @@ function
   }
 }
 
-async function
+function
   _cmdline_parse() {
   quiet =
     "y";
-  const
-    _argv =
-      await _argv_get();
   _argv.forEach(
     function (
       _value,
       _index) {
       if ( _index == 2 ) {
-        target_network =
-          _value;
+        _set(
+          "target",
+          "network",
+          _value);
       }
       if ( _index == 3 ) {
-        api_key =
-          _value;
+        _set(
+          "api",
+          "key",
+          _value);
       }
       if ( _index == 4 ) {
-        chain_id =
-          _value;
+        _set(
+          "chain",
+          "id",
+          _value);
       }
       if ( _index == 5 ) {
-        chain_name =
-          _value;
+        _set(
+          "chain",
+          "name",
+          _value);
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
-        quiet =
+        _global[
+          "quiet"] =
           "n";
         _usage(
           0);
@@ -561,14 +602,15 @@ async function
     }
   );
   if ( target_network == "" ) {
-    quiet =
+    _global[
+      "quiet"] =
       "n";
     _usage(
       1);
   }
 }
 
-async function
+function
   _overrides_set() {
   _override_set(
     "target",
@@ -583,8 +625,8 @@ async function
 if ( await _cmdline_check(
        "network-provider") ) {
   _global_variables();
-  await _cmdline_parse();
-  await _overrides_set();
+  _cmdline_parse();
+  _overrides_set();
   _config_show();
   app_opts = [
     target_network,

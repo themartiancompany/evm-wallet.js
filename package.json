@@ -89,7 +89,7 @@
     "ethers":
       "^6.13.2",
     "libevm":
-      "^0.0.35",
+      "^0.0.36",
     "yargs":
       "18.0.0"
   },
@@ -101,7 +101,7 @@
     "evm-wallet":
       "./libevm-wallet",
     "libevm":
-      "^0.0.35"
+      "^0.0.36"
   },
   "type":
     "module",
@@ -111,17 +111,43 @@
     { 
       "block":
         "lib/block-get",
+      "block.js":
+        "lib/block-get",
       "block-number":
         "lib/block-number-get",
+      "block-number.js":
+        "lib/block-number-get",
+      "eoa-fingerprint":
+        "lib/address-get",
+      "eoa-fingerprint.js":
+        "lib/address-get",
       "evm-wallet":
         "evm-wallet",
       "evm-wallet.js":
         "evm-wallet",
-      "eoa-fingerprint":
-        "lib/address-get",
+      "ether2wei":
+        "lib/ethers-to-wei",
+      "ether2wei.js":
+        "lib/ethers-to-wei",
+      "ether-to-wei":
+        "lib/ethers-to-wei",
+      "ether-to-wei.js":
+        "lib/ethers-to-wei",
+      "ethers-to-wei":
+        "lib/ethers-to-wei",
+      "ethers-to-wei.js":
+        "lib/ethers-to-wei",
       "gas-balance":
         "lib/balance-get",
+      "gas-balance.js":
+        "lib/balance-get",
+      "gas-level":
+        "lib/balance-get",
+      "gas-level.js":
+        "lib/balance-get",
       "gas-transfer":
+        "lib/balance-send",
+      "gas-transfer.js":
         "lib/balance-send"
     },
   "yargs": {

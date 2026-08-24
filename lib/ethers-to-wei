@@ -29,11 +29,11 @@ const
     await import(
       "libcrash-js");
 /* global
-     _argv_get:
+     _argv:
        writable */
 const
-  _argv_get =
-    _libcrash._argv_get;
+  _argv =
+    _libcrash._argv;
 /* global
      _cmdline_check:
        writable */
@@ -47,11 +47,17 @@ const
   _echo =
     _libcrash._echo;
 /* global
-     _msg_info:
+     _exit:
        writable */
 const
-  _msg_info =
-    _libcrash._msg_info;
+  _exit =
+    _libcrash._exit;
+/* global
+     _global_get:
+       writable */
+const
+  _global_get =
+    _libcrash._global_get;
 /* global
      _msg_error:
        writable */
@@ -59,11 +65,23 @@ const
   _msg_error =
     _libcrash._msg_error;
 /* global
+     _msg_info:
+       writable */
+const
+  _msg_info =
+    _libcrash._msg_info;
+/* global
      _require:
        writable */
 const
   _require =
     _libcrash._require;
+/* global
+     _set:
+       writable */
+const
+  _set =
+    _libcrash._set;
 const
   _ethers_module =
     await _require(
@@ -88,11 +106,19 @@ const
 
 function
   _global_variables() {
-  app_name =
-    "ethers-to-wei";
-  ethers_input =
-    "";
-  quiet =
+  _set(
+    "app",
+    "name",
+    "ethers-to-wei");
+  _set(
+    "ethers",
+    "input",
+    "");
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "";
 }
 
@@ -132,68 +158,98 @@ function
   _usage(
     _exit_code) {
   let
-    _line,
-    _text;
-  _text = [
-    "Usage:",
-    "  ethers-to-wei",
-    "    <ethers-input>"
-  ];
+    _line;
+  const
+    _program =
+      _basename(
+        _argv[
+          "1"]);
+  const
+    _text = [
+      "",
+      "Converts ethers in wei",
+      "",
+      "Usage:",
+      `  ${_program}`,
+      "    <ethers-input>",
+      ""
+    ];
   for ( _line of _text ) {
-    _msg_info(
+    _echo(
       _line);
   }
-  process.exit(
+  _exit(
     _exit_code);
 }
 
 
 async function
   _cmdline_parse() {
-  quiet =
-    "y";
   const
-    _argv =
-      await _argv_get();
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
+    "y";
   _argv.forEach(
     function (
       _value,
       _index) {
       if ( _index == 2 ) {
-        ethers_input =
-          _value;
+        _set(
+          "ethers",
+          "input",
+          _value);
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
-        quiet =
+        _global[
+          "quiet"] =
           "n";
         _usage(
           0);
       }
   });
-  if ( ethers_input == "" ) {
+  const
+    _ethers_input =
+      _get(
+        "ethers",
+        "input");
+  if ( _ethers_input == "" ) {
     const
       _msg =
         "No arguments given.";
     _msg_error(
       _msg,
       0);
-    quiet =
+    _global[
+      "quiet"] =
       "n";
     _usage(
       0);
   }
 }
 
-if ( _cmdline_check(
-       "ethers-to-wei") ) {
+if ( await _cmdline_check(
+       "ethers-to-wei") ||
+     await _cmdline_check(
+       "ethers-to-wei.js") ||
+     await _cmdline_check(
+       "ether-to-wei") ||
+     await _cmdline_check(
+       "ether-to-wei.js") ||
+     await _cmdline_check(
+       "ether2wei") ||
+     await _cmdline_check(
+       "ether2wei.js") ) {
   _global_variables();
-  await _cmdline_parse();
-  await _config_show();
-  _wei =
-    String(
-      _ethers_to_wei(
-        ethers_input));
+  _cmdline_parse();
+  _config_show();
+  const
+    _wei =
+      String(
+        _ethers_to_wei(
+          ethers_input));
   _echo(
     _wei);
 }

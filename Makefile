@@ -240,22 +240,102 @@ install-scripts:
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/block-get" \
 	      "$(BIN_DIR)/block"; \
 	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/block.js" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/block-get" \
+	      "$(BIN_DIR)/block.js"; \
+	  fi; \
 	  $(_MAKE_EXE) \
 	    "$(LIB_DIR)/nodejs/lib/block-get"; \
+	  if [[ ! -s "$(BIN_DIR)/block-number" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/block-number-get" \
+	      "$(BIN_DIR)/block-number"; \
+	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/block-number.js" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/block-number-get" \
+	      "$(BIN_DIR)/block-number.js"; \
+	  fi; \
+	  $(_MAKE_EXE) \
+	    "$(LIB_DIR)/nodejs/lib/block-number-get"; \
 	  if [[ ! -s "$(BIN_DIR)/eoa-fingerprint" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/address-get" \
 	      "$(BIN_DIR)/eoa-fingerprint"; \
 	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/eoa-fingerprint.js" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/address-get" \
+	      "$(BIN_DIR)/eoa-fingerprint.js"; \
+	  fi; \
 	  $(_MAKE_EXE) \
 	    "$(LIB_DIR)/nodejs/lib/address-get"; \
+	  if [[ ! -s "$(BIN_DIR)/ether-to-wei" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/ethers-to-wei" \
+	      "$(BIN_DIR)/ether-to-wei"; \
+	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/ether2wei" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/ethers-to-wei" \
+	      "$(BIN_DIR)/ether2wei"; \
+	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/ether2wei.js" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/ethers-to-wei" \
+	      "$(BIN_DIR)/ether2wei.js"; \
+	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/ether-to-wei.js" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/ethers-to-wei" \
+	      "$(BIN_DIR)/ether-to-wei.js"; \
+	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/ethers-to-wei" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/ethers-to-wei" \
+	      "$(BIN_DIR)/ethers-to-wei"; \
+	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/ethers-to-wei.js" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/ethers-to-wei" \
+	      "$(BIN_DIR)/ethers-to-wei.js"; \
+	  fi; \
+	  $(_MAKE_EXE) \
+	    "$(LIB_DIR)/nodejs/lib/ethers-to-wei"; \
 	  if [[ ! -s "$(BIN_DIR)/gas-balance" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-get" \
 	      "$(BIN_DIR)/gas-balance"; \
 	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/gas-balance.js" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-get" \
+	      "$(BIN_DIR)/gas-balance.js"; \
+	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/gas-balance" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-get" \
+	      "$(BIN_DIR)/gas-balance"; \
+	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/gas-level" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-get" \
+	      "$(BIN_DIR)/gas-level"; \
+	  if [[ ! -s "$(BIN_DIR)/gas-level.js" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-send" \
+	      "$(BIN_DIR)/gas-level.js"; \
+	  fi; \
 	  $(_MAKE_EXE) \
 	    "$(LIB_DIR)/nodejs/lib/balance-get"; \
+	  if [[ ! -s "$(BIN_DIR)/gas-transfer.js" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-send" \
+	      "$(BIN_DIR)/gas-transfer.js"; \
+	  fi; \
+	  $(_MAKE_EXE) \
+	    "$(LIB_DIR)/nodejs/lib/balance-send"; \
 	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT)" && \
 	        ! -e "$(BIN_DIR)/$(_PROJECT)" ]]; then \
 	    $(_MAKE_LINK) \
@@ -352,9 +432,11 @@ uninstall-scripts:
 
 	rm  \
 	  -vrf \
+	  "$(BIN_DIR)/block"{"",".js"} \
+	  "$(BIN_DIR)/block-number"{"",".js"} \
 	  "$(BIN_DIR)/$(_PROJECT_NPM)" \
-	  "$(BIN_DIR)/eoa-fingerprint" \
-	  "$(BIN_DIR)/gas-balance" \
+	  "$(BIN_DIR)/eoa-fingerprint"{"",".js"} \
+	  "$(BIN_DIR)/gas-balance"{"",".js"} \
 	  "$(LIB_DIR)/nodejs" \
 	  "$(DESTDIR)$(PREFIX)/lib/$(_PROJECT_NPM)" \
 	  "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" \
