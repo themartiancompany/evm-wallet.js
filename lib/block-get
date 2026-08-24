@@ -31,6 +31,11 @@ const
     await import(
       "libcrash-js");
 /* global
+     _argv */
+const
+  _argv =
+    _libcrash._argv;
+/* global
      _argv_get */
 const
   _argv_get =
@@ -51,6 +56,11 @@ const
   _dirname =
     _libcrash._dirname;
 /* global
+     _echo */
+const
+  _echo =
+    _libcrash._echo;
+/* global
      _exit */
 const
   _exit =
@@ -70,6 +80,11 @@ const
 const
   _file_write =
     _libcrash._file_write;
+/* global
+     _global_get */
+const
+  _global_get =
+    _libcrash._global_get;
 /* global
      _msg_info */
 const
@@ -95,6 +110,11 @@ const
 const
   _path_join =
     _libcrash._path_join;
+/* global
+     _set */
+const
+  _set =
+    _libcrash._set;
 const
   _network_provider =
     await import(
@@ -112,21 +132,43 @@ const
 
 function
   _global_variables() {
-  app_name =
-    "block-get";
-  target_network =
-    "";
-  api_key_path =
-    "";
-  chain_id =
-    "";
-  chain_name =
-    "";
-  output_type =
-    "";
-  output_file =
-    "";
-  quiet =
+  _set(
+    "app",
+    "name",
+    "block-get");
+  _set(
+    "app",
+    "opts",
+    []);
+  _set(
+    "target",
+    "network",
+    "");
+  _set(
+    "api_key",
+    "path",
+    "");
+  _set(
+    "chain",
+    "id",
+    "");
+  _set(
+    "chain",
+    "name",
+    "");
+  _set(
+    "output",
+    "type",
+    "");
+  _set(
+    "output",
+    "file",
+    "");
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "";
 }
 
@@ -175,10 +217,11 @@ async function
     _chain_id,
     _chain_name
   ];
-  _provider =
-    _provider_get.apply(
-      null,
-      _provider_get_opts);
+  const
+    _provider =
+      await _provider_get.apply(
+        null,
+        _provider_get_opts);
   _msg_info_provider_generated(
     _provider);
   const
@@ -205,14 +248,16 @@ async function
 function
   _config_show() {
   let
-    _line,
-    _text;
-  _text = [
-    `  ${app_name} configuration:`,
-    `   Target network: ${target_network}`,
-    `          API key: ${api_key_path}`,
-    `      Output file: ${output_file}`,
-  ]
+    _line;
+  const
+    _text = [
+      `  ${app_name} configuration:`,
+      `   Target network: ${target_network}`,
+      `         Chain ID: ${chain_id}`,
+      `  Blockchain name: ${chain_name}`,
+      `          API key: ${api_key_path}`,
+      `      Output file: ${output_file}`,
+    ]
   for ( _line of _text ) {
     _msg_info(
       _line);
@@ -269,7 +314,7 @@ function
       ""
     ];
   for ( _line of _text ) {
-    console.log(
+    _echo(
       _line);
   }
   if ( -1 < _exit_code ) {
@@ -282,11 +327,10 @@ function
 function _cmdline_parse() {
   quiet =
     "y";
-  process.argv.forEach(
+  _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
         quiet =
           _value;
@@ -302,6 +346,11 @@ function _cmdline_parse() {
       if ( _index == 5 ) {
         output_file =
           _value;
+      }
+      if ( _value == "-v" ||
+           _value == "--verbose" ) {
+        quiet =
+          "n";
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
@@ -320,7 +369,6 @@ function
     "chain",
     "id",
     "100");
-  }
 }
 
 async function 
@@ -331,13 +379,13 @@ async function
       await _block_get.apply(
         null,
         _app_opts);
-  console.log(
+  _echo(
     _block);
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "block-get") ||
-     _cmdline_check(
+     await _cmdline_check(
        "block") ) {
   _global_variables();
   _cmdline_parse();

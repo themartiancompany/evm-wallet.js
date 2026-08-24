@@ -40,7 +40,7 @@ BUILD_NPM_DIR=build
 
 _MAKE_LINK=\
   ln \
-    -s
+    -sv
 _MAKE_EXE=\
   chmod \
     755
@@ -235,22 +235,27 @@ install-scripts:
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/$(_PROJECT)" \
 	      "$(BIN_DIR)/$(_PROJECT_NPM)"; \
 	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/block" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/block-get" \
+	      "$(BIN_DIR)/block"; \
+	  fi; \
+	  $(_MAKE_EXE) \
+	    "$(LIB_DIR)/nodejs/lib/block-get"; \
 	  if [[ ! -s "$(BIN_DIR)/eoa-fingerprint" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/address-get" \
 	      "$(BIN_DIR)/eoa-fingerprint"; \
 	  fi; \
 	  $(_MAKE_EXE) \
-	    "$(LIB_DIR)/nodejs/lib/address-get" \
-	    "$(BIN_DIR)/eoa-fingerprint"; \
+	    "$(LIB_DIR)/nodejs/lib/address-get"; \
 	  if [[ ! -s "$(BIN_DIR)/gas-balance" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-get" \
 	      "$(BIN_DIR)/gas-balance"; \
 	  fi; \
 	  $(_MAKE_EXE) \
-	    "$(LIB_DIR)/nodejs/lib/balance-get" \
-	    "$(BIN_DIR)/gas-balance"; \
+	    "$(LIB_DIR)/nodejs/lib/balance-get"; \
 	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT)" && \
 	        ! -e "$(BIN_DIR)/$(_PROJECT)" ]]; then \
 	    $(_MAKE_LINK) \

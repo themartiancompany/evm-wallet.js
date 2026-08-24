@@ -273,6 +273,7 @@ async function
   _rpc_auto_detect(
     _chain_id) {
   let
+    _target_network,
     _target_networks;
   const
     _libevm_module =
@@ -333,6 +334,10 @@ async function
       _target_network =
         await _rpc_auto_detect(
           _chain_id);
+      _msg =
+        `Obtained RPC '${_target_network}'.`;
+      _msg_info(
+        _msg);
     }
     else {
       _msg =

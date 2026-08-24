@@ -79,10 +79,15 @@ const
   _file_write =
     _libcrash._file_write;
 /* global
-     _override_set */
+     _global_get */
 const
-  _override_set =
-    _libcrash._override_set;
+  _global_get =
+    _libcrash._global_get;
+/* global
+     _msg_error */
+const
+  _msg_error =
+    _libcrash._msg_error;
 /* global
      _msg_info */
 const
@@ -94,10 +99,10 @@ const
   _msg_info_obj =
     _libcrash._msg_info_obj;
 /* global
-     _msg_error */
+     _override_set */
 const
-  _msg_error =
-    _libcrash._msg_error;
+  _override_set =
+    _libcrash._override_set;
 /* global
      _path_join */
 const
@@ -113,6 +118,11 @@ const
 const
   _run =
     _libcrash._run;
+/* global
+     _set */
+const
+  _set =
+    _libcrash._set;
 /* global
      _sleep */
 const
@@ -158,50 +168,69 @@ const
 
 function
   _global_variables() {
-  app_name =
-    "balance-get";
+  _set(
+    "app",
+    "name",
+    "balance-get");
   /* global
        wallet_seed:
          writable */
-  wallet_seed =
-    "";
+  _set(
+    "wallet",
+    "seed",
+    "");
   /* global
        target_network:
          writable */
-  target_network =
-    "";
+  _set(
+    "target",
+    "network",
+    "");
   /* global
        api_key:
          writable */
-  api_key =
-    "";
+  _set(
+    "api",
+    "key",
+    "");
   /* global
        target_address:
          writable */
-  target_address =
-    "";
+  _set(
+    "target",
+    "address",
+    "");
   /* global
        display_unit:
          writable */
-  display_unit =
-    "";
+  _set(
+    "display",
+    "unit",
+    "");
   /* global
        output_file:
          writable */
-  output_file =
-    "";
+  _set(
+    "output",
+    "file",
+    "");
   /* global
        retries_max:
          writable */
-  retries_max =
-    "";
+  _set(
+    "retries",
+    "max",
+    "");
   /* global
        quiet:
          writable */
-  quiet =
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "";
 }
-
 
 async function
   _balance_get(
@@ -412,10 +441,12 @@ async function
     const
       _rpc_get =
         _libevm_module._rpc_get;
-    target_network =
+    _set(
+      "target",
+      "network",
       _rpc_get(
         [ target_network ])[
-        target_network];
+        target_network]);
   }
   _override_set(
     "display",
@@ -476,6 +507,9 @@ function
           "1"]);
   const
     _text = [
+      "",
+      "Returns gas balance for an Ethereum External Owner Account (EOA)",
+      "",
       "Usage:",
       `  ${_program}`,
       "    <quiet>",
@@ -517,6 +551,7 @@ function
       "",
       "  <call-timeout>      Timeout before declaring the call failed.",
       `                      Default: ${call_timeout}`,
+      "",
   ];
   for ( _line of _text ) {
     _echo(
