@@ -32,6 +32,12 @@ const
     await import(
       "libcrash-js");
 /* global
+     _argv_get:
+       writable */
+const
+  _argv_get =
+    _libcrash._argv_get;
+/* global
      _cmdline_check:
        writable */
 const
@@ -56,11 +62,23 @@ const
   _msg_error =
     _libcrash._msg_error;
 /* global
+     _override_set:
+       writable */
+const
+  _override_set =
+    _libcrash._override_set;
+/* global
      _require:
        writable */
 const
   _require =
     _libcrash._require;
+/* global
+     _set:
+       writable */
+const
+  _set =
+    _libcrash._set;
 const
   _ethers_module =
     await _require(
@@ -98,18 +116,30 @@ const
 
 function
   _global_variables() {
-  app_name =
-    "network-provider";
-  target_network =
-    "";
-  api_key =
-    "";
-  chain_id =
-    "";
-  chain_name =
-    "";
-  connection_timeout =
-    "";
+  _set(
+    "app",
+    "name",
+    "network-provider");
+  _set(
+    "target",
+    "network",
+    "");
+  _set(
+    "api",
+    "key",
+    "");
+  _set(
+    "chain",
+    "id",
+    "");
+  _set(
+    "chain",
+    "name",
+    "");
+  _set(
+    "connection",
+    "timeout",
+    "");
 }
 
 function
@@ -489,15 +519,17 @@ function
   }
 }
 
-function
+async function
   _cmdline_parse() {
   quiet =
     "y";
-  process.argv.forEach(
+  const
+    _argv =
+      await _argv_get();
+  _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
         target_network =
           _value;
@@ -531,24 +563,23 @@ function
   }
 }
 
-function
+async function
   _overrides_set() {
-  if ( target_network == "" ) {
-    // But really.
-    target_network =
-      "gnosis";
-  }
-  if ( connection_timeout == "" ) {
-    connection_timeout =
-      "300000";
-  }
+  _override_set(
+    "target",
+    "network",
+    "gnosis");
+  _override_set(
+    "connection",
+    "timeout",
+    "300000");
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "network-provider") ) {
   _global_variables();
-  _cmdline_parse();
-  _overrides_set();
+  await _cmdline_parse();
+  await _overrides_set();
   _config_show();
   app_opts = [
     target_network,

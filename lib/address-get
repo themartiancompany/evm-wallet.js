@@ -29,10 +29,10 @@ const
     await import(
       "libcrash-js");
 /* global
-     _argv_get */
+     _argv */
 const
-  _argv_get =
-    _libcrash._argv_get;
+  _argv =
+    _libcrash._argv;
 /* global
      _basename */
 const
@@ -49,6 +49,11 @@ const
   _dirname =
     _libcrash._dirname;
 /* global
+     _echo */
+const
+  _echo =
+    _libcrash._echo;
+/* global
      _exit */
 const
   _exit =
@@ -63,6 +68,11 @@ const
 const
   _file_write =
     _libcrash._file_write;
+/* global
+     _global_get */
+const
+  _global_get =
+    _libcrash._global_get;
 /* global
      _msg_info */
 const
@@ -88,6 +98,12 @@ const
 const
   _path_join =
     _libcrash._path_join;
+/* global
+     _set */
+const
+  _set =
+    _libcrash._set;
+
 const
   _wallet_get_module =
     await import(
@@ -114,21 +130,39 @@ const
 
 function
   _global_variables() {
-  app_name =
-    "address-get";
-  wallet_seed =
-    "";
-  target_network =
-    "";
-  api_key_path =
-    "";
-  chain_id =
-    "";
-  chain_name =
-    "";
-  output_file =
-    "";
-  quiet =
+  _set(
+    "app",
+    "name",
+    "address-get");
+  _set(
+    "wallet",
+    "seed",
+    "");
+  _set(
+    "target",
+    "network",
+    "");
+  _set(
+    "api_key",
+    "path",
+    "");
+  _set(
+    "chain",
+    "id",
+    "");
+  _set(
+    "chain",
+    "name",
+    "");
+  _set(
+    "output",
+    "file",
+    "");
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "";
 }
 
@@ -212,22 +246,22 @@ async function
 function
   _config_show() {
   let
-    _line,
-    _text;
-  _text = [
-    `  ${app_name} configuration:`,
-    `      Wallet seed: ${wallet_seed}`,
-    `   Target network: ${target_network}`,
-    `          API key: ${api_key_path}`,
-    `      Output file: ${output_file}`,
-  ]
+    _line;
+  const
+    _text = [
+      `  ${app_name} configuration:`,
+      `      Wallet seed: ${wallet_seed}`,
+      `   Target network: ${target_network}`,
+      `          API key: ${api_key_path}`,
+      `      Output file: ${output_file}`,
+    ];
   for ( _line of _text ) {
     _msg_info(
       _line);
   }
 }
 
-function
+async function
   _usage(
     _exit_code) {
   let
@@ -238,9 +272,6 @@ function
     _exit_code =
       0;
   }
-  const
-    _argv =
-      _argv_get();
   const
     _program =
       _basename(
@@ -277,7 +308,7 @@ function
       ""
     ];
   for ( _line of _text ) {
-    console.log(
+    _echo(
       _line);
   }
   _exit(
@@ -289,11 +320,10 @@ function
   _cmdline_parse() {
   quiet =
     "y";
-  process.argv.forEach(
+  _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
         quiet =
           _value;
@@ -330,7 +360,7 @@ function
     _msg_error(
       "No arguments given.",
       0);
-    _usage(
+        _usage(
       1);
   }
 }
@@ -359,9 +389,9 @@ async function
     _address);
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "address-get") ||
-     _cmdline_check(
+     await _cmdline_check(
        "eoa-fingerprint") ) {
   _global_variables();
   _cmdline_parse();

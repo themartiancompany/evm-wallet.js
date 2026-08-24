@@ -235,6 +235,14 @@ install-scripts:
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/$(_PROJECT)" \
 	      "$(BIN_DIR)/$(_PROJECT_NPM)"; \
 	  fi; \
+	    $(_MAKE_EXE) \
+	      "$(LIB_DIR)/nodejs/lib/address-get" \
+	      "$(BIN_DIR)/eoa-fingerprint"; \
+	  if [[ ! -s "$(BIN_DIR)/eoa-fingerprint" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/address-get" \
+	      "$(BIN_DIR)/eoa-fingerprint"; \
+	  fi; \
 	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT)" && \
 	        ! -e "$(BIN_DIR)/$(_PROJECT)" ]]; then \
 	    $(_MAKE_LINK) \

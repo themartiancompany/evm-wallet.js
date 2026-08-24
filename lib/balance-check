@@ -30,11 +30,22 @@ const
     await import(
       "libcrash-js");
 /* global
+     _argv */
+const
+  _argv =
+    _libcrash._argv;
+/* global
      _dirname:
        writable */
 const
   _dirname =
     _libcrash._dirname;
+/* global
+     _echo:
+       writable */
+const
+  _echo =
+    _libcrash._echo;
 /* global
      _exit:
        writable */
@@ -47,12 +58,6 @@ const
 const
   _file_read =
     _libcrash._file_read;
-/* global
-     _path_join:
-       writable */
-const
-  _path_join =
-    _libcrash._path_join;
 /* global
      _msg_info:
        writable */
@@ -71,6 +76,18 @@ const
 const
   _msg_error =
     _libcrash._msg_error;
+/* global
+     _path_join:
+       writable */
+const
+  _path_join =
+    _libcrash._path_join;
+/* global
+     _printf:
+       writable */
+const
+  _printf =
+    _libcrash._printf;
 /* global
      _require:
        writable */
@@ -381,7 +398,7 @@ function
     `                      Default: ${retries_max}`,
   ];
   for ( _line of _text ) {
-    console.log(
+    _echo(
       _line);
   }
   _exit(
@@ -394,7 +411,7 @@ function
     _msg;
   quiet =
     "y";
-  process.argv.forEach(
+  _argv.forEach(
     function (
       _value,
       _index,
@@ -448,15 +465,17 @@ function
 async function
   _balance_check_cmdline(
     _app_opts) {
-  let
-    _check;
   try {
-    _check =
-      await _balance_check.apply(
-        null,
-        _app_opts);
-    process.stdout.write(
-      _check.toString());
+    const
+      _check =
+        await _balance_check.apply(
+          null,
+          _app_opts);
+    const
+      _check_string =
+        _check.toString();
+    _printf(
+      _check_string);
   }
   catch(
     _error) {
@@ -466,7 +485,7 @@ async function
   }
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "balance-check") ) {
   _global_variables();
   _cmdline_parse();
