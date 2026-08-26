@@ -214,7 +214,9 @@ install-scripts:
 
 	if [[ "$(_NPM)" == "false" ]]; then \
 	  $(_INSTALL_DIR) \
-	    "$(LIB_DIR)/nodejs"; \
+	    "$(LIB_DIR)/nodejs" \
+	  $(_INSTALL_DIR) \
+	    "$(BIN_DIR)"; \
 	  cp \
 	    -r \
 	    $$(printf \
@@ -230,11 +232,19 @@ install-scripts:
 	  rm \
 	    -vf \
 	    "$(BIN_DIR)/$(_PROJECT_NPM)"; \
+	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT)" && \
+	        ! -e "$(BIN_DIR)/$(_PROJECT)" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/$(_PROJECT)" \
+	      "$(BIN_DIR)/$(_PROJECT)"; \
+	  fi; \
 	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT_NPM)" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/$(_PROJECT)" \
 	      "$(BIN_DIR)/$(_PROJECT_NPM)"; \
 	  fi; \
+	  $(_MAKE_EXE) \
+	    "$(LIB_DIR)/nodejs/lib/block-get"; \
 	  if [[ ! -s "$(BIN_DIR)/block" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/block-get" \
@@ -246,19 +256,19 @@ install-scripts:
 	      "$(BIN_DIR)/block.js"; \
 	  fi; \
 	  $(_MAKE_EXE) \
-	    "$(LIB_DIR)/nodejs/lib/block-get"; \
-	  if [[ ! -s "$(BIN_DIR)/block-number" ]]; then \
-	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/block-number-get" \
-	      "$(BIN_DIR)/block-number"; \
-	  fi; \
+	    "$(LIB_DIR)/nodejs/lib/block-number-get"; \
 	  if [[ ! -s "$(BIN_DIR)/block-number.js" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/block-number-get" \
 	      "$(BIN_DIR)/block-number.js"; \
 	  fi; \
+	  if [[ ! -s "$(BIN_DIR)/block-number" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/block-number-get" \
+	      "$(BIN_DIR)/block-number"; \
+	  fi; \
 	  $(_MAKE_EXE) \
-	    "$(LIB_DIR)/nodejs/lib/block-number-get"; \
+	    "$(LIB_DIR)/nodejs/lib/address-get"; \
 	  if [[ ! -s "$(BIN_DIR)/eoa-fingerprint" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/address-get" \
@@ -270,7 +280,7 @@ install-scripts:
 	      "$(BIN_DIR)/eoa-fingerprint.js"; \
 	  fi; \
 	  $(_MAKE_EXE) \
-	    "$(LIB_DIR)/nodejs/lib/address-get"; \
+	    "$(LIB_DIR)/nodejs/lib/ethers-to-wei"; \
 	  if [[ ! -s "$(BIN_DIR)/ether-to-wei" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/ethers-to-wei" \
@@ -302,7 +312,7 @@ install-scripts:
 	      "$(BIN_DIR)/ethers-to-wei.js"; \
 	  fi; \
 	  $(_MAKE_EXE) \
-	    "$(LIB_DIR)/nodejs/lib/ethers-to-wei"; \
+	    "$(LIB_DIR)/nodejs/lib/balance-get"; \
 	  if [[ ! -s "$(BIN_DIR)/gas-balance" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-get" \
@@ -313,34 +323,27 @@ install-scripts:
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-get" \
 	      "$(BIN_DIR)/gas-balance.js"; \
 	  fi; \
-	  if [[ ! -s "$(BIN_DIR)/gas-balance" ]]; then \
-	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-get" \
-	      "$(BIN_DIR)/gas-balance"; \
-	  fi; \
 	  if [[ ! -s "$(BIN_DIR)/gas-level" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-get" \
 	      "$(BIN_DIR)/gas-level"; \
+	  fi; \
 	  if [[ ! -s "$(BIN_DIR)/gas-level.js" ]]; then \
 	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-send" \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-get" \
 	      "$(BIN_DIR)/gas-level.js"; \
 	  fi; \
 	  $(_MAKE_EXE) \
-	    "$(LIB_DIR)/nodejs/lib/balance-get"; \
+	    "$(LIB_DIR)/nodejs/lib/balance-send"; \
+	  if [[ ! -s "$(BIN_DIR)/gas-transfer" ]]; then \
+	    $(_MAKE_LINK) \
+	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-send" \
+	      "$(BIN_DIR)/gas-transfer"; \
+	  fi; \
 	  if [[ ! -s "$(BIN_DIR)/gas-transfer.js" ]]; then \
 	    $(_MAKE_LINK) \
 	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/lib/balance-send" \
 	      "$(BIN_DIR)/gas-transfer.js"; \
-	  fi; \
-	  $(_MAKE_EXE) \
-	    "$(LIB_DIR)/nodejs/lib/balance-send"; \
-	  if [[ ! -s "$(BIN_DIR)/$(_PROJECT)" && \
-	        ! -e "$(BIN_DIR)/$(_PROJECT)" ]]; then \
-	    $(_MAKE_LINK) \
-	      "$(PREFIX)/lib/$(_PROJECT)/nodejs/$(_PROJECT)" \
-	      "$(BIN_DIR)/$(_PROJECT)"; \
 	  fi; \
 	  rm \
 	    "$(LIB_DIR)/node_modules" || \
@@ -437,6 +440,8 @@ uninstall-scripts:
 	  "$(BIN_DIR)/$(_PROJECT_NPM)" \
 	  "$(BIN_DIR)/eoa-fingerprint"{"",".js"} \
 	  "$(BIN_DIR)/gas-balance"{"",".js"} \
+	  "$(BIN_DIR)/gas-level"{"",".js"} \
+	  "$(BIN_DIR)/gas-transfer"{"",".js"} \
 	  "$(LIB_DIR)/nodejs" \
 	  "$(DESTDIR)$(PREFIX)/lib/$(_PROJECT_NPM)" \
 	  "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" \
