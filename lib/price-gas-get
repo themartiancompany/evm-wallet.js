@@ -481,7 +481,7 @@ function
   const
     _text = [
       "",
-      "Returns gas price for an EVM network."
+      "Returns gas price for an EVM network.",
       "",
       "Usage:",
       `  ${program}`,
@@ -622,7 +622,7 @@ if ( _cmdline_check(
      _cmdline_check(
        "gas-price") ||
      _cmdline_check(
-       "gas-price.js") {
+       "gas-price.js") ) {
   _global_variables();
   _cmdline_parse();
   _config_show();
