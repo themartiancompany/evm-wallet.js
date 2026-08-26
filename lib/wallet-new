@@ -45,6 +45,11 @@ const
   _exit =
     _libcrash._exit;
 /* global
+     _global_get */
+const
+  _global_get = 
+    _libcrash._global_get;
+/* global
      _msg_info */
 const
   _msg_info = 
@@ -64,6 +69,11 @@ const
 const
   _override_set = 
     _libcrash._override_set;
+/* global
+     _set */
+const
+  _set = 
+    _libcrash._set;
 const
   _network_provider_module =
     await import(
@@ -86,39 +96,57 @@ function
   /* global
        app_name:
          writable */
-  app_name =
-    "wallet-new";
+  _set(
+    "app",
+    "name",
+    "wallet-new");
   /* global
        app_opts:
          writable */
-  app_opts =
-    [];
+  _set(
+    "app",
+    "opts",
+    []);
   /* global
        wallet_path:
          writable */
-  wallet_path =
-    "";
+  _set(
+    "wallet",
+    "path",
+    "");
   /* global
        wallet_password:
          writable */
-  wallet_password =
-    "";
+  _set(
+    "wallet",
+    "password",
+    "");
   /* global
        wallet_seed:
          writable */
-  wallet_seed =
-    "";
+  _set(
+    "wallet",
+    "seed",
+    "");
   /* global
        target_network:
          writable */
-  target_network =
-    "";
+  _set(
+    "target",
+    "network",
+    "");
   /* global
        api_key_path:
          writable */
-  api_key_path =
-    "";
-  quiet =
+  _set(
+    "api_key",
+    "path",
+    "");
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "";
 }
 

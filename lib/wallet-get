@@ -66,6 +66,11 @@ const
 const
   _require =
     _libcrash._require;
+/* global
+     _set */
+const
+  _set =
+    _libcrash._set;
 const
   _ethers_module =
     await _require(
@@ -85,12 +90,16 @@ function
   _global_variables() {
   /* global
        app_name */
-  app_name =
-    "wallet-get";
+  _set(
+    "app",
+    "name",
+    "wallet-get");
   /* global
        app_opts */
-  app_opts =
-    [];
+  _set(
+    "app",
+    "opts",
+    []);
 }
 
 
@@ -262,6 +271,7 @@ function
     _line;
   const
     _text = [
+      "",
       "Returns a wallet object.",
       "",
       "  usage:",
