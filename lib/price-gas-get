@@ -480,7 +480,7 @@ function
           "1"]);
   const
     _text = [
-      ""
+      "",
       "Returns gas price for an EVM network."
       "",
       "Usage:",

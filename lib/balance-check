@@ -507,7 +507,7 @@ async function
 }
 
 if ( await _cmdline_check(
-       "balance-check") 
+       "balance-check") ||
      await _cmdline_check(
        "") {
   _global_variables();
