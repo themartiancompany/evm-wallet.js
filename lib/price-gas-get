@@ -408,14 +408,15 @@ async function
         _retry + 1;
       _msg =
         `Error retrieving gas price, ` +
-	`retrying (${_retry} of ${_retries_max})`;
-      console.error(
-        _err);
+        `retrying (${_retry} of ${_retries_max})`;
+      _msg_error(
+        _err,
+        0);
       _msg_error(
         _msg,
         0);
       await _sleep(
-        3000);
+        10000);
     }
   }
   if ( _success == false &&
@@ -527,52 +528,73 @@ function
 function _cmdline_parse() {
   let
     _msg;
-  quiet =
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "y";
   _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
-        quiet =
+        _global[
+          "quiet"] =
           _value;
       }
       if ( _index == 3 ) {
-        target_network =
-          _value;
+        _set(
+          "target",
+          "network",
+          _value);
       }
       if ( _index == 4 ) {
-        api_key =
-          _value;
+        _set(
+          "api",
+          "key",
+          _value);
       }
       if ( _index == 5 ) {
-        display_unit =
-          _value;
+        _set(
+          "display",
+          "unit",
+          _value);
       }
       if ( _index == 6 ) {
-        target_address =
-          _value;
+        _set(
+          "target",
+          "address",
+          _value);
       }
       if ( _index == 7 ) {
-        wallet_seed =
-          _value;
+        _set(
+          "wallet",
+          "seed",
+          _value);
       }
       if ( _index == 8 ) {
-        output_type =
-          _value;
+        _set(
+          "output",
+          "type",
+          _value);
       }
       if ( _index == 9 ) {
-        output_file =
-          _value;
+        _set(
+          "output",
+          "file",
+          _value);
       }
       if ( _index == 10 ) {
-        retries_max =
-          _value;
+        _set(
+          "retries",
+          "max",
+          _value);
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
-        quiet =
+        _global[
+          "quiet"] =
           "n";
         _usage(
           0);
