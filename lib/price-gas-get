@@ -639,11 +639,11 @@ async function
   }
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "price-gas-get") ||
-     _cmdline_check(
+     await _cmdline_check(
        "gas-price") ||
-     _cmdline_check(
+     await _cmdline_check(
        "gas-price.js") ) {
   _global_variables();
   _cmdline_parse();
