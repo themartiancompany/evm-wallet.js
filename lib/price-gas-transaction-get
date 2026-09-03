@@ -38,6 +38,16 @@ const
     await import(
       "libcrash-js");
 /* global
+     _argv */
+const
+  _argv =
+    _libcrash._argv;
+/* global
+     _cmdline_check */
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+/* global
      _dirname */
 const
   _dirname =
@@ -497,7 +507,7 @@ function
 function _cmdline_parse() {
   quiet =
     "y";
-  process.argv.forEach(
+  _argv.forEach(
     function (
       _value,
       _index,
@@ -605,7 +615,15 @@ if ( await _cmdline_check(
     app_opts);
 }
 
-module.exports = {
-  _price_gas_transaction_get:
-    _price_gas_transaction_get
+// ES6 modules exports
+
+export {
+  _price_gas_transaction_get
 };
+
+// Common Javascript exports
+
+// module.exports = {
+//   _price_gas_transaction_get:
+//     _price_gas_transaction_get
+// };
