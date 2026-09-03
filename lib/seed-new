@@ -43,6 +43,11 @@ const
   _argv_get =
     _libcrash._argv_get;
 /* global
+     _cmdline_check */
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+/* global
      _dirname */
 const
   _dirname =
@@ -68,6 +73,11 @@ const
   _file_write =
     _libcrash._file_write;
 /* global
+     _global_get */
+const
+  _global_get =
+    _libcrash._global_get;
+/* global
      _msg_info */
 const
   _msg_info = 
@@ -87,6 +97,11 @@ const
 const
   _require =
     _libcrash._require;
+/* global
+     _set */
+const
+  _set =
+    _libcrash._set;
 const
   _ethers_module =
     await _require(
@@ -107,14 +122,24 @@ function
   /* global
        app_name:
          writable */
-  app_name =
-    "seed-new";
+  _set(
+    "app",
+    "name",
+    "seed-new");
   /* global
        seed_path:
          writable */
+  _set(
+    "seed",
+    "path",
+    "");
   seed_path =
     "";
-  quiet =
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "";
 }
 
@@ -220,31 +245,34 @@ function
       "   ( <verbose> )"
     ];
   for ( _line of _text ) {
-    _msg_info(
+    _echo(
       _line);
   }
   _exit(
     _exit_code);
 }
 
-async function
+function
   _cmdline_parse() {
-  quiet =
-    "y";
   const
-    _argv =
-      await _argv_get();
+    _global =
+      _global_get();
+  _global[
+    "quiet"} =
+    "y";
   _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
-        seed_path =
-          _value;
+        _set(
+          "seed",
+          "path",
+          _value);
       }
       if ( _index == 3 ) {
-        quiet =
+        _global[
+          "quiet"} =
           _value;
       }
   });
