@@ -47,6 +47,12 @@ const
   _basename =
     _libcrash._basename;
 /* global
+    _cmdline_check:
+      writable */
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+/* global
     _dirname:
       writable */
 const
