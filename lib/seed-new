@@ -258,7 +258,7 @@ function
     _global =
       _global_get();
   _global[
-    "quiet"} =
+    "quiet"] =
     "y";
   _argv.forEach(
     function (
