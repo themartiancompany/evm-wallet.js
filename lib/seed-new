@@ -272,7 +272,7 @@ function
       }
       if ( _index == 3 ) {
         _global[
-          "quiet"} =
+          "quiet"] =
           _value;
       }
   });
