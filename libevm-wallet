@@ -40,6 +40,11 @@ const
     await import(
       "crash-js");
 /* global
+     _basename */
+const
+  _basename =
+    _crash_js_module._basename;
+/* global
      _cat */
 const
   _cat =
@@ -59,6 +64,11 @@ const
 const
   _homedir_get =
     _crash_js_module._homedir_get;
+/* global
+     _ls */
+const
+  _ls =
+    _crash_js_module._ls;
 /* global
      _mkdir */
 const
@@ -421,6 +431,89 @@ async function
 }
 
 async function
+  _wallets_files_get(
+    _config_dir,
+    _filter) {
+  let
+    _regexp,
+    _wallet,
+    _wallet_name,
+    _wallet_path;
+  const
+    _wallets_files =
+     [];
+  const
+    _wallets =
+      await _ls(
+        _config_dir);
+  const
+    _data_types = [
+      "address",
+      "fingerprint",
+      "seed"
+    ];
+  for ( _wallet of _wallets ) {
+    for ( _data_type of _data_types ) {
+      if ( _wallet.endsWith(
+             `-${_data_type}.txt`) ) {
+        _regexp =
+          RegExp(
+            `-${_data_type}.txt$`);
+        _wallet_name =
+          _wallet.replace(
+            _regexp,
+            "");
+        if ( _wallet_name.includes(
+               `${_filter}`) ) {
+          _wallet_path =
+            _path_join([
+              _config_dir,
+              _wallet
+            ]);;
+          _wallet_files.push(
+            _wallet_path);
+        }
+      }
+    }
+  }
+  return _wallet_paths;
+}
+
+function
+  _wallets_sort(
+    _wallet_files) {
+  return _wallet_files;
+  }
+
+function
+  _contacts_list(
+    _filter,
+    _output_type,
+    _config_dir) {
+  let
+    _wallet_files;
+  if ( _filter == "" ) {
+    _filter =
+      "*";
+  }
+  _wallet_files =
+    _wallet_files_get(
+      _config_dir,
+      _filter);
+  _wallet_files =
+    _wallet_sort(
+      _wallet_files);
+  for ( _wallet of _wallet_files ) {
+    _file_name =
+      _basename(
+        _wallet);
+    if ( _file_name.endsWith(
+           "") ) {
+    }
+  }
+}
+
+async function
   _transfer(
     _target_address,
     _target_amount,
@@ -671,12 +764,26 @@ async function
     const
       [ _tx,
         _receipt ] =
-        _transfer.apply(
+        await _transfer.apply(
+          null,
           _transfer_args);
       return [
         _tx,
         _receipt ];
     }
+  }
+  else if ( _target_command == "list" ) {
+    const
+      _filter =
+        _target_key;
+    const
+      _contacts_list_args = [
+        _filter,
+        _output_type
+      ];
+    _contacts_list.apply(
+      null,
+      _contacts_list_args);
   }
   else if ( _target_command == "run" ) {
     true;
@@ -712,6 +819,7 @@ export {
     _msg_info_provider_generated,
     _price_gas_get,
     _price_gas_transaction_get,
+    _transfer,
     _seed_new,
     _wallet_address_get,
     _wallet_get,
@@ -747,6 +855,8 @@ export {
 //     _price_gas_get,
 //   _price_gas_transaction_get:
 //     _price_gas_transaction_get,
+//   _transfer:
+//     _transfer,
 //   _seed_new:
 //     _seed_new,
 //   _wallet_address_get:
