@@ -80,16 +80,18 @@ const
       './network-provider');
 /* global
      _provider_get */
-_provider_get =
-  _network_provider_module._provider_get;
+const
+  _provider_get =
+    _network_provider_module._provider_get;
 const
   _wallet_get_module =
     await import(
       './wallet-get');
 /* global
      _wallet_get */
-_wallet_get =
-  _wallet_get_module._wallet_get;
+const
+  _wallet_get =
+    _wallet_get_module._wallet_get;
 
 function
   _global_variables() {
