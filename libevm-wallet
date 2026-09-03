@@ -485,22 +485,32 @@ function
   return _wallet_files;
   }
 
-function
+async function
   _contacts_list(
     _filter,
     _output_type,
     _config_dir) {
   let
-    _wallet_files;
+    _regexp,
+    _wallets_files;
+  const
+    _addresses =
+      {};
+  const
+    _fingerprints =
+      {};
+  const
+    _wallets =
+      {};
   if ( _filter == "" ) {
     _filter =
       "*";
   }
-  _wallet_files =
-    _wallet_files_get(
+  _wallets_files =
+    await _wallets_files_get(
       _config_dir,
       _filter);
-  _wallet_files =
+  _wallets_files =
     _wallet_sort(
       _wallet_files);
   for ( _wallet of _wallet_files ) {
@@ -508,7 +518,48 @@ function
       _basename(
         _wallet);
     if ( _file_name.endsWith(
-           "") ) {
+           "-seed.txt") ) {
+      _regexp =
+        RegExp(
+          "-seed.txt$");
+      _wallet_name =
+        _file_name.replace(
+          _regexp,
+          "");
+      _wallet_path =
+        _path_join([
+          _config_dir,
+          _file_name
+        ];
+      _wallets[
+        _wallet_name] =
+        _wallet_path;
+    }
+    else if ( _file_name.endsWith(
+                "-address.txt") ) {
+      _regexp =
+        RegExp(
+          "-address.txt$");
+      _wallet_name =
+        _file_name.replace(
+          _regexp,
+          "");
+      _addresses[
+        _wallet_name] =
+        _cat(
+          _wallet);
+      if ( _output_type == "" ||
+           _output_type == "fingerprint" ) {
+        _msg =
+          "Getting fingerprint for"
+          `contact '${_wallet_name}'.`;
+        _msg_info(
+          _msg);
+        const
+          _fingerprint =
+            await _fingerprint_get(
+              _wallet_name);
+      }
     }
   }
 }
@@ -781,9 +832,12 @@ async function
         _filter,
         _output_type
       ];
-    _contacts_list.apply(
-      null,
-      _contacts_list_args);
+    const
+      _contacts =
+        await _contacts_list.apply(
+          null,
+          _contacts_list_args);
+    return _contacts;
   }
   else if ( _target_command == "run" ) {
     true;
