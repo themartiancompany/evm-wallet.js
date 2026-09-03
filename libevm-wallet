@@ -421,6 +421,100 @@ async function
 }
 
 async function
+  _transfer(
+    _target_address,
+    _target_amount,
+    _target_network,
+    _currenty_type,
+    _retries_max,
+    _call_timeout,
+    _wallet_seed,
+    _api_key,
+    _rpc,
+    _currency_address,
+    _measure_unit) {
+  if ( _currency_type == "gas" ) {
+    const
+      _balance_send_args = [
+        _wallet_seed,
+        _target_address,
+        _target_amount,
+        _rpc[
+          _target_network],
+        _api_key,
+        _measure_unit
+      ];
+    const
+      [ _tx,
+        _receipt ] =
+        await _balance_send.apply(
+          null,
+          _balance_send_args);
+    return [ _tx,
+             _receipt ];
+  }
+  else if ( _currency_type == "erc20" ) {
+    try {
+      const
+        _erc20_tools_module =
+          await _require(
+            "erc20-tools");
+      const
+        _token_send =
+          _erc20_tools_module._token_send;
+      const
+        _token_send_args = [
+          _retries_max,
+          _call_timeout,
+          _wallet_seed,
+          _api_key,
+          _rpc,                          // NOTE: data filled-in
+          _currency_address,             // by 'token-send':
+          "",                            //   erc20 abi
+          "",                            //   erc20 bytecode
+          "",                            //   erc20 hardhat artifact
+          _measure_unit,
+          "",                            // output path
+          _target_address,
+          _target_amount
+        ];
+      _msg =
+        `Running '_token_send' with ` +
+        `arguments '${_token_send_args}'.`;
+      _msg_info(
+        _msg);
+      const
+        _token_sent =
+          await _token_send.apply(
+            null,
+            _token_send_args);
+      return _token_sent;
+    }
+    catch(
+      _error) {
+      _msg =
+        "Install ERC-20 Tools ('ur erc20-tools')";
+      const
+        _exception = {
+          "msg":
+            _msg
+        };
+      _msg_error(
+        _msg,
+        0);
+      throw _exception;
+    }
+  }
+  else {
+    _msg =
+      `Unknown currency type '${_currency_type}'.`;
+    _msg_error(
+      _msg,
+      1);
+  }
+}
+
+async function
   _evm_wallet(
     _target_command,
     _wallet_name,
@@ -560,77 +654,28 @@ async function
     const
       _target_amount =
         _target_value;
-    if ( _currency_type == "gas" ) {
-      const
-        _balance_send_args = [
-          _wallet_seed,
-          _target_address,
-          _target_amount,
-          _rpc[
-            _target_network],
-          _api_key,
-          _measure_unit
-        ];
+    const
+      _transfer_args = [
+        _target_address,
+        _target_amount,
+        _target_network,
+        _currenty_type,
+        _retries_max,
+        _call_timeout,
+        _wallet_seed,
+        _api_key,
+        _rpc,
+        _currency_address,
+        _measure_unit) {
+      ];
+    const
       [ _tx,
         _receipt ] =
-        await _balance_send.apply(
-          null,
-          _balance_send_args);
-      return [ _tx,
-               _receipt ];
-    }
-    else if ( _currency_type == "erc20" ) {
-      try {
-        const
-          _erc20_tools_module =
-            await _require(
-              "erc20-tools");
-        const
-          _token_send =
-            _erc20_tools_module._token_send;
-        const
-          _token_send_args = [
-            _retries_max,
-            _call_timeout,
-            _wallet_seed,
-            _api_key,
-            _rpc,                          // NOTE: data filled-in
-            _currency_address,             // by 'token-send':
-            "",                            //   erc20 abi
-            "",                            //   erc20 bytecode
-            "",                            //   erc20 hardhat artifact
-            _measure_unit,
-            "",                            // output path
-            _target_address,
-            _target_amount
-          ];
-        _msg =
-          `Running '_token_send' with ` +
-          `arguments '${_token_send_args}'.`;
-        _msg_info(
-          _msg);
-        const
-          _token_sent =
-            await _token_send.apply(
-              null,
-              _token_send_args);
-        return _token_sent;
-      }
-      catch(
-        _error) {
-        _msg =
-          "Install ERC-20 Tools ('ur erc20-tools')";
-        _msg_error(
-          _msg,
-          1);
-      }
-    }
-    else {
-      _msg =
-        `Unknown currency type '${_currency_type}'.`;
-      _msg_error(
-        _msg,
-        1);
+        _transfer.apply(
+          _transfer_args);
+      return [
+        _tx,
+        _receipt ];
     }
   }
   else if ( _target_command == "run" ) {
@@ -641,7 +686,13 @@ async function
       `Unknown command '${_target_command}'.`;
     _msg_error(
       _msg,
-      1);
+      0);
+    const
+      _exception =
+        "msg":
+          _msg
+      };
+    throw _msg;
   }
 }
 
