@@ -55,6 +55,11 @@ const
   _file_read =
     _crash_js_module._file_read;
 /* global
+     _file_write */
+const
+  _file_write =
+    _crash_js_module._file_write;
+/* global
      _file_exists */
 const
   _file_exists =
@@ -94,6 +99,11 @@ const
 const
   _require =
     _crash_js_module._require;
+/* global
+     _run */
+const
+  _run =
+    _crash_js_module._run;
 /* global
      _stat */
 const
@@ -483,7 +493,178 @@ function
   _wallets_sort(
     _wallet_files) {
   return _wallet_files;
+}
+
+function
+  _key_fingerprint_get(
+    _wallet_name,
+    _evm_gpg_client,
+    _call_type,
+    _gpg_backend) {
+  let
+    _fingerprints,
+    _msg;
+  const
+    _evm_gpg_client_type =
+      typeof(
+        _evm_gpg_client);
+  if ( _evm_gpg_client_type == "undefined" ||
+       _evm_gpg_client == "" ) {
+    _evm_gpg_client =
+      "evm-gpg";
+    //   "evm-gpg.js";
   }
+  const
+    _call_type_type =
+      typeof(
+        _call_type);
+  if ( _call_type_type == "undefined" ||
+       _call_type == "" ) {
+    if ( _evm_gpg_client == "evm-gpg" ) {
+      _call_type =
+        "spawn";
+    }
+    else if ( _evm_gpg_client == "evm-gpg.js" ) {
+      _call_type =
+        "native";
+    }
+  }
+  const
+    _command =
+      "list";
+  const
+    _output_file =
+      "fingerprint";
+  _msg =
+    "Returning 'OpenPGP " +
+    "on Ethereum' fingerprint.";
+  _msg_info(
+    _msg);
+  if ( _call_type == "spawn" ) {
+    if ( _evm_gpg_client != "evm-gpg" &&
+         _evm_gpg_client != "evm-gpg.js" ) {
+      _msg =
+        `Unknown EVM GNUPG client ` +
+        `'${_backend}'.`;
+      _msg_warning(
+        _msg);
+    }
+    const
+      _run_mode =
+        "sync";
+    const
+      _name =
+        `${_evm_gpg_client}-${_wallet_name}`;
+    const
+      _cmd = [
+        _evm_gpg_client,
+        "-N",
+          _wallet_name,
+        "-o",
+          _output_type,
+        "list"
+      ];
+    const
+      _run_args = [
+        _run_mode,
+        _cmd,
+        _name,
+        _timeout,
+        _call_type,
+        _method
+      ];
+    _fingerprints =
+      await _run.apply(
+        null,
+        _run_args);
+  }
+  else if ( _call_type == "native" ) {
+    if ( _evm_gpg_client == "evm-gpg.js" ) {
+      const
+        _evm_gpg_module =
+          await _require(
+            "evm-gnupg.js");
+      const
+        _evm_gpg =
+          _evm_gpg_module._evm_gpg;
+      const
+        _evm_gpg_args = [
+          _wallet_name,
+          _output_type,
+          _command,
+          "..."
+        ];
+      _fingerprints =
+        await _evm_gpg.apply(
+          null,
+          _evm_gpg_args);
+    }
+    if ( _backend == "evm-gpg" ) {
+      _msg =
+        `Not implemented.`;
+  }
+}
+
+async function
+  _fingerprint_get(
+    _wallet_name,
+    _config_dir,
+    _exit) {
+  let
+    _config_dir_type,
+    _fingerprint,
+    _msg;
+  _config_dir_type =
+    typeof(
+      _config_dir);
+  _fingerprint =
+    "";
+  if ( _config_dir_type === "undefined" ||
+       _config_dir == "" ) {
+    _config_dir =
+      _conf_dir_get();
+  }
+  _msg =
+    "Return fingerprint " +
+    `for wallet '${_wallet_name}'.`;
+  _msg_info(
+    _msg);
+  const
+    _fingerprint_file =
+      _path_join([
+        _config_dir,
+        `${wallet_name}-fingerprint.txt`
+      ]);
+  if ( ! _file_exists(
+           _fingerprint_file) ) {
+    _fingerprint =
+      await _key_fingerprint_get(
+        _wallet_name);
+    _file_write(
+      _fingerprint_file,
+      _fingerprint);
+  }
+  if ( _fingerprint == "" ) {
+    _fingerprint =
+      _cat(
+        _fingerprint_file);
+  }
+  if ( _fingerprint == "" ) {
+    _msg =
+      "Empty fingerprint " +
+      `in '${_fingerprint_file}'.`;
+    const
+      _exception = {
+        "msg":
+          _msg
+    };
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  return _fingerprint;
+}
 
 async function
   _contacts_list(
