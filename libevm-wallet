@@ -1282,12 +1282,14 @@ export {
     _balance_send,
     _block_number_get,
     _conf_dir_get,
+    _contacts_list,
     _evm_wallet,
     _ethers_to_wei,
-    _provider_get,
+    _fingerprint_get,
     _msg_info_provider_generated,
     _price_gas_get,
     _price_gas_transaction_get,
+    _provider_get,
     _transfer,
     _seed_new,
     _wallet_address_get,
@@ -1312,18 +1314,22 @@ export {
 //     _block_number_get,
 //   _conf_dir_get:
 //     _conf_dir_get,
+//   _contacts_list:
+//     _contacts_list,
 //   _evm_wallet:
 //     _evm_wallet,
 //   _ethers_to_wei:
 //     _ethers_to_wei,
-//   _provider_get:
-//     _provider_get,
+//   _fingerprint_get:
+//     _fingerprint_get,
 //   _msg_info_provider_generated:
 //     _msg_info_provider_generated,
 //   _price_gas_get:
 //     _price_gas_get,
 //   _price_gas_transaction_get:
 //     _price_gas_transaction_get,
+//   _provider_get:
+//     _provider_get,
 //   _transfer:
 //     _transfer,
 //   _seed_new:
