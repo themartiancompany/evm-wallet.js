@@ -50,6 +50,11 @@ const
   _cat =
     _crash_js_module._cat;
 /* global
+     _echo */
+const
+  _echo =
+    _crash_js_module._echo;
+/* global
      _file_read */
 const
   _file_read =
@@ -94,6 +99,11 @@ const
 const
   _path_join =
     _crash_js_module._path_join;
+/* global
+     _printf */
+const
+  _printf =
+    _crash_js_module._printf;
 /* global
      _require */
 const
@@ -530,6 +540,21 @@ function
     }
   }
   const
+    _gpg_backend_type =
+      typeof(
+        _gpg_backend);
+  if ( _gpg_backend_type == "undefined" ||
+       _gpg_backend == "" ) {
+    if ( _evm_gpg_client == "evm-gpg" ) {
+      _gpg_backend =
+        "gpg";
+    }
+    else if ( _evm_gpg_client == "evm-gpg.js" ) {
+      _gpg_backend =
+        "openpgpjs";
+    }
+  }
+  const
     _command =
       "list";
   const
@@ -545,7 +570,7 @@ function
          _evm_gpg_client != "evm-gpg.js" ) {
       _msg =
         `Unknown EVM GNUPG client ` +
-        `'${_backend}'.`;
+        `'${_evm_gpg_client}'.`;
       _msg_warning(
         _msg);
     }
@@ -562,6 +587,8 @@ function
           _wallet_name,
         "-o",
           _output_type,
+        "-B",
+          _gpg_backend,
         "list"
       ];
     const
@@ -592,6 +619,7 @@ function
           _wallet_name,
           _output_type,
           _command,
+          _gpg_backend,
           "..."
         ];
       _fingerprints =
@@ -599,10 +627,34 @@ function
           null,
           _evm_gpg_args);
     }
-    if ( _backend == "evm-gpg" ) {
+    else {
       _msg =
-        `Not implemented.`;
+        `Unknown EVM GNUPG client ` +
+        `'${_evm_gpg_client}'.`;
+      _msg_error(
+        _msg,
+        0);
+      _exception = {
+        "msg":
+          _msg
+      };
+      throw _exception;
+    }
   }
+  else {
+    _msg =
+      `Unknown GPG backend ` +
+      `'${_gpg_backend}'.`;
+    _msg_error(
+      _msg,
+      0);
+    _exception = {
+      "msg":
+        _msg
+    };
+    throw _exception;
+  }
+  return _fingerprints;
 }
 
 async function
@@ -666,14 +718,119 @@ async function
   return _fingerprint;
 }
 
+function
+  _contacts_display_full(
+    _wallets,
+    _addresses,
+    _fingerprints) {
+  let
+    _address,
+    _counter;
+  const
+    _addresses_amount =
+      Object.keys(
+        _addresses).length;
+  _counter =
+    0;
+  for ( _address in _addresses ) {
+    _counter =
+      _counter + 1;
+    _printf_template = [
+      "%s", "\n",
+      "%s", "\n",
+      "%s", "\n"
+    ];
+    _printf_args = [
+                "        Name: ${_address}"
+    ];
+    _address =
+      _addresses[
+        _contact];
+    _fingerprint =
+      _fingerprints[
+        _contact];
+    if ( _contact in _wallets ) {
+      _printf_args.push(
+      "           Private key: yes");
+      _printf_template.push(
+        "%s", "\n");
+    }
+    _printf_args.push(
+      `               Address: ${_address}`);
+    _printf_args.push(
+      `   OpenPGP Fingerprint: ${_address}`);
+    if ( _counter != _addresses_amount ) {
+      _printf_template.push(
+        "\n");
+    }
+    await _printf(
+      _printf_template.join(
+        ""),
+      _printf_args);
+  }
+}
+
+async function
+  _contacts_field_display(
+    _wallets,
+    _addresses,
+    _fingerprints,
+    _field) {
+  let
+    _counter,
+    _name;
+  const
+    _results =
+      [];
+  for ( _name in _addresses ) {
+    if ( _field == "name" ) {
+      _result =
+        _name;
+    }
+    else if ( _field == "address" ) {
+      _result =
+        _addresses[
+          _name];
+    }
+    else if ( _field == "fingerprint" ) {
+      _result =
+        _fingerprints[
+          _name];
+    }
+    else {
+      const
+        _msg =
+          `Unknown field '${_field}'.`;
+      const
+        _exception = {
+          "msg":
+            _msg
+        };
+      _msg_error(
+        _msg,
+        0);
+    }
+    _results.push(
+      _result);
+  }
+  _results.sort()
+  for ( _result of _results ) {
+    _echo(
+      _result);
+  }
+}
+
 async function
   _contacts_list(
     _filter,
     _output_type,
     _config_dir) {
   let
+    _address,
     _regexp,
-    _wallets_files;
+    _wallet,
+    _wallets_files,
+    _seed;
   const
     _addresses =
       {};
@@ -742,7 +899,68 @@ async function
               _wallet_name);
       }
     }
+    else if ( _file_name.endsWith(
+                "-fingerprint.txt") ) {
+      true;
+    }
+    else if ( _file_name.endsWith(
+                "-password.txt") ) {
+      true;
+    }
+    else {
+      _msg =
+        "Unknown file type " +
+        `for file '${_file_name}'.`
+      _msg_warning(
+        _msg);
+    }
   }
+  for ( _wallet in _wallets) {
+    if ( ! _wallet in _addresses )  {
+      _msg =
+        "Getting address for own account " +
+        `'${_wallet}'.`;
+      _msg_info(
+        _msg);
+      _seed =
+        _wallets[
+          _wallet];
+      _wallet_address_get_args = [
+        _config_dir,
+        _wallet,
+        _seed,
+      ];
+      _address =
+        await _wallet_address_get.apply(
+          null,
+          _wallet_address_get_args);
+      _addresses[
+        _wallet] =
+        _address;
+      _msg =
+        "Done.";
+      _msg_info(
+        _msg);
+    }
+  }
+  if ( _output_type == "" ) {
+    await contacts_display_full(
+      _wallets,
+      _addresses,
+      _fingerprints);
+  }
+  else {
+    await _contacts_field_display(
+      _wallets,
+      _addresses,
+      _fingerprints,
+      _output_type);
+  }
+  return [
+    _wallets,
+    _addresses,
+    _fingerprints
+  ];
 }
 
 async function
@@ -889,7 +1107,7 @@ async function
   _msg_info(
     _msg);
   if ( quiet == "n" ) {
-    console.log(
+    _echo(
       _rpc);
   }
   if ( _target_command == "blocknumber" ) {
@@ -929,7 +1147,21 @@ async function
     return _price_gas;
   }
   else if ( _target_command == "get" ) {
-    if ( _target_key == "balance" ) {
+    if ( _target_key == "address" ) {
+      const
+        _wallet_address_get_args = [
+          _config_dir,
+          _wallet_name,
+          _wallet_seed,
+        ];
+      const
+        _wallet_address =
+          await _wallet_address_get.apply(
+            null,
+            _wallet_address_get_args);
+      return _wallet_address;
+    }
+    else if ( _target_key == "balance" ) {
       const
         _balance_update_args = [
           _cache_dir,
@@ -950,19 +1182,21 @@ async function
             _balance_update_args);
       return _balance;
     }
-    else if ( _target_key == "address" ) {
+    else if ( _target_key == "seed" ) {
       const
-        _wallet_address_get_args = [
-          _config_dir,
-          _wallet_name,
-          _wallet_seed,
-        ];
+        _seed =
+          _cat(
+            _wallet_seed);
+      return _seed;
+    }
+    else if ( _target_key == "name" ) {
+      return _wallet_name;
+    }
+    else if ( _target_key == "fingerprint" ) {
       const
-        _wallet_address =
-          await _wallet_address_get.apply(
-            null,
-            _wallet_address_get_args);
-      return _wallet_address;
+        _fingerprint =
+          _fingerprint_get(
+            _wallet_name);
     }
     else {
       _msg =
