@@ -1103,8 +1103,9 @@ function
       "cache_dir")[
         0]);
   _libevm_url_parse();
-  _global =
-    _global_get();
+  const
+    _global =
+      _global_get();
   _global[
     "quiet"] =
     _argv_url_get(

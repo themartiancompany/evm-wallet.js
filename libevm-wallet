@@ -95,6 +95,11 @@ const
   _msg_error =
     _crash_js_module._msg_error;
 /* global
+     _msg_warning */
+const
+  _msg_warning =
+    _crash_js_module._msg_warning;
+/* global
      _path_join */
 const
   _path_join =
@@ -455,6 +460,7 @@ async function
     _config_dir,
     _filter) {
   let
+    _data_type,
     _regexp,
     _wallet,
     _wallet_name,
@@ -490,19 +496,19 @@ async function
               _config_dir,
               _wallet
             ]);;
-          _wallet_files.push(
+          _wallets_files.push(
             _wallet_path);
         }
       }
     }
   }
-  return _wallet_paths;
+  return _wallets_files;
 }
 
 function
   _wallets_sort(
-    _wallet_files) {
-  return _wallet_files;
+    _wallets_files) {
+  return _wallets_files;
 }
 
 async function
@@ -558,7 +564,7 @@ async function
     _command =
       "list";
   const
-    _output_file =
+    _output_type =
       "fingerprint";
   _msg =
     "Returning 'OpenPGP " +
@@ -577,6 +583,12 @@ async function
     const
       _run_mode =
         "sync";
+    const
+      _timeout =
+        0;
+    const
+      _method =
+        "";
     const
       _name =
         `${_evm_gpg_client}-${_wallet_name}`;
@@ -634,10 +646,11 @@ async function
       _msg_error(
         _msg,
         0);
-      _exception = {
-        "msg":
-          _msg
-      };
+      const
+        _exception = {
+          "msg":
+            _msg
+        };
       throw _exception;
     }
   }
@@ -663,12 +676,12 @@ async function
     _config_dir,
     _exit) {
   let
-    _config_dir_type,
     _fingerprint,
     _msg;
-  _config_dir_type =
-    typeof(
-      _config_dir);
+  const
+    _config_dir_type =
+      typeof(
+        _config_dir);
   _fingerprint =
     "";
   if ( _config_dir_type === "undefined" ||
@@ -725,14 +738,18 @@ async function
     _fingerprints) {
   let
     _address,
-    _counter;
+    _contact,
+    _counter,
+    _fingerprint,
+    _printf_args,
+    _printf_template;
   const
     _addresses_amount =
       Object.keys(
         _addresses).length;
   _counter =
     0;
-  for ( _address in _addresses ) {
+  for ( _contact in _addresses ) {
     _counter =
       _counter + 1;
     _printf_template = [
@@ -778,7 +795,8 @@ async function
     _field) {
   let
     _counter,
-    _name;
+    _name,
+    _result;
   const
     _results =
       [];
@@ -813,7 +831,7 @@ async function
     _results.push(
       _result);
   }
-  _results.sort()
+  _results.sort();
   for ( _result of _results ) {
     _echo(
       _result);
@@ -865,8 +883,8 @@ async function
       _filter);
   _wallets_files =
     _wallet_sort(
-      _wallet_files);
-  for ( _wallet of _wallet_files ) {
+      _wallets_files);
+  for ( _wallet of _wallets_files ) {
     _file_name =
       _basename(
         _wallet);
@@ -993,6 +1011,8 @@ async function
     _rpc,
     _currency_address,
     _measure_unit) {
+  let
+    _msg;
   if ( _currency_type == "gas" ) {
     const
       _balance_send_args = [
@@ -1068,9 +1088,15 @@ async function
   else {
     _msg =
       `Unknown currency type '${_currency_type}'.`;
+    const
+      _exception = {
+        "msg":
+          _msg
+      };
     _msg_error(
       _msg,
-      1);
+      0);
+    throw _exception;
   }
 }
 
