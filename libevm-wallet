@@ -718,7 +718,7 @@ async function
   return _fingerprint;
 }
 
-function
+async function
   _contacts_display_full(
     _wallets,
     _addresses,
@@ -824,7 +824,8 @@ async function
   _contacts_list(
     _filter,
     _output_type,
-    _config_dir) {
+    _config_dir,
+    _display) {
   let
     _address,
     _regexp,
@@ -840,7 +841,21 @@ async function
   const
     _wallets =
       {};
-  if ( _filter == "" ) {
+  const
+    _display_type =
+      typeof(
+        _display);
+  if ( _display_type == "undefined" ||
+       _display == "" ) {
+    _display =
+      true;
+  }
+  const
+    _filter_type =
+      typeof(
+        _filter);
+  if ( _filter_type == "undefined" ||
+       _filter == "" ) {
     _filter =
       "*";
   }
@@ -943,18 +958,20 @@ async function
         _msg);
     }
   }
-  if ( _output_type == "" ) {
-    await contacts_display_full(
-      _wallets,
-      _addresses,
-      _fingerprints);
-  }
-  else {
-    await _contacts_field_display(
-      _wallets,
-      _addresses,
-      _fingerprints,
-      _output_type);
+  if ( _display ) {
+    if ( _output_type == "" ) {
+      await contacts_display_full(
+        _wallets,
+        _addresses,
+        _fingerprints);
+    }
+    else {
+      await _contacts_field_display(
+        _wallets,
+        _addresses,
+        _fingerprints,
+        _output_type);
+    }
   }
   return [
     _wallets,
