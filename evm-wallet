@@ -43,18 +43,23 @@ const
 /* global
      _argv_get */
 const
-_argv_get =
-  _libcrash._argv_get;
+  _argv_get =
+    _libcrash._argv_get;
 /* global
      _argv_url_get */
 const
-_argv_url_get =
-  _libcrash._argv_url_get;
+  _argv_url_get =
+    _libcrash._argv_url_get;
 /* global
      _cmdline_check */
 const
   _cmdline_check =
     _libcrash._cmdline_check;
+/* global
+     _echo */
+const
+  _echo =
+    _libcrash._echo;
 /* global
      _exit */
 const
@@ -684,7 +689,7 @@ function
       "",
     ];
   for ( _line of _text ) {
-    console.log(
+    _echo(
       _line);
   }
   _exit(
@@ -714,10 +719,30 @@ async function
     _options =
       _argv[
         "_"];
-  quiet = 
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] = 
     "y";
-  runtime_environment =
-    "node";
+  if ( _argv[
+         "v"] ||
+       _argv[
+         "verbose"]) {
+    _global[
+      "verbose"] =
+      true;
+  }
+  if ( _global[
+         "verbose"] ) {
+    _global[
+      "quiet"] =
+      "n";
+  }
+  _set(
+    "runtime",
+    "environment",
+    "node");
   if ( _argv["h"] == true ) {
     _help_display =
       true;
@@ -734,8 +759,9 @@ async function
       true;
   }
   if ( _help_display ) {
-    quiet =
-      "n";
+    // _global[
+    //   "quiet"] =
+    //   "n";
     await _overrides_set();
     _usage(
       0);
@@ -744,188 +770,243 @@ async function
        _argv) != "undefined" &&
        0 < _argv[
              "_"].length ) {
-    target_command =
+    _set(
+      "target",
+      "command",
       _argv[
         "_"][
-          0];
+          0]);
   }
+  const
+    _target_command =
+      _get(
+        "target",
+        "command");
   if ( typeof(
        _argv) != "undefined" &&
        1 < _argv[
              "_"].length ) {
-    if ( target_command == "list" ) {
-      target_key =
+    if ( _target_command == "list" ) {
+      _set(
+        "target",
+        "key",
         _argv[
           "_"][
-            1];
+            1]);
     }
     else {
-      wallet_name =
+      _set(
+        "wallet",
+        "name",
         _argv[
           "_"][
-            1];
+            1]);
     }
   }
   if ( typeof(
        _argv) != "undefined" &&
        2 < _argv[
              "_"].length ) {
-    if ( target_command == "list" ) {
+    if ( _target_command == "list" ) {
       true;
     }
-    else if ( target_command == "send" ) {
-      const _key = _argv._[2];
-      target_key =
-          _argv[
-            "_"][
-              2].toString();
-    }
-    else {
-      target_key =
+    else if ( _target_command == "send" ) {
+      const
+        _key =
+          _argv._[
+            2];
+      _set(
+        "target",
+        "key",
         _argv[
           "_"][
-            2];
+            2].toString());
+    }
+    else {
+      _set(
+        "target",
+        "key",
+        _argv[
+          "_"][
+            2]);
     }
   }
   if ( typeof(
        _argv) != "undefined" &&
        2 < _argv[
              "_"].length ) {
-    target_key =
+    _set(
+      "target",
+      "key",
       _argv[
         "_"][
-          2];
+          2]);
   }
   if ( typeof(
        _argv) != "undefined" &&
        3 < _argv[
              "_"].length ) {
-    target_value =
+    _set(
+      "target",
+      "value",
       _argv[
         "_"][
-          3];
+          3]);
   }
   if ( "R" in _argv ) {
-    rpc_selection =
+    _set(
+      "rpc",
+      "selection",
       _argv[
-        "R"];
+        "R"]);
   }
   if ( "rpc-selection" in _argv ) {
-    rpc_selection =
+    _set(
+      "rpc",
+      "selection",
       _argv[
-        "rpc-selection"];
+        "rpc-selection"]);
   }
   if ( "S" in _argv ) {
-    explorer_selection =
+    _set(
+      "explorer",
+      "selection",
       _argv[
-        "S"];
+        "S"]);
   }
   if ( "explorer-selection" in _argv ) {
-    explorer_selection =
+    _set(
+      "explorer",
+      "selection",
       _argv[
-        "explorer-selection"];
+        "explorer-selection"]);
   }
   if ( "r" in _argv ) {
-    retries_max =
+    _set(
+      "retries",
+      "max",
       _argv[
-        "r"];
+        "r"]);
   }
   if ( "retries-max" in _argv ) {
-    retries_max =
+    _set(
+      "retries",
+      "max",
       _argv[
-        "retries-max"];
+        "retries-max"]);
   }
   if ( "u" in _argv ) {
-    measure_unit =
+    _set(
+      "measure",
+      "unit",
       _argv[
-        "u"];
+        "u"]);
   }
   if ( "measure-unit" in _argv ) {
-    measure_unit =
+    _set(
+      "measure",
+      "unit",
       _argv[
-        "measure-unit"];
+        "measure-unit"]);
   }
   if ( "l" in _argv ) {
-    balance_lifespan =
+    _set(
+      "balance",
+      "lifespan",
       _argv[
-        "l"];
+        "l"]);
   }
   if ( "balance-lifespan" in _argv ) {
-    balance_lifespan =
+    _set(
+      "balance",
+      "lifespan",
       _argv[
-        "balance-lifespan"];
+        "balance-lifespan"]);
   }
   if ( "a" in _argv ) {
-    networks_all =
-      "y";
+    _set(
+      "networks",
+      "all",
+      "y");
   }
   if ( "networks-all" in _argv ) {
-    networks_all =
-      "y";
+    _set(
+      "networks",
+      "all",
+      "y");
   }
   if ( "P" in _argv ) {
-    tasks_parallel =
+    _set(
+      "tasks",
+      "parallel",
       _argv[
-        "P"];
+        "P"]);
   }
   if ( "tasks-parallel" in _argv ) {
-    tasks_parallel =
+    _set(
+      "tasks",
+      "parallel",
       _argv[
-        "tasks-parallel"];
+        "tasks-parallel"]);
   }
   if ( "Q" in _argv ) {
-    qr_support =
+    _set(
+      "qr",
+      "support",
       _argv[
-        "Q"];
+        "Q"]);
   }
   if ( "qr-support" in _argv ) {
-    qr_support =
+    _set(
+      "qr",
+      "support",
       _argv[
-        "qr-support"];
+        "qr-support"]);
   }
   if ( "o" in _argv ) {
-    output_type =
+    _set(
+      "output",
+      "type",
       _argv[
-        "o"];
+        "o"]);
   }
   if ( "output-type" in _argv ) {
-    output_type =
+    _set(
+      "output",
+      "type",
       _argv[
-        "output-type"];
+        "output-type"]);
   }
   if ( "t" in _argv ) {
-    currency_type =
+    _set(
+      "currency",
+      "type",
       _argv[
-        "t"];
+        "t"]);
   }
   if ( "currency-type" in _argv ) {
-    currency_type =
+    _set(
+      "currency",
+      "type",
       _argv[
-        "currency-type"];
+        "currency-type"]);
   }
   if ( "C" in _argv ) {
-    currency_address =
+    _set(
+      "currency",
+      "address",
       _argv[
-        "C"];
+        "C"]);
   }
   if ( "currency" in _argv ) {
-    currency_address =
+    _set(
+      "currency",
+      "address",
       _argv[
-        "currency"];
+        "currency"]);
   }
   _libevm_cmdline_parse(
     _argv);
-  if ( _argv[
-         "v"] ||
-       _argv[
-         "verbose"]) {
-    verbose =
-      true;
-  }
-  if ( verbose ) {
-    quiet =
-      "n";
-  }
 }
 
 function
@@ -933,70 +1014,105 @@ function
   const
     _argv =
       _argv_url_get();
-  runtime_environment =
-    "browser";
-  wallet_name =
+  _set(
+    "runtime",
+    "environment",
+    "browser");
+  _set(
+    "wallet",
+    "name",
     _argv_url_get(
       "wallet_name")[
-        0];
-  rpc_selection =
+        0]);
+  _set(
+    "rpc",
+    "selection",
     _argv_url_get(
       "rpc_selection")[
-        0];
-  explorer_selection =
+        0]);
+  _set(
+    "explorer",
+    "selection",
     _argv_url_get(
       "explorer_selection")[
-        0];
-  retries_max =
+        0]);
+  _set(
+    "retries",
+    "max",
     _argv_url_get(
       "retries_max")[
-        0];
-  measure_unit =
+        0]);
+  _set(
+    "measure",
+    "unit",
     _argv_url_get(
       "measure_unit")[
-        0];
-  balance_lifespan =
+        0]);
+  _set(
+    "balance",
+    "lifespan",
     _argv_url_get(
       "balance_lifespan")[
-        0];
-  networks_all =
+        0]);
+  _set(
+    "networks",
+    "all",
     _argv_url_get(
       "networks_all")[
-        0];
-  tasks_parallel =
+        0]);
+  _set(
+    "tasks",
+    "parallel",
     _argv_url_get(
       "tasks_parallel")[
-        0];
-  qr_support =
+        0]);
+  _set(
+    "qr",
+    "support",
     _argv_url_get(
       "qr_support")[
-        0];
-  output_type =
+        0]);
+  _set(
+    "output",
+    "type",
     _argv_url_get(
       "output_type")[
-        0];
-  currency_type =
+        0]);
+  _set(
+    "currency",
+    "type",
     _argv_url_get(
       "currency_type")[
-        0];
-  currency_address =
+        0]);
+  _set(
+    "currency",
+    "address",
     _argv_url_get(
       "currency_address")[
-        0];
-  config_dir =
+        0]);
+  _set(
+    "config",
+    "dir",
     _argv_url_get(
       "config_dir")[
-        0];
-  cache_dir =
+        0]);
+  _set(
+    "cache",
+    "dir",
     _argv_url_get(
       "cache_dir")[
-        0];
+        0]);
   _libevm_url_parse();
-  quiet =
+  _global =
+    _global_get();
+  _global[
+    "quiet"] =
     _argv_url_get(
       "quiet");
-  if ( quiet.length === 0 ) {
-    quiet =
+  if ( _global[
+         "quiet"].length === 0 ) {
+    _global[
+      "quiet"] =
       "n";
   }
 }
