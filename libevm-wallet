@@ -1253,7 +1253,6 @@ async function
       return [
         _tx,
         _receipt ];
-    }
   }
   else if ( _target_command == "list" ) {
     const
@@ -1281,7 +1280,7 @@ async function
       _msg,
       0);
     const
-      _exception =
+      _exception = {
         "msg":
           _msg
       };
