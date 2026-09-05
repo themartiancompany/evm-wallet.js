@@ -505,7 +505,7 @@ function
   return _wallet_files;
 }
 
-function
+async function
   _key_fingerprint_get(
     _wallet_name,
     _evm_gpg_client,
