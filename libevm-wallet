@@ -505,12 +505,6 @@ async function
   return _wallets_files;
 }
 
-function
-  _wallets_sort(
-    _wallets_files) {
-  return _wallets_files;
-}
-
 async function
   _key_fingerprint_get(
     _wallet_name,
@@ -661,10 +655,11 @@ async function
     _msg_error(
       _msg,
       0);
-    _exception = {
-      "msg":
-        _msg
-    };
+    const
+      _exception = {
+        "msg":
+          _msg
+      };
     throw _exception;
   }
   return _fingerprints;
@@ -698,7 +693,7 @@ async function
     _fingerprint_file =
       _path_join([
         _config_dir,
-        `${wallet_name}-fingerprint.txt`
+        `${_wallet_name}-fingerprint.txt`
       ]);
   if ( ! _file_exists(
            _fingerprint_file) ) {
@@ -846,9 +841,13 @@ async function
     _display) {
   let
     _address,
+    _file_name,
+    _msg,
     _regexp,
     _wallet,
-    _wallets_files,
+    _wallet_address_get_args,
+    _wallet_name,
+    _wallet_path,
     _seed;
   const
     _addresses =
@@ -877,13 +876,12 @@ async function
     _filter =
       "*";
   }
-  _wallets_files =
-    await _wallets_files_get(
-      _config_dir,
-      _filter);
-  _wallets_files =
-    _wallet_sort(
-      _wallets_files);
+  const
+    _wallets_files =
+      await _wallets_files_get(
+        _config_dir,
+        _filter);
+  _wallets_files.sort();
   for ( _wallet of _wallets_files ) {
     _file_name =
       _basename(
@@ -922,7 +920,7 @@ async function
       if ( _output_type == "" ||
            _output_type == "fingerprint" ) {
         _msg =
-          "Getting fingerprint for"
+          "Getting fingerprint for " +
           `contact '${_wallet_name}'.`;
         _msg_info(
           _msg);
@@ -943,13 +941,13 @@ async function
     else {
       _msg =
         "Unknown file type " +
-        `for file '${_file_name}'.`
+        `for file '${_file_name}'.`;
       _msg_warning(
         _msg);
     }
   }
   for ( _wallet in _wallets) {
-    if ( ! _wallet in _addresses )  {
+    if ( ! ( _wallet in _addresses ) )  {
       _msg =
         "Getting address for own account " +
         `'${_wallet}'.`;
@@ -978,7 +976,7 @@ async function
   }
   if ( _display ) {
     if ( _output_type == "" ) {
-      await contacts_display_full(
+      await _contacts_display_full(
         _wallets,
         _addresses,
         _fingerprints);
