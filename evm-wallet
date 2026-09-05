@@ -102,8 +102,9 @@ const
 /* global
      _evm_wallet:
        writable */
-_evm_wallet =
-  _libevm_wallet._evm_wallet;
+const
+  _evm_wallet =
+    _libevm_wallet._evm_wallet;
 const
   _libevm_module =
     await _require(
