@@ -434,7 +434,7 @@ uninstall-man:
 uninstall-scripts:
 
 	rm  \
-	  -vrf \
+	  -rfv \
 	  "$(BIN_DIR)/$(_PROJECT)" \
 	  "$(BIN_DIR)/$(_PROJECT_NPM)" \
 	  "$(BIN_DIR)/block"{"",".js"} \
