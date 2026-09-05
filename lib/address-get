@@ -175,34 +175,39 @@ async function
     _chain_name,
     _output_file) {
   let
-    _address,
-    _api_key,
-    _provider_get_opts,
-    _wallet_dir,
-    _wallet_password,
-    _wallet_path_list;
+    _api_key;
   if ( typeof(
          _wallet_seed) == "undefined" ||
        _wallet_seed == "" ||
        _wallet_seed == [] ) {
-    _msg =
-      "No input seed file or phrase.";
+    const
+      _msg =
+        "No input seed file or phrase.";
     _msg_error(
       _msg,
-      1);
+      0);
+    const
+      _exception = {
+        "msg":
+          _msg
+      };
   }
-  _wallet_password =
-    "";
-  _wallet_dir =
-    _dirname(
-      _wallet_seed);
-  _wallet_path_list = [
-    _wallet_dir,
-    "wallet.dat"
-  ];
-  _wallet_path =
-    _path_join(
-      _wallet_path_list);
+  const
+    _wallet_password =
+      "";
+  const
+    _wallet_dir =
+      _dirname(
+        _wallet_seed);
+  const
+    _wallet_path_list = [
+      _wallet_dir,
+      "wallet.dat"
+    ];
+  const
+    _wallet_path =
+      _path_join(
+        _wallet_path_list);
   _api_key =
     "";
   if ( _api_key_path != "" ) {
@@ -210,30 +215,35 @@ async function
       _file_read(
         _api_key_path);
   }
-  _provider_get_opts = [
-    _target_network,
-    _api_key,
-    _chain_id,
-    _chain_name
-  ];
-  _provider =
-    _provider_get.apply(
-      null,
-      _provider_get_opts);
+  const
+    _provider_get_opts = [
+      _target_network,
+      _api_key,
+      _chain_id,
+      _chain_name
+    ];
+  const
+    _provider =
+      _provider_get.apply(
+        null,
+        _provider_get_opts);
   _msg_info_provider_generated(
     _provider);
-  _wallet_get_opts = [
-    _wallet_path,
-    _wallet_password,
-    _wallet_seed,
-    _provider
-  ];
-  _wallet =
-    _wallet_get.apply(
-      null,
-      _wallet_get_opts);
-  _address =
-    _wallet.address;
+  const
+    _wallet_get_opts = [
+      _wallet_path,
+      _wallet_password,
+      _wallet_seed,
+      _provider
+    ];
+  const
+    _wallet =
+      _wallet_get.apply(
+        null,
+        _wallet_get_opts);
+  const
+    _address =
+      _wallet.address;
   if ( _output_file != undefined &&
        _output_file != "" ) {
     _file_write(
@@ -248,8 +258,13 @@ function
   let
     _line;
   const
+    _program =
+      _basename(
+        _argv[
+          1]);
+  const
     _text = [
-      `  ${app_name} configuration:`,
+      `  ${_program} configuration:`,
       `      Wallet seed: ${wallet_seed}`,
       `   Target network: ${target_network}`,
       `          API key: ${api_key_path}`,
