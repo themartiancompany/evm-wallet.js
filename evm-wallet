@@ -58,13 +58,18 @@ const
 /* global
      _exit */
 const
-_exit =
-  _libcrash._exit;
+  _exit =
+    _libcrash._exit;
 /* global
      _get */
 const
   _get =
     _libcrash._get;
+/* global
+     _global_get */
+const
+  _global_get =
+    _libcrash._global_get;
 /* global
      _homedir_get */
 const
@@ -135,127 +140,178 @@ function
   /* global
        app_name:
          writable */
-  app_name =
-    "evm-wallet.js";
+  _set(
+    "app",
+    "name",
+    "evm-wallet.js");
   /* global
        runtime_environment:
          writable */
-  runtime_environment =
-    "";
+  _set(
+    "runtime",
+    "environment",
+    "");
   /* global
        app_opts:
          writable */
-  app_opts =
-    [];
+  _set(
+    "app",
+    "opts",
+    []);
   /* global
        call_date:
          writable */
-  call_date =
-    "";
+  _set(
+    "call",
+    "date",
+    "");
   /* global
        config_dir:
          writable */
-  config_dir =
-    "";
+  _set(
+    "config",
+    "dir",
+    "");
   /* global
        cache_dir:
          writable */
-  cache_dir =
-    "";
+  _set(
+    "cache",
+    "dir",
+    "");
   /* global
        tasks_parallel:
          writable */
-  tasks_parallel =
-    "";
+  _set(
+    "tasks",
+    "parallel",
+    "");
   /* global
        target_networks:
          writable */
-  target_networks =
-    [];
+  _set(
+    "target",
+    "networks",
+    []);
   /* global
        target_command:
          writable */
-  target_command =
-    "";
+  _set(
+    "target",
+    "command",
+    "");
   /* global
        target_key:
          writable */
-  target_key =
-    "";
+  _set(
+    "target",
+    "key",
+    "");
   /* global
        target_value:
          writable */
-  target_value =
-    "";
+  _set(
+    "target",
+    "value",
+    "");
   /* global
        output_type:
          writable */
-  output_type =
-    "";
+  _set(
+    "output",
+    "type",
+    "");
   /* global
        currency_type:
          writable */
-  currency_type =
-    "";
+  _set(
+    "currency",
+    "type",
+    "");
   /* global
        currency_address:
          writable */
-  currency_address =
-    "";
+  _set(
+    "currency",
+    "address",
+    "");
   /* global
        networks_all:
          writable */
-  networks_all =
-    "";
+  _set(
+    "networks",
+    "all",
+    "");
   /* global
        rpc_selection:
          writable */
-  rpc_selection =
-    "";
+  _set(
+    "rpc",
+    "selection",
+    "");
   /* global
        key_fingerprint:
          writable */
-  key_fingerprint =
-    "";
+  _set(
+    "key",
+    "fingerprint",
+    "");
   /* global
        explorer_selection:
          writable */
-  explorer_selection =
-    "";
+  _set(
+    "explorer",
+    "selection",
+    "");
   /* global
        retries_max:
          writable */
-  retries_max =
-    "";
+  _set(
+    "retries",
+    "max",
+    "");
   /* global
        call_timeout:
          writable */
-  call_timeout =
-    "";
+  _set(
+    "call",
+    "timeout",
+    "");
   /* global
        measure_unit:
          writable */
-  measure_unit =
-    "";
+  _set(
+    "measure",
+    "unit",
+    "");
   /* global
        balance_lifespan:
          writable */
-  balance_lifespan =
-    "";
+  _set(
+    "balance",
+    "lifespan",
+    "");
   /* global
        qr_support:
          writable */
-  qr_support =
-    "";
+  _set(
+    "qr",
+    "support",
+    "");
+  const
+    _global =
+      _global_get();
   /* global
        quiet:
          writable */
-  quiet =
+  _global[
+    "quiet"] =
     "";
   /* global
        verbose:
          writable */
-  verbose =
+  _global[
+    "verbose"] =
     "";
 }
 
