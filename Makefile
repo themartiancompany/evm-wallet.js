@@ -435,6 +435,8 @@ uninstall-scripts:
 
 	rm  \
 	  -vrf \
+	  "$(BIN_DIR)/$(_PROJECT)" \
+	  "$(BIN_DIR)/$(_PROJECT_NPM)" \
 	  "$(BIN_DIR)/block"{"",".js"} \
 	  "$(BIN_DIR)/block-number"{"",".js"} \
 	  "$(BIN_DIR)/$(_PROJECT_NPM)" \
