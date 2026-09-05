@@ -883,7 +883,7 @@ async function
         _path_join([
           _config_dir,
           _file_name
-        ];
+        ]);
       _wallets[
         _wallet_name] =
         _wallet_path;
@@ -1242,7 +1242,7 @@ async function
         _api_key,
         _rpc,
         _currency_address,
-        _measure_unit) {
+        _measure_unit
       ];
     const
       [ _tx,
