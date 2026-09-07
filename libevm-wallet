@@ -38,7 +38,7 @@
 const
   _crash_js_module =
     await import(
-      "crash-js");
+      "libcrash-js");
 /* global
      _basename */
 const
