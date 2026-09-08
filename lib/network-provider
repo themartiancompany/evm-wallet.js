@@ -344,6 +344,10 @@ async function
     _chain_id_type =
       typeof(
         _chain_id);
+  _msg =
+    `Selected network: '${_target_network}'.`;
+  _msg_info(
+    _msg);
   if ( _network_type == "undefined" ||
        _target_network == "" ) {
     if ( _chain_id_type != "undefined" &&
@@ -363,11 +367,47 @@ async function
     }
     else {
       _msg =
-        "No network or chain id given in input, " +
+        `No network '${_target_network}' ` +
+        `or chain id '${_chain_id}' ` +
+        "given in input, " +
         "will return empty provider.";
       _msg_info(
         _msg);
     }
+  }
+  else if ( _network_type == "object" ) {
+    _msg(
+      _target_network);
+  }
+  else {
+    _msg =
+      `Target network '${_target_network}'.`;
+    _msg_info(_msg);
+  }
+  const
+    _target_network_starts_with =
+      _target_network.startsWith;
+  const
+    _target_network_starts_with_type =
+      typeof(
+        _target_network_starts_with);
+  if ( _target_network_starts_with_type == "undefined" &&
+       ( _network_type == "number" ||
+         _network_type == "bigint" ) ) {
+    _chain_id =
+      _target_network;
+    _msg =
+      "Given chain ID as a network url, " +
+      "obtaining an RPC url for the " +
+      `network with chain ID '${_chain_id}'.`;
+    _console.error(
+      _msg);
+    _target_network =
+      await _rpc_auto_detect(
+        _chain_id);
+    // _msg_error(
+    //   _msg,
+    //   1);
   }
   if ( ! _target_network.startsWith(
            "https://") &&
@@ -380,7 +420,7 @@ async function
     _msg_info(
       _msg);
     _target_network =
-      _rpc_auto_detect(
+      await _rpc_auto_detect(
         _target_network);
   }
   if ( typeof(
@@ -468,8 +508,22 @@ async function
      _network); 
   }
   if ( _timeout_set == true ) {
-    if ( _default_network.startsWith(
-           "http") ) {
+    _default_network_type =
+      typeof(
+        _default_network);
+    if ( _default_network_type == "Number" ||
+         _default_network_type == "BigInt" ) {
+      _msg =
+        `Unsupported network '${_network}'.`;
+      const
+        _exception = {
+          "msg":
+            _msg
+        };
+      throw _exception;
+    }
+    else if ( _default_network.startsWith(
+                "http") ) {
       _request =
         new _fetch_request(
           _default_network);
