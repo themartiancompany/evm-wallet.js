@@ -296,9 +296,10 @@ if ( await _cmdline_check(
        "mkseed")  ) {
   _global_variables();
   await _cmdline_parse();
-  app_opts = [
-    seed_path
-  ];
+  _set(
+    "app",
+    "opts",
+    [ seed_path ]);
   _mkseed.apply(
     null,
     app_opts);
