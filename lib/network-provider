@@ -386,8 +386,18 @@ async function
     _msg_info(_msg);
   }
   if ( _network_type != "undefined" ) {
-    _target_network_starts_with =
-      _target_network.startsWith;
+    if ( _network_type === "string" ) {
+      _target_network_starts_with =
+        _target_network.startsWith;
+    }
+    else {
+      _msg_warning(
+        _target_network);
+      _msg_warning(
+        _target_network_type);
+      _target_network_starts_with =
+        true;
+    }
   }
   else {
     _target_network_starts_with =

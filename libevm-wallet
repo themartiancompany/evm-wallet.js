@@ -1141,7 +1141,7 @@ async function
       _target_networks);
   const
     _rpc =
-      _rpc_get(
+      await _rpc_get(
         _target_networks);
   _msg =
     `Using RPC address:`;
