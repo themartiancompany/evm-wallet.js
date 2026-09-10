@@ -127,6 +127,13 @@ function
     "name",
     "seed-new");
   /* global
+       app_opts:
+         writable */
+  _set(
+    "app",
+    "opts",
+    []);
+  /* global
        seed_path:
          writable */
   _set(
