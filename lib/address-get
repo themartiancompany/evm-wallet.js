@@ -135,6 +135,10 @@ function
     "name",
     "address-get");
   _set(
+    "app",
+    "opts",
+    []);
+  _set(
     "wallet",
     "seed",
     "");
