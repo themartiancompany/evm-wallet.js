@@ -38,10 +38,10 @@ const
     await import(
       "libcrash-js");
 /* global
-     _argv_get */
+     _argv */
 const
-  _argv_get =
-    _libcrash._argv_get;
+  _argv =
+    _libcrash._argv;
 /* global
      _cmdline_check */
 const
