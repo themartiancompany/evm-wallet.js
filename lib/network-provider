@@ -74,6 +74,12 @@ const
   _msg_info =
     _libcrash._msg_info;
 /* global
+     _msg_warning:
+       writable */
+const
+  _msg_warning =
+    _libcrash._msg_warning;
+/* global
      _msg_error:
        writable */
 const
@@ -394,7 +400,7 @@ async function
       _msg_warning(
         _target_network);
       _msg_warning(
-        _target_network_type);
+        _network_type);
       _target_network_starts_with =
         true;
     }
@@ -416,8 +422,9 @@ async function
       "Given chain ID as a network url, " +
       "obtaining an RPC url for the " +
       `network with chain ID '${_chain_id}'.`;
-    _console.error(
-      _msg);
+    _msg_error(
+      _msg,
+      0);
     _target_network =
       await _rpc_auto_detect(
         _chain_id);
