@@ -325,7 +325,7 @@ async function
     _target_network ] =
     _target_networks_check(
       _target_networks);
-  const =
+  const
     _rpc_get_args = [
       _target_networks
     ];
