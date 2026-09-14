@@ -56,6 +56,12 @@ const
   _echo =
     _libcrash._echo;
 /* global
+     _echo2:
+       writable */
+const
+  _echo2 =
+    _libcrash._echo2;
+/* global
      _exit:
        writable */
 const
@@ -298,7 +304,7 @@ function
 }
 
 async function
-  _rpc_auto_detect(
+  _rpc_resolve(
     _chain_id) {
   let
     _target_network,
@@ -342,11 +348,14 @@ async function
     _provider,
     _provider_opts,
     _rpc,
+    _rpc_resolve_args,
+    _rpc_retrieve,
     _target_network_starts_with;
-  const
-    _network_type =
-      typeof(
-        _target_network);
+  _rpc_retrieve =
+    false;
+  _network_type =
+    typeof(
+      _target_network);
   const
     _chain_id_type =
       typeof(
@@ -355,85 +364,177 @@ async function
     `Selected network: '${_target_network}'.`;
   _msg_info(
     _msg);
-  if ( _network_type == "undefined" ||
-       _target_network == "" ) {
-    if ( _chain_id_type != "undefined" &&
-         _chain_id != "" ) {
-      _msg =
-        "Getting RPC for network with " +
-        `chain ID '${_chain_id}'.`;
-      _msg_info(
-        _msg);
-      _target_network =
-        await _rpc_auto_detect(
-          _chain_id);
-      _msg =
-        `Obtained RPC '${_target_network}'.`;
-      _msg_info(
-        _msg);
+  if ( _network_type === "undefined" ) {
+    _msg =
+      "Variable '_target_network' " +
+      "undefined, setting."
+    if ( _chain_id_type !== "undefined" ) {
+      if ( 0 < _chain_id.length ) {
+        _msg =
+          "Getting RPC for network with " +
+          `chain ID '${_chain_id}'.`;
+        _msg_info(
+          _msg);
+        _rpc_retrieve =
+          true;
+      }
+      else {
+        _msg =
+          `No network '${_target_network}' ` +
+          `and chain id '${_chain_id}' ` +
+          "given in input, " +
+          "will return empty provider.";
+        _msg_info(
+          _msg);
+      }
     }
     else {
       _msg =
         `No network '${_target_network}' ` +
-        `or chain id '${_chain_id}' ` +
+        `and chain id '${_chain_id}' ` +
         "given in input, " +
         "will return empty provider.";
       _msg_info(
         _msg);
     }
   }
-  else if ( _network_type == "object" ) {
-    _msg_info(
+  else if ( _network_type === "object" ) {
+    _msg =
+      "Unknown type 'object' for " +
+      "variable '_target_network' " +
+      "(correct type: string):";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
       _target_network);
+    throw _msg;
   }
   else {
     _msg =
-      `Target network '${_target_network}'.`;
-    _msg_info(_msg);
+      `Unknown type '${_network_type}' for ` +
+      "variable '_target_network' " +
+      "(correct type: string):";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _target_network);
+    throw _msg;
   }
-  if ( _network_type != "undefined" ) {
-    if ( _network_type === "string" ) {
+  if ( _rpc_retrieve ) {
+    _rpc_resolve_args = [
+      _chain_id
+    ];
+    try {
+      _target_network =
+        await _rpc_resolve.apply(
+          null
+          _rpc_resolve_args);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error running '_rpc_resolve' " +
+        "with parameters:";
+      _echo2(
+        _rpc_resolve_args);
+      _echo2(
+        _error);
+      throw _error;
+    }
+  }
+  _network_type =
+    typeof(
+      _target_network);
+  if ( _network_type === "string" ) {
       _target_network_starts_with =
         _target_network.startsWith;
-    }
-    else {
-      _msg_warning(
-        _target_network);
-      _msg_warning(
-        _network_type);
-      _target_network_starts_with =
-        true;
-    }
   }
-  else {
+  else if ( _network_type === "number" ||
+            _network_type === "bigint" ) {
+    _msg =
+      "Numeric chain ID in place of target " +
+      "network, setting boolean " +
+      "'true' as _target_network_start_with " +
+      "function.";
+    _msg_info(
+      _msg);
     _target_network_starts_with =
       true;
   }
+  else if ( _network_type === "undefined" ) {
+    _msg =
+      "Dummy provider, setting " +
+      "'_target_network_starts_with' " +
+      "function as boolean 'true'";
+    _msg_info(
+      _msg);
+    _target_network_starts_with =
+      true;
+  else if ( _network_type === "object" ) {
+    _msg =
+      "Target network variable provided, " +
+      "as object, setting " +
+      "'_target_network_starts_with' " +
+      "function the value of the 'startsWith' " +
+      "method.";
+    _msg_info(
+      _msg);
+    _target_network_starts_with =
+      _target_network.startsWith;
   const
     _target_network_starts_with_type =
       typeof(
         _target_network_starts_with);
-  if ( _target_network_starts_with_type == "undefined" &&
-       ( _network_type == "number" ||
-         _network_type == "bigint" ) ) {
-    _chain_id =
-      _target_network;
-    _msg =
-      "Given chain ID as a network url, " +
-      "obtaining an RPC url for the " +
-      `network with chain ID '${_chain_id}'.`;
-    _msg_error(
-      _msg,
-      0);
-    _target_network =
-      await _rpc_auto_detect(
-        _chain_id);
-    // _msg_error(
-    //   _msg,
-    //   1);
-  }
-  else if ( _target_network_starts_with_type == "boolean" ) {
-    throw _target_network;
+  if ( _target_network_starts_with_type === "boolean" ) {
+    if ( _network_type == "number" ||
+         _network_type == "bigint" ) {
+      _chain_id =
+        _target_network;
+      _msg =
+        "Given chain ID as a network url, " +
+        "obtaining an RPC url for the " +
+        `'network with chain ID '${_chain_id}'.`;
+      _msg_error(
+        _msg,
+        0);
+      _rpc_resolve_args = [
+        _chain_id
+      ];
+      try {
+        _target_network =
+          await _rpc_resolve.apply(
+            null,
+            _rpc_resolve_args);
+      }
+      catch(
+        _error){
+        _msg =
+          "Error running '_rpc_resolve' " +
+          "with arguments:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
+          _rpc_resolve_args);
+        _echo2(
+          _error);
+        throw _error;
+      }
+    }
+    else {
+      _msg =
+        `Unknown type '${_network_type}' ` +
+        `for variable '_target_network' ` +
+        "(expected type: string)";
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _target_network);
+      throw _msg;
+    }
   }
   if ( ! _target_network.startsWith(
            "https://") &&
@@ -445,18 +546,62 @@ async function
       `network with chain ID '${_chain_id}'.`;
     _msg_info(
       _msg);
-    _target_network =
-      await _rpc_auto_detect(
-        _target_network);
+    _rpc_resolve_args = [
+      _target_network
+    ];
+    try {
+      _target_network =
+        await _rpc_resolve.apply(
+          null,
+          _rpc_resolve_args);
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error running '_rpc_resolve' " +
+        "with arguments:";
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _rpc_resolve_args);
+      _echo2(
+        _error);
+      throw _error;
+    }
   }
-  if ( typeof(
-         _timeout) == "undefined" ||
-       _timeout == "" ) {
+  const
+    _timeout_type =
+      typeof(
+        _timeout);
+  if ( _timeout_type === "undefined" ) {
+    _msg =
+      "Timeout variable undefined, " +
+      "setting default value.";
     _timeout =
       300;
     _timeout_set =
       false;
   }
+  else if ( _timeout_type === "string" ) {
+    _msg =
+      "Timeout variable not set, " +
+      "setting default value.";
+    if (_timeout.length < 1 ) {
+      _timeout =
+        300;
+      _timeout_set =
+        false;
+    }
+    else {
+      _timeout_set =
+        true;
+    }
+  }
+  else if ( _timeout_type === "number" ||
+            _timeout_type === "bigint" ) {
+    _timeout_set =
+      true;
   else {
     _timeout_set =
       true;
