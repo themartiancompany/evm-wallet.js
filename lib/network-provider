@@ -307,6 +307,8 @@ async function
   _rpc_resolve(
     _chain_id) {
   let
+    _rpc_get_args,
+    _rpc_object,
     _target_network,
     _target_networks;
   const
@@ -323,11 +325,32 @@ async function
     _target_network ] =
     _target_networks_check(
       _target_networks);
+  const =
+    _rpc_get_args = [
+      _target_networks
+    ];
+  try {
+    _rpc_object =
+      await _rpc_get.apply(
+        null,
+        _rpc_get_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_rpc_get' with " +
+      "parameters:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _rpc_get_args);
+    throw _error;
+  }
   const
     _rpc =
-      _rpc_get(
-        _target_networks)[
-          _chain_id];
+      _rpc_object[
+        _chain_id];
   return _rpc;
 }
 
