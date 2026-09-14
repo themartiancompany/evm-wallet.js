@@ -506,9 +506,8 @@ async function
         "Given chain ID as a network url, " +
         "obtaining an RPC url for the " +
         `'network with chain ID '${_chain_id}'.`;
-      _msg_error(
-        _msg,
-        0);
+      _msg_info(
+        _msg);
       _rpc_resolve_args = [
         _chain_id
       ];
