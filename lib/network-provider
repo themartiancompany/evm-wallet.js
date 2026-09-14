@@ -314,6 +314,11 @@ async function
     _libevm_module =
       await _require(
         "libevm");
+  // Probably this will have to
+  // fixed at a later point.
+  _chain_id =
+    String(
+      _chain_id);
   const
     _rpc_get =
       _libevm_module._rpc_get;
