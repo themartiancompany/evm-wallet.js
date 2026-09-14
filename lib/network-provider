@@ -532,8 +532,10 @@ async function
         await _rpc_resolve.apply(
           null,
           _rpc_resolve_args);
-      _echo2(
-        _target_network);
+      _msg =
+        `Got RPC URL '${_target_network}'`;
+      _msg_info(
+        _msg_info);
     }
     catch(
       _error) {
