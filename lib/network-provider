@@ -429,7 +429,7 @@ async function
     try {
       _target_network =
         await _rpc_resolve.apply(
-          null
+          null,
           _rpc_resolve_args);
     }
     catch(
