@@ -472,6 +472,7 @@ async function
       _msg);
     _target_network_starts_with =
       true;
+  }
   else if ( _network_type === "object" ) {
     _msg =
       "Target network variable provided, " +
@@ -483,6 +484,7 @@ async function
       _msg);
     _target_network_starts_with =
       _target_network.startsWith;
+  }
   const
     _target_network_starts_with_type =
       typeof(
