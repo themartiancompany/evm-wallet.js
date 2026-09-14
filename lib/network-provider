@@ -355,6 +355,10 @@ async function
     _rpc =
       _rpc_object[
         _chain_id];
+  _msg =
+    `Resolved RPC '${_rpc}'.`;
+  _msg_info(
+    _msg);
   return _rpc;
 }
 
@@ -503,6 +507,11 @@ async function
         await _rpc_resolve.apply(
           null,
           _rpc_resolve_args);
+      _msg =
+        "Got target network " +
+        `'${_target_network}'.`;
+      _msg_info(
+        _msg);
     }
     catch(
       _error) {
@@ -617,6 +626,8 @@ async function
            "https://") &&
        ! _target_network.startsWith(
            "wss://") ) {
+    _chain_id =
+      _target_network;
     _msg =
       "Given chain ID as a network url, " +
       "obtaining an RPC url for the " +
