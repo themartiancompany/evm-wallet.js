@@ -368,7 +368,7 @@ async function
   if ( _network_type === "undefined" ) {
     _msg =
       "Variable '_target_network' " +
-      "undefined, setting."
+      "undefined, setting.";
     if ( _chain_id_type !== "undefined" ) {
       if ( 0 < _chain_id.length ) {
         _msg =
@@ -410,6 +410,13 @@ async function
     _echo2(
       _target_network);
     throw _msg;
+  }
+  else if ( _network_type === "number" ) {
+    _msg =
+      "Variable '_target_network' " +
+      "set as chain ID, resolving an RPC.";
+    _msg_info(
+      _msg);
   }
   else {
     _msg =
