@@ -345,6 +345,7 @@ async function
     _msg,
     _network,
     _network_new_opts,
+    _network_type,
     _provider,
     _provider_opts,
     _rpc,
