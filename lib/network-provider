@@ -307,7 +307,6 @@ async function
   _rpc_resolve(
     _chain_id) {
   let
-    _rpc_get_args,
     _rpc_object,
     _target_network,
     _target_networks;
