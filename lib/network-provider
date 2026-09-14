@@ -685,15 +685,15 @@ async function
       typeof(
         _timeout);
   if ( _timeout_type === "undefined" ) {
-    _msg =
-      "Timeout variable undefined, " +
-      "setting default value.";
-    _msg_info(
-      _msg);
     _timeout =
       300;
     _timeout_set =
       false;
+    _msg =
+      "Timeout variable undefined, " +
+      `setting default value ('${_timeout}').`;
+    _msg_info(
+      _msg);
   }
   else if ( _timeout_type === "string" ) {
     if (_timeout.length < 1 ) {
@@ -775,6 +775,10 @@ async function
     _default_network =
       _target_network;
   }
+  _msg =
+    `Provider RPC url: '${_default_network}'`;
+  _msg_info(
+    _msg);
   if ( _default_network == "" ) {
     _default_network =
       "mainnet";
@@ -839,10 +843,26 @@ async function
     _get_default_provider_opts.push(
       _provider_opts);
   }
-  _provider =
-    await _get_default_provider.apply(
-      null,
+  try {
+    _provider =
+      await _get_default_provider.apply(
+        null,
+        _get_default_provider_opts);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_get_default_provider' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
       _get_default_provider_opts);
+    _echo2(
+      _error);
+    throw _error;
+  }
   _msg_info_provider_generated(
     _provider);
   return _provider;
