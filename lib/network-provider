@@ -308,6 +308,7 @@ async function
     _chain_id) {
   let
     _msg,
+    _rpc,
     _rpc_object,
     _target_network,
     _target_networks;
@@ -357,10 +358,23 @@ async function
       _rpc_get_args);
     throw _error;
   }
+  _rpc =
+    _rpc_object[
+      _chain_id];
   const
+    _rpc_type =
+      typeof(
+        _rpc);
+  if ( _rpc_type === "array" ||
+       _rpc_type === "object" ) {
+    _msg =
+      "RPC returned as a list, fixing.";
+    _msg_info(
+      _msg);
     _rpc =
-      _rpc_object[
-        _chain_id];
+      _rpc[
+        0];
+  }
   _msg =
     `Resolved RPC '${_rpc}'.`;
   _msg_info(
@@ -378,7 +392,7 @@ async function
     _timeout_set) {
   let
     _default_network,
-    _get_default_provider_opts,
+    _get_default_provider_args,
     _msg,
     _network,
     _network_new_opts,
@@ -739,7 +753,7 @@ async function
   _timeout =
     Number(
       _timeout);
-  _get_default_provider_opts =
+  _get_default_provider_args =
     [];
   _network_new_opts = [
     null
@@ -783,7 +797,7 @@ async function
     _default_network =
       "mainnet";
   }
-  _get_default_provider_opts.push(
+  _get_default_provider_args.push(
     _default_network);
   if ( _chain_name == "" ||
        _chain_name == undefined ||
@@ -809,7 +823,7 @@ async function
       new (Function.prototype.bind.apply(
         _network_class,
         _network_new_opts));
-    _get_default_provider_opts.push(
+    _get_default_provider_args.push(
      _network); 
   }
   if ( _timeout_set == true ) {
@@ -840,14 +854,14 @@ async function
     }
   }
   else if ( _timeout_set == false ) {
-    _get_default_provider_opts.push(
+    _get_default_provider_args.push(
       _provider_opts);
   }
   try {
     _provider =
       await _get_default_provider.apply(
         null,
-        _get_default_provider_opts);
+        _get_default_provider_args);
   }
   catch(
     _error) {
@@ -858,7 +872,7 @@ async function
       _msg,
       0);
     _echo2(
-      _get_default_provider_opts);
+      _get_default_provider_args);
     _echo2(
       _error);
     throw _error;
