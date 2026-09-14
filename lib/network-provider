@@ -604,6 +604,7 @@ async function
             _timeout_type === "bigint" ) {
     _timeout_set =
       true;
+  }
   else {
     _timeout_set =
       true;
