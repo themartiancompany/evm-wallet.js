@@ -490,7 +490,8 @@ async function
   }
   if ( _rpc_retrieve ) {
     _rpc_resolve_args = [
-      _chain_id
+      String(
+        _chain_id);
     ];
     try {
       _target_network =
@@ -567,7 +568,8 @@ async function
       _msg_info(
         _msg);
       _rpc_resolve_args = [
-        _chain_id
+        String(
+          _chain_id)
       ];
       try {
         _target_network =
@@ -617,7 +619,8 @@ async function
     _msg_info(
       _msg);
     _rpc_resolve_args = [
-      _target_network
+      String(
+        _target_network)
     ];
     try {
       _target_network =
