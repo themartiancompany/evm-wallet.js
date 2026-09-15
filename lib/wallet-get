@@ -332,6 +332,13 @@ async function
     _provider_attach,
     _seed_exists,
     _signer;
+  const
+    _global =
+      _global_get();
+  const
+    _quiet =
+      _global[
+        "quiet"];
   _password_show =
     "";
   const
@@ -399,8 +406,12 @@ async function
     _msg =
       "Provider undefined, attaching"
       "none.";
-    _echo2(
-      _provider);
+    _msg_info(
+      _msg);
+    if ( _quiet == "n" ) {
+      _echo2(
+        _provider);
+    }
     _provider_attach =
       true;
   }
