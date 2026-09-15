@@ -1,6 +1,6 @@
 { "name": "evm-wallet.js",
   "version":
-    "0.0.100",
+    "0.0.101",
   "description":
     "Cryptocurrency wallet for Ethereum Virtual Machine (EVM) compatible blockchain networks written in Javascript, part of the EVM Toolchain, depending on the Ethers library.",
   "funding": {
@@ -89,19 +89,19 @@
     "ethers":
       "^6.13.2",
     "libevm":
-      "^0.0.45",
+      "^0.0.46",
     "yargs":
       "18.0.0"
   },
   "optionalDependencies": {
     "erc20-tools":
-      "^0.0.22"
+      "^0.0.25"
   },
   "overrides": {
     "evm-wallet":
       "./libevm-wallet",
     "libevm":
-      "^0.0.45"
+      "^0.0.46"
   },
   "type":
     "module",
