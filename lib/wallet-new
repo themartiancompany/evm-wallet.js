@@ -171,12 +171,31 @@ async function
     _network,
     _api_key_path) {
   let
+    _msg,
     _password_show,
     _provider;
-  _provider =
-    await _provider_get(
+  const
+    _provider_get_args = [
       _network,
-      _api_key_path);
+      _api_key_path
+    ];
+  try {
+    _provider =
+      await _provider_get.apply(
+        null,
+        _provider_get_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running _provider_get";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   const
     _seed_type =
       typeof(
@@ -209,12 +228,30 @@ async function
       "Wallet password",
       _password_show);
   }
-  _wallet =
-    _wallet_get(
+  const
+    _wallet_get_args = [
       _path,
       _password,
       _seed,
-      _provider);
+      _provider
+    ];
+  try {
+    _wallet =
+      await _wallet_get.apply(
+        null,
+        _wallet_get_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_wallet_get'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   return _wallet;
 }
 

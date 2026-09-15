@@ -317,7 +317,8 @@ function
     _exit_code);
 }
 
-async function _wallet_get(
+async function
+  _wallet_get(
   _path,
   _password,
   _seed,
@@ -330,7 +331,7 @@ async function _wallet_get(
     _phrase_show,
     _provider_attach,
     _seed_exists,
-    _signer,
+    _signer;
   _password_show =
     "";
   const
