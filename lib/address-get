@@ -54,6 +54,11 @@ const
   _echo =
     _libcrash._echo;
 /* global
+     _echo2 */
+const
+  _echo2 =
+    _libcrash._echo2;
+/* global
      _exit */
 const
   _exit =
@@ -179,7 +184,8 @@ async function
     _chain_name,
     _output_file) {
   let
-    _api_key;
+    _api_key,
+    _provider;
   if ( typeof(
          _wallet_seed) == "undefined" ||
        _wallet_seed == "" ||
@@ -227,11 +233,10 @@ async function
       _chain_name
     ];
   try {
-    const
-      _provider =
-        await _provider_get.apply(
-          null,
-          _provider_get_args);
+    _provider =
+      await _provider_get.apply(
+        null,
+        _provider_get_args);
   }
   catch(
     _error) {

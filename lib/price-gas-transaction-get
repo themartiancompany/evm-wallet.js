@@ -58,6 +58,11 @@ const
   _echo =
     _libcrash._echo;
 /* global
+     _echo2 */
+const
+  _echo2 =
+    _libcrash._echo2;
+/* global
      _exit */
 const
   _exit =
@@ -225,7 +230,8 @@ async function
     _price_gas,
     _price_gas_target,
     _price_gas_get_args,
-    _provider_get_opts,
+    _provider,
+    _provider_get_args,
     _retry,
     _request,
     _success,
@@ -286,7 +292,7 @@ async function
   _wallet_path =
     _path_join(
       _wallet_path_list);
-  _provider_get_opts = [
+  _provider_get_args = [
     _target_network,
   ];
   if ( _output_file == undefined ) {
@@ -297,15 +303,31 @@ async function
     _api_key =
       _file_read(
         _api_key_path);
-    _provider_get_opts.push(
+    _provider_get_args.push(
       _api_key);
   }
-  _provider_get_opts.push(
+  _provider_get_args.push(
     _timeout);
-  _provider =
-    await _provider_get.apply(
-      null,
-      _provider_get_opts);
+  try {
+    _provider =
+      await _provider_get.apply(
+        null,
+        _provider_get_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_provider_get' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _provider_get_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
   _msg_info_provider_generated(
     _provider);
   // if ( _target_address == "" ) {

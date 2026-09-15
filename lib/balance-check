@@ -59,6 +59,12 @@ const
   _echo =
     _libcrash._echo;
 /* global
+     _echo2:
+       writable */
+const
+  _echo2 =
+    _libcrash._echo2;
+/* global
      _exit:
        writable */
 const
@@ -265,7 +271,8 @@ async function
     _api_key,
     _balance,
     _msg,
-    _provider_get_opts,
+    _provider,
+    _provider_get_args,
     _retry,
     _sender_address,
     _success,
@@ -303,20 +310,36 @@ async function
   _wallet_path =
     _path_join(
       _wallet_path_list);
-  _provider_get_opts = [
+  _provider_get_args = [
     _target_network
   ];
   if ( _api_key_path != "" ) {
     _api_key =
       _file_read(
         _api_key_path);
-    _provider_get_opts.push(
+    _provider_get_args.push(
       _api_key);
   }
-  _provider =
-    await _provider_get.apply(
-      null,
-      _provider_get_opts);
+  try {
+    _provider =
+      await _provider_get.apply(
+        null,
+        _provider_get_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_provider_get' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _provider_get_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
   _msg_info_provider_generated(
     _provider);
   _wallet_get_opts = [

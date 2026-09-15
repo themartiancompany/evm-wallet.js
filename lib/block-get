@@ -61,6 +61,11 @@ const
   _echo =
     _libcrash._echo;
 /* global
+     _echo2 */
+const
+  _echo2 =
+    _libcrash._echo2;
+/* global
      _exit */
 const
   _exit =
@@ -184,7 +189,8 @@ async function
     _address,
     _api_key,
     _output,
-    _provider_get_opts,
+    _provider,
+    _provider_get_args,
     _wallet_dir,
     _wallet_password,
     _wallet_path_list;
@@ -211,17 +217,32 @@ async function
           _api_key_path);
     }
   }
-  _provider_get_opts = [
+  _provider_get_args = [
     _target_network,
     _api_key,
     _chain_id,
     _chain_name
   ];
-  const
+  try {
     _provider =
       await _provider_get.apply(
         null,
-        _provider_get_opts);
+        _provider_get_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_provider_get' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _provider_get_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
   _msg_info_provider_generated(
     _provider);
   const
