@@ -185,6 +185,13 @@ function
     _timeout,
     _msg;
   const
+    _global =
+      _global_get();
+  const
+    _quiet =
+      _global[
+        "quiet"];
+  const
     _provider_type =
       typeof(
         _provider);
@@ -206,6 +213,10 @@ function
         "Probably a dummy connection method";
       _msg_info(
         _msg);
+      if ( _quiet == "n" ) {
+        _echo(
+          _provider);
+      }
     }
     else if ( _get_connection_type == "JsonRpcProvider" ) {
       _get_connection_type =
@@ -230,10 +241,10 @@ function
       // _msg_info(
       //   _msg);
       // if ( quiet == "n" ) {
-      //   console.log(
+      //   _echo(
       //     typeof(
       //       _provider));
-      //   console.log(
+      //   _echo(
       //     _provider.connection);
       // }
       for ( _key in _provider) {
@@ -403,6 +414,13 @@ async function
     _rpc_resolve_args,
     _rpc_retrieve,
     _target_network_starts_with;
+  const
+    _global =
+      _global_get();
+  const
+    _quiet =
+      _global[
+        "quiet"];
   _rpc_retrieve =
     false;
   _network_type =
@@ -450,16 +468,79 @@ async function
         _msg);
     }
   }
+  else if ( _network_type === "array" ) {
+    if ( 0 < _target_network.length ) {
+      _msg =
+        "Variable '_target_network' is " +
+        "an array, fixing.";
+      _msg_info(
+        _msg);
+      _target_network =
+        _target_network[
+          0];
+      if ( _quiet == "n" ) {
+        _echo(
+          _target_network);
+      }
+    }
+    else {
+      if ( _chain_id_type !== "undefined" ) {
+        if ( 0 < _chain_id.length ) {
+          _msg =
+            "Getting RPC for network with " +
+            `chain ID '${_chain_id}'.`;
+          _msg_info(
+            _msg);
+          _rpc_retrieve =
+            true;
+        }
+        else {
+          _msg =
+            `No network '${_target_network}' ` +
+            `and chain id '${_chain_id}' ` +
+            "given in input, " +
+            "will return empty provider.";
+          _msg_info(
+            _msg);
+        }
+      }
+      else {
+        _msg =
+          `No network '${_target_network}' ` +
+          `and chain id '${_chain_id}' ` +
+          "given in input, " +
+          "will return empty provider.";
+        _msg_info(
+          _msg);
+      }
+    }
+  }
   else if ( _network_type === "object" ) {
-    _msg =
-      "Unknown type 'object' for " +
-      "variable '_target_network' " +
-      "(correct type: string):";
-    _msg_error(
-      _msg,
-      0);
-    _echo2(
-      _target_network);
+    if ( _target_network.length === 1 ) {
+      _msg =
+        "Variable '_target_network' is " +
+        "an object, fixing:";
+      _msg_info(
+        _msg);
+      _target_network =
+        _target_network[
+          0];
+      if ( _quiet == "n" ) {
+        _echo(
+          _target_network);
+      }
+    }
+    else {
+      _msg =
+        "Unknown type 'object' for " +
+        "variable '_target_network' " +
+        "(correct type: string):";
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _target_network);
+    }
     throw _msg;
   }
   else if ( _network_type === "number" ) {

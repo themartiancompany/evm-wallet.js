@@ -276,7 +276,7 @@ function
       if ( ! _seed_is_phrase ) {
         _msg =
           `The seed phrase is encrypted, ` +
-	  `OpenPGP on Ethereum decryption not implemented.`;
+          `OpenPGP on Ethereum decryption not implemented.`;
         _msg_error(
           _msg,
           1)
@@ -435,8 +435,8 @@ async function
       throw _error;
     }
   }
-  _echo2(
-    _wallet.provider);
+  // _echo2(
+  //   _wallet.provider);
   return _signer;
 }
 
