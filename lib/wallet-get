@@ -35,6 +35,16 @@ const
   _cmdline_check =
     _libcrash._cmdline_check;
 /* global
+     _echo */
+const
+  _echo =
+    _libcrash._echo;
+/* global
+     _echo2 */
+const
+  _echo2 =
+    _libcrash._echo2;
+/* global
      _exit */
 const
   _exit =
@@ -300,14 +310,14 @@ function
       ""
     ];
   for ( _line of _text ) {
-    console.log(
+    _echo(
       _line);
   }
   _exit(
     _exit_code);
 }
 
-function _wallet_get(
+async function _wallet_get(
   _path,
   _password,
   _seed,
@@ -315,9 +325,12 @@ function _wallet_get(
   _wallet,
   _verbose) {
   let
+    _msg,
     _password_show,
     _phrase_show,
-    _seed_exists;
+    _provider_attach,
+    _seed_exists,
+    _signer,
   _password_show =
     "";
   const
@@ -369,9 +382,60 @@ function _wallet_get(
   // _wallet.provider =
   //   _provider;
   const
-    _signer =
-      _wallet.connect(
+    _provider_type =
+      typeof(
         _provider);
+  _provider_attach =
+    false;
+  if ( _provider_type === "undefined" ) {
+    _msg =
+      "Provider undefined, attaching"
+      "none.";
+    _msg_info(
+      _msg);
+  }
+  else if ( _provider_type === "object" ) {
+    _msg =
+      "Provider undefined, attaching"
+      "none.";
+    _echo2(
+      _provider);
+    _provider_attach =
+      true;
+  }
+  else {
+    _msg =
+      `Unknown type '${_provider_type}' ` +
+      `for variable '_provider'.`;
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _provider);
+    throw _msg;
+  }
+  if ( _provider_attach ) {
+    try {
+      _signer =
+        _wallet.connect(
+          _provider);
+      // _signer.provider =
+      //   _provider;
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error attaching provider."
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
+      throw _error;
+    }
+  }
+  _echo2(
+    _wallet.provider);
   return _signer;
 }
 
