@@ -41,8 +41,10 @@ blockchain networks, on
 [key-gen](
   https://github.com/themartiancompany/key-gen),
 for which it is at the same time a seed-phrase provider,
-to generate secrets,
-and on the
+to generate secrets, on
+[ERC20 Tools](
+  https://github.com/themartiancompany/erc20-tools)
+to send ERC20 tokens and on the
 [Crash Bash](
   https://github.com/themartiancompany/crash-bash)
 and
