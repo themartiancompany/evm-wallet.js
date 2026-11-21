@@ -267,9 +267,10 @@ async function
       Number(
         _retries_max);
   }
-  _display_unit_type =
-    typeof(
-      _display_unit);
+  const
+    _display_unit_type =
+      typeof(
+        _display_unit);
   _display_unit_get =
     false;
   if ( _display_unit_type === "undefined" ) {
