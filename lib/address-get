@@ -308,7 +308,7 @@ async function
       0);
     throw _msg;
   }
-  if ( _output_file_write )
+  if ( _output_file_write ) {
     _file_write(
       _output_file,
       _address);
