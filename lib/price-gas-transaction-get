@@ -443,10 +443,14 @@ async function
       _retry =
         _retry + 1;
       _msg =
-        `Error retrieving gas price, ` +
-	`retrying (${_retry} of ${_retries_max})`;
-      console.error(
-        _err);
+        `Error retrieving transaction gas price.`;
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
+      _msg =
+        `Retrying (${_retry} of ${_retries_max})`;
       _msg_error(
         _msg,
         0);
@@ -550,7 +554,7 @@ function
     `                      Default: ${retries_max}`,
   ];
   for ( _line of _text ) {
-    console.log(
+    _echo(
       _line);
   }
   _exit(
@@ -636,7 +640,7 @@ async function
       await _price_gas_transaction_get.apply(
         null,
         _app_opts);
-    console.log(
+    _echo(
       _price_gas.toString());
     // process.stdout.write(
     //   _balance.toString());

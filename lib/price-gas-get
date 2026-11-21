@@ -282,6 +282,8 @@ async function
     _verbose) {
   let
     _display_unit_get,
+    _data,
+    _data_ether,
     _fee_data,
     _msg,
     _price_gas,
@@ -436,41 +438,92 @@ async function
       }
       else if ( _output_type == "priority" ) {
         _price_gas_wei =
-        _fee_data.maxPriorityFeePerGas;
+          _fee_data.maxPriorityFeePerGas;
       }
-      if ( _display_unit == "wei" ) {
-        _price_gas =
-          _price_gas_wei;
+      else if ( _output_type === "all" ||
+                _output_type === "full" ||
+                _output_type === "" ) {
+        _price_gas_wei = [
+          _fee_data.gasPrice,
+          _fee_data.maxFeePerGas,
+          _fee_data.maxPriorityFeePerGas
+        ];
       }
-      else if ( _display_unit == "ether" ) {
-        _price_gas_ether =
-          _wei_to_ether(
-            _price_gas_wei);
-        _price_gas =
-          _price_gas_ether;
-      }
-      if ( _output_file != "" ) {
-          _file_write(
-            _output_file,
-            _price_gas.toString());
+      else {
+        _msg =
+          "Unknown output type " +
+          `'${_output_type}'.`;
+        _msg_error(
+          _msg,
+          0);
+        throw _msg;
       }
       _success =
         true;
-    } catch(
-        _err) {
+    }
+    catch(
+      _error) {
       _retry =
         _retry + 1;
       _msg =
-        `Error retrieving gas price, ` +
-        `retrying (${_retry} of ${_retries_max})`;
+        `Error retrieving gas price.`;
       _msg_error(
-        _err,
+        _msg,
         0);
+      _echo2(
+        _error);
+      _msg =
+        `Retrying (${_retry} of ${_retries_max})`;
       _msg_error(
         _msg,
         0);
       await _sleep(
         10000);
+    }
+  }
+  if ( _display_unit == "wei" ) {
+    _price_gas =
+      _price_gas_wei;
+  }
+  else if ( _display_unit == "ether" ) {
+    if ( _output_type === "all" ||
+         _output_type === "full" ||
+         _output_type === "" ) {
+      _price_gas =
+        [];
+      for ( _data of _price_gas_wei ) {
+        _data_ether =
+          _wei_to_ether(
+            _data);
+        _price_gas.push(
+          _data_ether);
+      }
+    }
+    else {
+      _price_gas_ether =
+        _wei_to_ether(
+          _price_gas_wei);
+      _price_gas =
+        _price_gas_ether;
+    }
+  }
+  if ( _output_file != "" ) {
+    try {
+      _file_write(
+        _output_file,
+        _price_gas.toString());
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error writing data to location " +
+        `'${_output_file}'.`;
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
+      throw _error;
     }
   }
   if ( _success == false &&
