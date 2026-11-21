@@ -290,10 +290,7 @@ async function
     _provider,
     _retry,
     _request,
-    _success,
-    _wallet_dir,
-    _wallet_password,
-    _wallet_path_list;
+    _success;
   if ( typeof(
          _verbose) == 'undefined' ||
        _verbose == "" ) {
@@ -351,11 +348,13 @@ async function
     0;
   _success =
     false;
-  _wallet_password =
-    "";
-  _wallet_dir =
-    _dirname(
-      _wallet_seed);
+  const
+    _wallet_password =
+      "";
+  const
+    _wallet_dir =
+      _dirname(
+        _wallet_seed);
   const
     _wallet_path_list = [
       _wallet_dir,
