@@ -222,6 +222,7 @@ async function
     _display_unit,
     _wallet_seed,
     _target_address,
+    _output_type,
     _output_file,
     _retries_max) {
   let
