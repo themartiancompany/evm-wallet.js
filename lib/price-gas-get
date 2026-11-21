@@ -288,7 +288,6 @@ async function
     _price_gas_ether,
     _price_gas_wei,
     _provider,
-    _provider_get_args,
     _retry,
     _request,
     _success,
@@ -357,16 +356,19 @@ async function
   _wallet_dir =
     _dirname(
       _wallet_seed);
-  _wallet_path_list = [
-    _wallet_dir,
-    "wallet.dat"
-  ];
-  _wallet_path =
-    _path_join(
-      _wallet_path_list);
-  _provider_get_args = [
-    _target_network,
-  ];
+  const
+    _wallet_path_list = [
+      _wallet_dir,
+      "wallet.dat"
+    ];
+  const
+    _wallet_path =
+      _path_join(
+        _wallet_path_list);
+  const
+    _provider_get_args = [
+      _target_network,
+    ];
   if ( _output_file == undefined ) {
     _output_file =
       "";

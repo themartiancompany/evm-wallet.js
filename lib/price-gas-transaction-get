@@ -238,7 +238,6 @@ async function
     _price_gas_target,
     _price_gas_get_args,
     _provider,
-    _provider_get_args,
     _retry,
     _request,
     _success;
@@ -324,9 +323,10 @@ async function
     _wallet_path =
       _path_join(
         _wallet_path_list);
-  _provider_get_args = [
-    _target_network,
-  ];
+  const
+    _provider_get_args = [
+      _target_network,
+    ];
   if ( _output_file == undefined ) {
     _output_file =
       "";
