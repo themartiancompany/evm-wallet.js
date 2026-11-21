@@ -226,6 +226,7 @@ async function
     _output_file,
     _retries_max) {
   let
+    _display_unit_get,
     _fee_data,
     _msg,
     _price_gas,
@@ -235,10 +236,7 @@ async function
     _provider_get_args,
     _retry,
     _request,
-    _success,
-    _wallet_dir,
-    _wallet_password,
-    _wallet_path_list;
+    _success;
   _price_gas_get_args =
     [];
   if ( typeof(
@@ -269,9 +267,31 @@ async function
       Number(
         _retries_max);
   }
-  if ( typeof(
-         _display_unit) == 'undefined' ||
-       _display_unit == "" ) {
+  _display_unit_type =
+    typeof(
+      _display_unit);
+  _display_unit_get =
+    false;
+  if ( _display_unit_type === "undefined" ) {
+    _display_unit_get =
+      true;
+  }
+  else if ( _display_unit_type === "string" ) {
+    if ( _display_unit_get ) {
+      _display_unit_get =
+        true;
+    }
+  }
+  else {
+    _msg =
+      "Display unit variable has type " +
+      `'${_display_unit}' but it should be a string.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _error
+  }
+  if ( _display_unit_get ) {
     _display_unit =
       "ether";
   }
@@ -282,18 +302,22 @@ async function
     0;
   _success =
     false;
-  _wallet_password =
-    "";
-  _wallet_dir =
-    _dirname(
-      _wallet_seed);
-  _wallet_path_list = [
-    _wallet_dir,
-    "wallet.dat"
-  ];
-  _wallet_path =
-    _path_join(
-      _wallet_path_list);
+  const
+    _wallet_password =
+      "";
+  const
+    _wallet_dir =
+      _dirname(
+        _wallet_seed);
+  const
+    _wallet_path_list = [
+      _wallet_dir,
+      "wallet.dat"
+    ];
+  const
+    _wallet_path =
+      _path_join(
+        _wallet_path_list);
   _provider_get_args = [
     _target_network,
   ];
