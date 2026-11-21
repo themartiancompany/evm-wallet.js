@@ -122,6 +122,11 @@ const
     await import(
       './network-provider');
 /* global
+     _msg_info_provider_generated */
+const
+  _msg_info_provider_generated =
+    _provider_get_module._msg_info_provider_generated;
+/* global
      _provider_get */
 const
   _provider_get =
