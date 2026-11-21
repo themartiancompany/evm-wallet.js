@@ -185,7 +185,10 @@ async function
     _output_file) {
   let
     _api_key,
+    _output_file_write,
     _provider;
+  _output_file_write =
+    true;
   if ( typeof(
          _wallet_seed) == "undefined" ||
        _wallet_seed == "" ||
@@ -263,14 +266,49 @@ async function
     ];
   const
     _wallet =
-      _wallet_get.apply(
+      await _wallet_get.apply(
         null,
         _wallet_get_opts);
   const
     _address =
       _wallet.address;
-  if ( _output_file != undefined &&
-       _output_file != "" ) {
+  const
+    _address_type =
+      typeof(
+        _address);
+  if ( _address_type === "undefined" ) {
+    _msg =
+      "Wallet object has undefined address.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  const
+    _output_file_type =
+      typeof(
+        _output_file);
+  if ( _output_file_type === "undefined" ) {
+    _output_file_write =
+      false;
+  }
+  else if ( _output_file_type === "string" ) {
+    if ( _output_file.length < 1 ) {
+      _output_file_write =
+        false;
+    }
+  }
+  else {
+    _msg =
+      "Output file path has type " +
+      `'${_output_file_type}' but it ` +
+      "it should be 'string'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
+  if ( _output_file_write )
     _file_write(
       _output_file,
       _address);

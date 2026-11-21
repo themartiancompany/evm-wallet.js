@@ -319,12 +319,12 @@ function
 
 async function
   _wallet_get(
-  _path,
-  _password,
-  _seed,
-  _provider,
-  _wallet,
-  _verbose) {
+    _path,
+    _password,
+    _seed,
+    _provider,
+    _wallet,
+    _verbose) {
   let
     _msg,
     _password_show,
