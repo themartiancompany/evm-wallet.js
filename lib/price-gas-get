@@ -281,6 +281,7 @@ async function
     _retries_max,
     _verbose) {
   let
+    _display_unit_get,
     _fee_data,
     _msg,
     _price_gas,
@@ -315,14 +316,38 @@ async function
   _retries_max =
     Number(
       _retries_max);
-  if ( typeof(
-         _display_unit) == 'undefined' ||
-       _display_unit == "" ) {
+  const
+    _display_unit_type =
+      typeof(
+        _display_unit);
+  _display_unit_get =
+    false;
+  if ( _display_unit_type === "undefined" ) {
+    _display_unit_get =
+      true;
+  }
+  else if ( _display_unit_type === "string" ) {
+    if ( _display_unit.length < 1 ) {
+      _display_unit_get =
+        true;
+    }
+  }
+  else {
+    _msg =
+      "Display unit variable has type " +
+      `'${_display_unit}' but it should be a string.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _error
+  }
+  if ( _display_unit_get ) {
     _display_unit =
       "wei";
   }
-  _timeout =
-    100000;
+  const
+    _timeout =
+      100000;
   _retry =
     0;
   _success =

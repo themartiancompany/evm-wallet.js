@@ -283,7 +283,7 @@ async function
       true;
   }
   else if ( _display_unit_type === "string" ) {
-    if ( _display_unit_get ) {
+    if ( _display_unit.length < 1 ) {
       _display_unit_get =
         true;
     }
