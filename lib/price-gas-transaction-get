@@ -68,6 +68,11 @@ const
   _exit =
     _libcrash._exit;
 /* global
+     _get */
+const
+  _get =
+    _libcrash._get;
+/* global
      _global_get */
 const
   _global_get =
@@ -178,49 +183,67 @@ function
     "selection",
     "mode",
     "");
-  selection_mode =
-    "";
   /* global
        wallet_seed:
          writable */
-  wallet_seed =
-    "";
+  _set(
+    "wallet",
+    "seed",
+    "");
   /* global
        target_network:
          writable */
-  target_network =
-    "";
+  _set(
+    "target",
+    "network",
+    "");
   /* global
        api_key:
          writable */
-  api_key =
-    "";
+  _set(
+    "api",
+    "key",
+    "");
   /* global
        target_address:
          writable */
-  target_address =
-    "";
+  _set(
+    "target",
+    "address",
+    "");
   /* global
        display_unit:
          writable */
-  display_unit =
-    "";
+  _set(
+    "display",
+    "unit",
+    "");
   /* global
        output_type:
          writable */
-  output_type =
-    "";
+  _set(
+    "output",
+    "type",
+    "");
   /* global
        output_file:
          writable */
-  output_file =
-    "";
+  _set(
+    "output",
+    "file",
+    "");
   /* global
        retries_max:
          writable */
-  retries_max =
-    "";
-  quiet =
+  _set(
+    "retries",
+    "max",
+    "");
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "";
 }
 
@@ -245,7 +268,9 @@ async function
     _provider,
     _retry,
     _request,
-    _success;
+    _success,
+    _wallet_dir,
+    _wallet_path_list;
   try {
     _target_network =
       _target_network_check(
@@ -400,7 +425,7 @@ async function
   while ( _success == false &&
           _retry < _retries_max ) {
     try {
-      _price_gas_get_args.push(
+      _price_gas_get_args = [
         _target_network,
         _api_key_path,
         _display_unit,
@@ -408,13 +433,15 @@ async function
         _target_address,
         _output_type,
         "", // Output file
-        _retries_max);
-      _price_gas = await
-        _price_gas_get.apply(
+        _retries_max
+      ];
+      _price_gas =
+        await _price_gas_get.apply(
           null,
           _price_gas_get_args);
       _msg =
-        `Got gas price '${_price_gas}' ${_display_unit} ` +
+        `Got gas price '${_price_gas}' ` +
+        `${_display_unit} ` +
         `of output type '${_output_type}' ` +
         `for network '${_target_network}'.`;
       _msg_info(
@@ -480,7 +507,7 @@ async function
     }
   }
   if ( _success == false &&
-       _retry == _retries_max ) {
+       _retries_max < _retry +1 ) {
     throw "Error retrieving balance.";
   }
   return _price_gas_target;
@@ -511,8 +538,13 @@ function
   let
     _line;
   const
+    _program =
+      _basename(
+        _argv[
+          "1"]);
+  const
     _text = [
-      `${app_name} configuration:`,
+      `  ${_program} configuration:`,
       `         Display unit: ${display_unit}`,
       `       Selection mode: ${selection_mode}`,
       `          Output type: ${output_type}`,
@@ -535,45 +567,52 @@ function
   _usage(
     _exit_code) {
   let
-    _line,
-    _text;
-  _text = [
-    "Usage:",
-    "  price-gas-transaction-get",
-    "    <quiet>",
-    "    <target-network>",
-    "    (<selection-mode>)",
-    "    (<api-keys-path)",
-    "    (<display-unit>)",
-    "    (<seed-path>)",
-    "    (<target-address>)",
-    "    (<output-type>)",
-    "    (<output-file>)",
-    "    (<retries-max>)",
-    "",
-    "Arguments:",
-    "  <target-network>    Name of the network to connect to.",
-    "  <selection-mode>    Can be 'simple'.",
-    `                      Default: '${selection_mode}'`,
-    "",
-    "Optional arguments:",
-    "  <api-key-path>      Path on disk of the API key for",
-    "                      the network service provider.",
-    "  <display-unit>      Can be 'wei' or 'ether'.",
-    `                      Default: '${display_unit}'`,
-    "  <seed-path>         Path on disk of the file",
-    "                      containing the seed phrase.",
-    "  <target-address>    Address for which to return",
-    "                      the gas price (not used).",
-    "                      Default: the wallet address.",
-    "                      corresponding to the seed.",
-    "  <output-type>       Type of price output to return.",
-    `                      Default: '${output_type}'`,
-    "  <output-file>       File in which to save the balance.",
-    `                      Default: '${output_file}'`,
-    "  <retries-max>       Maximum number of retries.",
-    `                      Default: ${retries_max}`,
-  ];
+    _line;
+  const
+    _program =
+      _basename(
+        _argv[
+          "1"]);
+  const
+    _text = [
+      "Estimate gas to attach to an EVM blockchain network transaction.",
+      "",
+      "Usage:",
+      `  ${_program}`,
+      "    <quiet>",
+      "    <target-network>",
+      "  ( <selection-mode>",
+      "    <api-keys-path",
+      "    <display-unit>",
+      "    <seed-path>",
+      "    <target-address>",
+      "    <output-type>",
+      "    <output-file>",
+      "    <retries-max> )",
+      "",
+      "Arguments:",
+      "  <target-network>    Name of the network to connect to.",
+      "  <selection-mode>    Can be 'simple'.",
+      `                      Default: '${selection_mode}'`,
+      "",
+      "Optional arguments:",
+      "  <api-key-path>      Path on disk of the API key for",
+      "                      the network service provider.",
+      "  <display-unit>      Can be 'wei' or 'ether'.",
+      `                      Default: '${display_unit}'`,
+      "  <seed-path>         Path on disk of the file",
+      "                      containing the seed phrase.",
+      "  <target-address>    Address for which to return",
+      "                      the gas price (not used).",
+      "                      Default: the wallet address.",
+      "                      corresponding to the seed.",
+      "  <output-type>       Type of price output to return.",
+      `                      Default: '${output_type}'`,
+      "  <output-file>       File in which to save the balance.",
+      `                      Default: '${output_file}'`,
+      "  <retries-max>       Maximum number of retries.",
+      `                      Default: ${retries_max}`,
+    ];
   for ( _line of _text ) {
     _echo(
       _line);
@@ -582,69 +621,96 @@ function
     _exit_code);
 }
 
-
 function _cmdline_parse() {
-  quiet =
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "y";
   _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
-        quiet =
+        _global[
+          "quiet"] =
           _value;
       }
       if ( _index == 3 ) {
-        target_network =
-          _value;
+        _set(
+          "target",
+          "network",
+          _value);
       }
       if ( _index == 4 ) {
-        selection_mode =
-          _value;
+        _set(
+          "selection",
+          "mode",
+          _value);
       }
       if ( _index == 5 ) {
-        api_key =
-          _value;
+        _set(
+          "api",
+          "key",
+          _value);
       }
       if ( _index == 6 ) {
-        display_unit =
-          _value;
+        _set(
+          "display",
+          "unit",
+          _value);
       }
       if ( _index == 7 ) {
-        target_address =
-          _value;
+        _set(
+          "target",
+          "address",
+          _value);
       }
       if ( _index == 8 ) {
-        wallet_seed =
-          _value;
+        _set(
+          "wallet",
+          "seed",
+          _value);
       }
       if ( _index == 9 ) {
-        output_type =
-          _value;
+        _set(
+          "output",
+          "type",
+          _value);
       }
       if ( _index == 10 ) {
-        output_file =
-          _value;
+        _set(
+          "output",
+          "file",
+          _value);
       }
       if ( _index == 11 ) {
-        retries_max =
-          _value;
+        _set(
+          "retries",
+          "max",
+          _value);
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
-        quiet =
+        _global[
+          "quiet"] =
           "n";
         _usage(
           0);
       }
   });
-  if ( target_network == "" ) {
+  const
+    _target_network =
+      _get(
+        "target",
+        "network");
+  if ( _target_network == "" ) {
     _msg =
       "No input network given."
     _msg_error(
       _msg,
-      1);
+      0);
     _overrides_set();
     _usage(
       1);
@@ -694,7 +760,7 @@ if ( await _cmdline_check(
     app_opts);
 }
 
-// ES6 modules exports
+// ES6 module exports
 
 export {
   _price_gas_transaction_get

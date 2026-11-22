@@ -140,8 +140,6 @@ function
     "seed",
     "path",
     "");
-  seed_path =
-    "";
   const
     _global =
       _global_get();
@@ -246,10 +244,14 @@ function
     _line;
   const
     _text = [
+      "",
+      "Generates a BIP-something compliant 12 words seed phrase.",
+      "",
       "Usage:",
       "  mkseed",
-      "   ( <path> )",
-      "   ( <verbose> )"
+      "   ( <path> ",
+      "     <verbose> )",
+      ""
     ];
   for ( _line of _text ) {
     _echo(
@@ -282,11 +284,12 @@ function
           "quiet"] =
           _value;
       }
+      if ( _value == "-h" ||
+           _value == "--help" ) {
+        _usage(
+          0);
+      }
   });
-  if ( seed_path == "-h" ) {
-    _usage(
-      0);
-  }
 }
 
 
