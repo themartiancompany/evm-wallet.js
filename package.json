@@ -100,7 +100,7 @@
   "overrides": {
     "evm-contracts-tools": {
       "evm-wallet":
-        "../libevm-wallet"
+        "../../libevm-wallet"
     },
     "evm-wallet":
       "./libevm-wallet",
