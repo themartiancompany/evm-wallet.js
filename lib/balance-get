@@ -306,6 +306,8 @@ async function
       _error);
     throw _error;
   }
+  _echo("ciao");
+  _echo(_target_network);
   if ( typeof(
          _retries_max) == 'undefined' ||
        _retries_max == "" ) {

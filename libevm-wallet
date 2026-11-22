@@ -306,7 +306,8 @@ async function
       _balance_get_args = [
         _wallet_seed,
         _rpc[
-          _network],
+          _network][
+            0],
         _api_key,
         "",                  // Target address, using seed
         _measure_unit,

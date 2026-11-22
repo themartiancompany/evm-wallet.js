@@ -84,6 +84,8 @@
       "8.21.0"
   },
   "dependencies": {
+    "evm-chains-info":
+      "^0.0.41",
     "libcrash-js":
       "npm:crash-js@^1000000000000027.1000000000000001.1000000000000001",
     "ethers":
@@ -100,21 +102,23 @@
   "overrides": {
     "evm-chains-info": {
       "evm-wallet":
-        "../../libevm-wallet"
+        "../.."
     },
     "evm-contracts-tools": {
       "evm-wallet":
-        "../../libevm-wallet"
+        "../.."
     },
     "evm-wallet":
-      "./libevm-wallet",
+      ".",
+    "evm-wallet.js":
+      ".",
     "libcrash-js":
       "npm:crash-js@^1000000000000027.1000000000000001.1000000000000001",
     "libevm": {
       ".":
         "^0.0.57",
       "evm-wallet":
-        "../../libevm-wallet"
+        "../.."
     } 
   },
   "type":
