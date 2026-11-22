@@ -324,11 +324,27 @@ async function
     }
     if ( ! _file_exists(
              _balance_file) ) {
-      _balance[
-        _network] =
-        await _balance_get.apply(
-          null,
+      try {
+        _balance[
+          _network] =
+          await _balance_get.apply(
+            null,
+            _balance_get_args);
+      }
+      catch(
+        _error) {
+        _msg =
+          "Error running '_balance_get' " +
+          "with arguments:";
+        _msg_error(
+          _msg,
+          0);
+        _echo2(
           _balance_get_args);
+        _echo2(
+          _error);
+        throw _msg;
+      }
     }
     else {
       const
