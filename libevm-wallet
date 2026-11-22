@@ -55,6 +55,11 @@ const
   _echo =
     _crash_js_module._echo;
 /* global
+     _echo2 */
+const
+  _echo2 =
+    _crash_js_module._echo2;
+/* global
      _file_read */
 const
   _file_read =
