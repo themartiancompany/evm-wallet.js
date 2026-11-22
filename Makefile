@@ -429,7 +429,8 @@ uninstall-man:
 	rm  \
 	  -vrf \
 	  "$(MAN_DIR)/man1/$(_PROJECT).1"
-	  "$(MAN_DIR)/man1/$(_PROJECT_NPM).1"
+	  "$(MAN_DIR)/man1/$(_PROJECT_NPM).1" || \
+	true
 
 uninstall-scripts:
 
@@ -447,6 +448,9 @@ uninstall-scripts:
 	  "$(LIB_DIR)/nodejs" \
 	  "$(DESTDIR)$(PREFIX)/lib/$(_PROJECT_NPM)" \
 	  "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT_NPM)" \
-	  "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)"
+	  "$(DESTDIR)$(PREFIX)/lib/node_modules/$(_PROJECT)" || \
+	true
+
+uninstall: uninstall-man uninstall-scripts
 
 .PHONY: check build build-man build-npm build-webpack install install-doc install-man install-npm install-scripts shellcheck uninstall-man uninstall-scripts
