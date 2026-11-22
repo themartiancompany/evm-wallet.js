@@ -187,6 +187,11 @@ const
 const
   _msg_info_provider_generated =
     _network_provider_module._msg_info_provider_generated;
+/* global
+     _target_network_check */
+const
+  _target_network_check =
+    _network_provider_module._target_network_check;
 
 function
   _global_variables() {
@@ -293,6 +298,22 @@ async function
     _retry,
     _request,
     _success;
+  try {
+    _target_network =
+      _target_network_check(
+        _target_network);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_target_network_check'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   if ( typeof(
          _verbose) == 'undefined' ||
        _verbose == "" ) {

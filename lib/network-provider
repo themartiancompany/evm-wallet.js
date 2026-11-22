@@ -259,6 +259,37 @@ function
 }
 
 function
+  _target_network_check(
+    _target_network) {
+  const
+    _target_network_type =
+      typeof(
+        _target_network);
+  if ( _target_network_type === "object" ) {
+    _target_network_keys =
+      Object.keys(
+        _target_network);
+    if ( _target_network_keys.length === 1 ) {
+      _target_network =
+        _target_network[
+          0];
+    }
+  }
+  else if ( _target_network_type === "string" ) {
+    if ( _target_network.length < 1 ) {
+      _msg =
+        "Target network is an empty string, " +
+        "but it should be an RPC URI.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+  }
+  return _target_network;
+}
+
+function
   _target_networks_check(
     _target_networks) {
   let
@@ -1135,6 +1166,7 @@ if ( await _cmdline_check(
 export {
   _provider_get,
   _msg_info_provider_generated,
+  _target_network_check,
   _target_networks_check
 };
 
@@ -1143,6 +1175,8 @@ export {
 //     _provider_get,
 //   _msg_info_provider_generated:
 //     _msg_info_provider_generated,
+//   _target_network_check:
+//     _target_network_check
 //   _target_networks_check:
 //     _target_networks_check
 // };
