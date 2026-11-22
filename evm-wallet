@@ -1141,7 +1141,7 @@ async function
   }
   _config_show();
   const
-    app_opts = [
+    _app_opts = [
       target_command,
       wallet_name,
       wallet_path,
@@ -1165,10 +1165,26 @@ async function
       target_value,
       target_networks
     ];
-  _results =
-    await _evm_wallet.apply(
-      null,
-      app_opts);
+  try {
+    _results =
+      await _evm_wallet.apply(
+        null,
+        _app_opts);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_evm_wallet' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _app_opts);
+    _echo2(
+      _error);
+    throw _error;
+  }
   const
     _results_type =
       typeof(
@@ -1179,17 +1195,17 @@ async function
         _results.toFixed(
           0);
     }
-    console.log(
+    _echo(
       _results);
     _exit(
       0);
   }
   else if ( _results_type == "bigint" ) {
-    console.log(
+    _echo(
       _results.toString());
   }
   else if ( _results_type == "string" ) {
-    console.log(
+    _echo(
       _results);
   }
   else if ( _results_type == "object" ) {
@@ -1200,12 +1216,12 @@ async function
             _target_network =
               target_networks[
                   0];
-          console.log(
+          _echo(
             _results[
               _target_network]);
         }
         else {
-          console.log(
+          _echo(
             _results);
         }
       }
@@ -1213,13 +1229,13 @@ async function
     else {
       try {
         for ( _result of _results ) {
-          console.log(
+          _echo(
             _result);
         }
       }
       catch(
         _error) {
-        console.error(
+        _echo2(
           _error);
         _msg =
           "Unknown error.";
