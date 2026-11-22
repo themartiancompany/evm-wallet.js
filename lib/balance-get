@@ -262,8 +262,8 @@ async function
     _success,
     _time_over,
     _wallet_dir,
-    _wallet_password,
-    _wallet_path_list;
+    _wallet_path_list,
+    _wallet_path;
   try {
     _target_network =
       _target_network_check(
@@ -301,8 +301,9 @@ async function
     0;
   _success =
     false;
-  _wallet_password =
-    "";
+  const
+    _wallet_password =
+      "";
   if ( _wallet_seed != "" ) {
     _wallet_dir =
       _dirname(
