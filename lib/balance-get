@@ -261,6 +261,7 @@ async function
     _request,
     _success,
     _time_over,
+    _wallet,
     _wallet_dir,
     _wallet_path_list,
     _wallet_path;
