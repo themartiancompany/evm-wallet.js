@@ -47,6 +47,12 @@ const
   _basename =
     _libcrash._basename;
 /* global
+    _cmdline_check:
+      writable */
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+/* global
     _dirname:
       writable */
 const
@@ -58,6 +64,11 @@ const
 const
   _echo =
     _libcrash._echo;
+/* global
+     _echo2 */
+const
+  _echo2 =
+    _libcrash._echo2;
 /* global
     _exit:
       writable */
@@ -176,6 +187,11 @@ const
 const
   _msg_info_provider_generated =
     _network_provider_module._msg_info_provider_generated;
+/* global
+     _target_network_check */
+const
+  _target_network_check =
+    _network_provider_module._target_network_check;
 
 function
   _global_variables() {
@@ -270,18 +286,34 @@ async function
     _retries_max,
     _verbose) {
   let
+    _display_unit_get,
+    _data,
+    _data_ether,
     _fee_data,
     _msg,
     _price_gas,
     _price_gas_ether,
     _price_gas_wei,
-    _provider_get_opts,
+    _provider,
     _retry,
     _request,
-    _success,
-    _wallet_dir,
-    _wallet_password,
-    _wallet_path_list;
+    _success;
+  try {
+    _target_network =
+      _target_network_check(
+        _target_network);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_target_network_check'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   if ( typeof(
          _verbose) == 'undefined' ||
        _verbose == "" ) {
@@ -303,33 +335,62 @@ async function
   _retries_max =
     Number(
       _retries_max);
-  if ( typeof(
-         _display_unit) == 'undefined' ||
-       _display_unit == "" ) {
+  const
+    _display_unit_type =
+      typeof(
+        _display_unit);
+  _display_unit_get =
+    false;
+  if ( _display_unit_type === "undefined" ) {
+    _display_unit_get =
+      true;
+  }
+  else if ( _display_unit_type === "string" ) {
+    if ( _display_unit.length < 1 ) {
+      _display_unit_get =
+        true;
+    }
+  }
+  else {
+    _msg =
+      "Display unit variable has type " +
+      `'${_display_unit}' but it should be a string.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _error
+  }
+  if ( _display_unit_get ) {
     _display_unit =
       "wei";
   }
-  _timeout =
-    100000;
+  const
+    _timeout =
+      100000;
   _retry =
     0;
   _success =
     false;
-  _wallet_password =
-    "";
-  _wallet_dir =
-    _dirname(
-      _wallet_seed);
-  _wallet_path_list = [
-    _wallet_dir,
-    "wallet.dat"
-  ];
-  _wallet_path =
-    _path_join(
-      _wallet_path_list);
-  _provider_get_opts = [
-    _target_network,
-  ];
+  const
+    _wallet_password =
+      "";
+  const
+    _wallet_dir =
+      _dirname(
+        _wallet_seed);
+  const
+    _wallet_path_list = [
+      _wallet_dir,
+      "wallet.dat"
+    ];
+  const
+    _wallet_path =
+      _path_join(
+        _wallet_path_list);
+  const
+    _provider_get_args = [
+      _target_network,
+    ];
   if ( _output_file == undefined ) {
     _output_file =
       "";
@@ -338,15 +399,31 @@ async function
     _api_key =
       _file_read(
         _api_key_path);
-    _provider_get_opts.push(
+    _provider_get_args.push(
       _api_key);
   }
-  _provider_get_opts.push(
+  _provider_get_args.push(
     _timeout);
-  _provider =
-    await _provider_get.apply(
-      null,
-      _provider_get_opts);
+  try {
+    _provider =
+      await _provider_get.apply(
+        null,
+        _provider_get_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_provider_get' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _provider_get_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
   _msg_info_provider_generated(
     _provider);
   // if ( _target_address == "" ) {
@@ -382,40 +459,92 @@ async function
       }
       else if ( _output_type == "priority" ) {
         _price_gas_wei =
-        _fee_data.maxPriorityFeePerGas;
+          _fee_data.maxPriorityFeePerGas;
       }
-      if ( _display_unit == "wei" ) {
-        _price_gas =
-          _price_gas_wei;
+      else if ( _output_type === "all" ||
+                _output_type === "full" ||
+                _output_type === "" ) {
+        _price_gas_wei = [
+          _fee_data.gasPrice,
+          _fee_data.maxFeePerGas,
+          _fee_data.maxPriorityFeePerGas
+        ];
       }
-      else if ( _display_unit == "ether" ) {
-        _price_gas_ether =
-          _wei_to_ether(
-            _price_gas_wei);
-        _price_gas =
-          _price_gas_ether;
-      }
-      if ( _output_file != "" ) {
-          _file_write(
-            _output_file,
-            _price_gas.toString());
+      else {
+        _msg =
+          "Unknown output type " +
+          `'${_output_type}'.`;
+        _msg_error(
+          _msg,
+          0);
+        throw _msg;
       }
       _success =
         true;
-    } catch(
-        _err) {
+    }
+    catch(
+      _error) {
       _retry =
         _retry + 1;
       _msg =
-        `Error retrieving gas price, ` +
-	`retrying (${_retry} of ${_retries_max})`;
-      console.error(
-        _err);
+        `Error retrieving gas price.`;
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
+      _msg =
+        `Retrying (${_retry} of ${_retries_max})`;
       _msg_error(
         _msg,
         0);
       await _sleep(
-        3000);
+        10000);
+    }
+  }
+  if ( _display_unit == "wei" ) {
+    _price_gas =
+      _price_gas_wei;
+  }
+  else if ( _display_unit == "ether" ) {
+    if ( _output_type === "all" ||
+         _output_type === "full" ||
+         _output_type === "" ) {
+      _price_gas =
+        [];
+      for ( _data of _price_gas_wei ) {
+        _data_ether =
+          _wei_to_ether(
+            _data);
+        _price_gas.push(
+          _data_ether);
+      }
+    }
+    else {
+      _price_gas_ether =
+        _wei_to_ether(
+          _price_gas_wei);
+      _price_gas =
+        _price_gas_ether;
+    }
+  }
+  if ( _output_file != "" ) {
+    try {
+      _file_write(
+        _output_file,
+        _price_gas.toString());
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error writing data to location " +
+        `'${_output_file}'.`;
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
+      throw _error;
     }
   }
   if ( _success == false &&
@@ -480,8 +609,8 @@ function
           "1"]);
   const
     _text = [
-      ""
-      "Returns gas price for an EVM network."
+      "",
+      "Returns gas price for an EVM network.",
       "",
       "Usage:",
       `  ${program}`,
@@ -527,52 +656,73 @@ function
 function _cmdline_parse() {
   let
     _msg;
-  quiet =
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "y";
   _argv.forEach(
     function (
       _value,
-      _index,
-      _array) {
+      _index) {
       if ( _index == 2 ) {
-        quiet =
+        _global[
+          "quiet"] =
           _value;
       }
       if ( _index == 3 ) {
-        target_network =
-          _value;
+        _set(
+          "target",
+          "network",
+          _value);
       }
       if ( _index == 4 ) {
-        api_key =
-          _value;
+        _set(
+          "api",
+          "key",
+          _value);
       }
       if ( _index == 5 ) {
-        display_unit =
-          _value;
+        _set(
+          "display",
+          "unit",
+          _value);
       }
       if ( _index == 6 ) {
-        target_address =
-          _value;
+        _set(
+          "target",
+          "address",
+          _value);
       }
       if ( _index == 7 ) {
-        wallet_seed =
-          _value;
+        _set(
+          "wallet",
+          "seed",
+          _value);
       }
       if ( _index == 8 ) {
-        output_type =
-          _value;
+        _set(
+          "output",
+          "type",
+          _value);
       }
       if ( _index == 9 ) {
-        output_file =
-          _value;
+        _set(
+          "output",
+          "file",
+          _value);
       }
       if ( _index == 10 ) {
-        retries_max =
-          _value;
+        _set(
+          "retries",
+          "max",
+          _value);
       }
       if ( _value == "-h" ||
            _value == "--help" ) {
-        quiet =
+        _global[
+          "quiet"] =
           "n";
         _usage(
           0);
@@ -617,12 +767,12 @@ async function
   }
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "price-gas-get") ||
-     _cmdline_check(
+     await _cmdline_check(
        "gas-price") ||
-     _cmdline_check(
-       "gas-price.js") {
+     await _cmdline_check(
+       "gas-price.js") ) {
   _global_variables();
   _cmdline_parse();
   _config_show();

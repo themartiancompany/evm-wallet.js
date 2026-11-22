@@ -1,6 +1,6 @@
 { "name": "evm-wallet.js",
   "version":
-    "0.0.78",
+    "0.0.108",
   "description":
     "Cryptocurrency wallet for Ethereum Virtual Machine (EVM) compatible blockchain networks written in Javascript, part of the EVM Toolchain, depending on the Ethers library.",
   "funding": {
@@ -61,11 +61,11 @@
     "email":
       "pellegrinoprevete@gmail.com",
     "url":
-      "https://github.com/tallero"
+      "https://github.com/themartiancompany"
   },
   "devDependencies": {
     "crash-js-webpack":
-      "^0.0.61",
+      "^0.0.90",
     "flatted":
       "^3.4.4",
     "eslint":
@@ -75,7 +75,7 @@
     "@eslint/js":
       "^10.0.1",
     "safely-serve":
-      "^0.0.16",
+      "^0.0.26",
     "webpack":
       "^5.109.2",
     "webpack-cli":
@@ -84,24 +84,42 @@
       "8.21.0"
   },
   "dependencies": {
+    "evm-chains-info":
+      "^0.0.41",
     "libcrash-js":
-      "npm:crash-js@^10000001.1000000000000001.1000000000000001",
+      "npm:crash-js@^1000000000000027.1000000000000001.1000000000000001",
     "ethers":
       "^6.13.2",
     "libevm":
-      "^0.0.36",
+      "^0.0.57",
     "yargs":
       "18.0.0"
   },
   "optionalDependencies": {
     "erc20-tools":
-      "^0.0.19"
+      "^0.0.27"
   },
   "overrides": {
+    "evm-chains-info": {
+      "evm-wallet":
+        "../.."
+    },
+    "evm-contracts-tools": {
+      "evm-wallet":
+        "../.."
+    },
     "evm-wallet":
-      "./libevm-wallet",
-    "libevm":
-      "^0.0.36"
+      ".",
+    "evm-wallet.js":
+      ".",
+    "libcrash-js":
+      "npm:crash-js@^1000000000000027.1000000000000001.1000000000000001",
+    "libevm": {
+      ".":
+        "^0.0.57",
+      "evm-wallet":
+        "../.."
+    } 
   },
   "type":
     "module",

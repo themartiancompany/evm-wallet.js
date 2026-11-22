@@ -43,6 +43,11 @@ const
   _argv =
     _libcrash._argv;
 /* global
+     _cmdline_check */
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+/* global
      _dirname */
 const
   _dirname =
@@ -52,6 +57,11 @@ const
 const
   _echo =
     _libcrash._echo;
+/* global
+     _echo2 */
+const
+  _echo2 =
+    _libcrash._echo2;
 /* global
      _exit */
 const
@@ -113,14 +123,24 @@ const
   _sleep =
     _libcrash._sleep;
 const
-  _provider_get_module =
+  _network_provider_module =
     await import(
       './network-provider');
+/* global
+     _msg_info_provider_generated */
+const
+  _msg_info_provider_generated =
+    _network_provider_module._msg_info_provider_generated;
 /* global
      _provider_get */
 const
   _provider_get =
-    _provider_get_module._provider_get;
+    _network_provider_module._provider_get;
+/* global
+     _target_network_check */
+const
+  _target_network_check =
+    _network_provider_module._target_network_check;
 const
   _wallet_get_module =
     await import(
@@ -235,19 +255,40 @@ async function
     _display_unit,
     _wallet_seed,
     _target_address,
+    _output_type,
     _output_file,
     _retries_max) {
   let
+    _display_unit_get,
     _fee_data,
     _msg,
     _price_gas,
     _price_gas_target,
     _price_gas_get_args,
+    _provider,
     _retry,
     _request,
     _success,
     _wallet_dir,
     _wallet_path_list;
+  try {
+    _target_network =
+      _target_network_check(
+        _target_network);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_target_network_check'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
+  _price_gas_get_args =
+    [];
   if ( typeof(
          _selection_mode) == 'undefined' ||
        _selection_mode == "" ) {
@@ -276,14 +317,38 @@ async function
       Number(
         _retries_max);
   }
-  if ( typeof(
-         _display_unit) == 'undefined' ||
-       _display_unit == "" ) {
+  const
+    _display_unit_type =
+      typeof(
+        _display_unit);
+  _display_unit_get =
+    false;
+  if ( _display_unit_type === "undefined" ) {
+    _display_unit_get =
+      true;
+  }
+  else if ( _display_unit_type === "string" ) {
+    if ( _display_unit.length < 1 ) {
+      _display_unit_get =
+        true;
+    }
+  }
+  else {
+    _msg =
+      "Display unit variable has type " +
+      `'${_display_unit}' but it should be a string.`;
+    _msg_error(
+      _msg,
+      0);
+    throw _error
+  }
+  if ( _display_unit_get ) {
     _display_unit =
       "ether";
   }
-  _timeout =
-    100000;
+  const
+    _timeout =
+      100000;
   _retry =
     0;
   _success =
@@ -291,18 +356,21 @@ async function
   const
     _wallet_password =
       "";
-  _wallet_dir =
-    _dirname(
-      _wallet_seed);
-  _wallet_path_list = [
-    _wallet_dir,
-    "wallet.dat"
-  ];
-  _wallet_path =
-    _path_join(
-      _wallet_path_list);
   const
-    _provider_get_opts = [
+    _wallet_dir =
+      _dirname(
+        _wallet_seed);
+  const
+    _wallet_path_list = [
+      _wallet_dir,
+      "wallet.dat"
+    ];
+  const
+    _wallet_path =
+      _path_join(
+        _wallet_path_list);
+  const
+    _provider_get_args = [
       _target_network,
     ];
   if ( _output_file == undefined ) {
@@ -313,16 +381,31 @@ async function
     _api_key =
       _file_read(
         _api_key_path);
-    _provider_get_opts.push(
+    _provider_get_args.push(
       _api_key);
   }
-  _provider_get_opts.push(
+  _provider_get_args.push(
     _timeout);
-  const
+  try {
     _provider =
       await _provider_get.apply(
         null,
-        _provider_get_opts);
+        _provider_get_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_provider_get' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _provider_get_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
   _msg_info_provider_generated(
     _provider);
   // if ( _target_address == "" ) {
@@ -408,10 +491,14 @@ async function
       _retry =
         _retry + 1;
       _msg =
-        `Error retrieving gas price, ` +
-	`retrying (${_retry} of ${_retries_max})`;
-      console.error(
-        _err);
+        `Error retrieving transaction gas price.`;
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
+      _msg =
+        `Retrying (${_retry} of ${_retries_max})`;
       _msg_error(
         _msg,
         0);
@@ -640,7 +727,7 @@ async function
       await _price_gas_transaction_get.apply(
         null,
         _app_opts);
-    console.log(
+    _echo(
       _price_gas.toString());
     // process.stdout.write(
     //   _balance.toString());
@@ -653,7 +740,7 @@ async function
   }
 }
 
-if ( _cmdline_check(
+if ( await _cmdline_check(
        "price-gas-transaction-get") ) {
   _global_variables();
   _cmdline_parse();

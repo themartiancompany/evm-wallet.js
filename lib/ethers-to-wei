@@ -35,6 +35,12 @@ const
   _argv =
     _libcrash._argv;
 /* global
+     _basename:
+       writable */
+const
+  _basename =
+    _libcrash._basename;
+/* global
      _cmdline_check:
        writable */
 const
@@ -52,6 +58,12 @@ const
 const
   _exit =
     _libcrash._exit;
+/* global
+     _get:
+       writable */
+const
+  _get =
+    _libcrash._get;
 /* global
      _global_get:
        writable */

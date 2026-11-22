@@ -43,6 +43,11 @@ const
   _argv =
     _libcrash._argv;
 /* global
+     _cmdline_check */
+const
+  _cmdline_check =
+    _libcrash._cmdline_check;
+/* global
      _dirname */
 const
   _dirname =
@@ -249,7 +254,7 @@ function
       ""
     ];
   for ( _line of _text ) {
-    _msg_info(
+    _echo(
       _line);
   }
   _exit(
@@ -293,10 +298,11 @@ if ( await _cmdline_check(
      await _cmdline_check(
        "mkseed")  ) {
   _global_variables();
-  _cmdline_parse();
-  app_opts = [
-    seed_path
-  ];
+  await _cmdline_parse();
+  _set(
+    "app",
+    "opts",
+    [ seed_path ]);
   _mkseed.apply(
     null,
     app_opts);

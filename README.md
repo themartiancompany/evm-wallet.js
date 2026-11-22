@@ -41,14 +41,12 @@ blockchain networks, on
 [key-gen](
   https://github.com/themartiancompany/key-gen),
 for which it is at the same time a seed-phrase provider,
-to generate secrets,
-and on the
-[Crash Bash](
-  https://github.com/themartiancompany/crash-bash)
-and
-[Crash JavaScript](
-  https://github.com/themartiancompany/crash-js)
-run-time libraries.
+to generate secrets, on
+[ERC20 Tools](
+  https://github.com/themartiancompany/erc20-tools)
+to send ERC20 tokens and on the Javascript
+[Crash run-time library](
+  https://github.com/themartiancompany/crash-js).
 
 It is a dependency for the
 [EVM Contracts Tools](

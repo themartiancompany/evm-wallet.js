@@ -2,27 +2,29 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-
-/**    ----------------------------------------------------------------------
+/**    ---------------------------------------------------------------
+ *     balance-check
+ *     ---------------------------------------------------------------
  *     Copyright ©
  *       Pellegrino Prevete
  *         2024, 2025, 2026
  * 
  *     All rights reserved
- *     ----------------------------------------------------------------------
+ *     ---------------------------------------------------------------
  * 
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     This program is free software: you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License as
+ *     published by the Free Software Foundation, either version 3 of
+ *     the License, or (at your option) any later version.
  * 
  *     This program is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU General Public License for more details.
  * 
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     You should have received a copy of the GNU General Public
+ *     License along with this program.
+ *     If not, see <https://www.gnu.org/licenses/>.
  */
 
 const
@@ -57,6 +59,12 @@ const
   _echo =
     _libcrash._echo;
 /* global
+     _echo2:
+       writable */
+const
+  _echo2 =
+    _libcrash._echo2;
+/* global
      _exit:
        writable */
 const
@@ -68,6 +76,12 @@ const
 const
   _file_read =
     _libcrash._file_read;
+/* global
+     _global_get:
+       writable */
+const
+  _global_get =
+    _libcrash._global_get;
 /* global
      _msg_info:
        writable */
@@ -110,6 +124,12 @@ const
 const
   _require =
     _libcrash._require;
+/* global
+     _set:
+       writable */
+const
+  _set =
+    _libcrash._set;
 /* global
      _sleep:
        writable */
@@ -171,23 +191,47 @@ const
 
 function
   _global_variables() {
-  app_name =
-    "balance-check";
-  wallet_seed =
-    "";
-  target_address =
-    "";
-  target_amount =
-    "";
-  target_network =
-    "";
-  api_key =
-    "";
-  measure_unit =
-    "";
-  retries_max =
-    "";
-  quiet =
+  _set(
+    "app",
+    "name",
+    "balance-check");
+  _set(
+    "app",
+    "opts",
+    []);
+  _set(
+    "wallet",
+    "seed",
+    "");
+  _set(
+    "target",
+    "address",
+    "");
+  _set(
+    "target",
+    "amount",
+    "");
+  _set(
+    "target",
+    "network",
+    "");
+  _set(
+    "api",
+    "key",
+    "");
+  _set(
+    "measure",
+    "unit",
+    "");
+  _set(
+    "retries",
+    "max",
+    "");
+  const
+    _global =
+      _global_get();
+  _global[
+    "quiet"] =
     "";
 }
 
@@ -227,7 +271,8 @@ async function
     _api_key,
     _balance,
     _msg,
-    _provider_get_opts,
+    _provider,
+    _provider_get_args,
     _retry,
     _sender_address,
     _success,
@@ -265,20 +310,36 @@ async function
   _wallet_path =
     _path_join(
       _wallet_path_list);
-  _provider_get_opts = [
+  _provider_get_args = [
     _target_network
   ];
   if ( _api_key_path != "" ) {
     _api_key =
       _file_read(
         _api_key_path);
-    _provider_get_opts.push(
+    _provider_get_args.push(
       _api_key);
   }
-  _provider =
-    await _provider_get.apply(
-      null,
-      _provider_get_opts);
+  try {
+    _provider =
+      await _provider_get.apply(
+        null,
+        _provider_get_args);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_provider_get' " +
+      "with arguments:";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _provider_get_args);
+    _echo2(
+      _error);
+    throw _error;
+  }
   _msg_info_provider_generated(
     _provider);
   _wallet_get_opts = [
@@ -507,9 +568,7 @@ async function
 }
 
 if ( await _cmdline_check(
-       "balance-check") 
-     await _cmdline_check(
-       "") {
+       "balance-check") ) {
   _global_variables();
   _cmdline_parse();
   _config_show();
