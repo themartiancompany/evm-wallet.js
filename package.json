@@ -98,6 +98,10 @@
       "^0.0.27"
   },
   "overrides": {
+    "evm-chains-info": {
+      "evm-wallet":
+        "../../libevm-wallet"
+    },
     "evm-contracts-tools": {
       "evm-wallet":
         "../../libevm-wallet"
