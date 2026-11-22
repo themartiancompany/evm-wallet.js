@@ -104,8 +104,14 @@
     },
     "evm-wallet":
       "./libevm-wallet",
-    "libevm":
-      "^0.0.57"
+    "libcrash-js":
+      "npm:crash-js@^1000000000000027.1000000000000001.1000000000000001",
+    "libevm": {
+      ".":
+        "^0.0.57",
+      "evm-wallet":
+        "../../libevm-wallet"
+    } 
   },
   "type":
     "module",
