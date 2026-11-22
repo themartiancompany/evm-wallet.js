@@ -235,6 +235,37 @@ function
     "";
 }
 
+function
+  _target_network_check(
+    _target_network) {
+  const
+    _target_network_type =
+      typeof(
+        _target_network);
+  if ( _target_network_type === "object" ) {
+    _target_network_keys =
+      Object.keys(
+        _target_network);
+    if ( _target_network_keys.length === 1 ) {
+      _target_network =
+        _target_network[
+          0];
+    }
+  }
+  else if ( _target_network_type === "string" ) {
+    if ( _target_network.length < 1 ) {
+      _msg =
+        "Target network is an empty string, " +
+        "but it should be an RPC URI.";
+      _msg_error(
+        _msg,
+        0);
+      throw _msg;
+    }
+  }
+  return _target_network;
+}
+
 async function
   _balance_get(
     _wallet_seed,
@@ -259,6 +290,22 @@ async function
     _wallet_dir,
     _wallet_password,
     _wallet_path_list;
+  try {
+    _target_network =
+      _target_network_check(
+        _target_network);
+  }
+  catch(
+    _error) {
+    _msg =
+      "Error running '_target_network_check'.";
+    _msg_error(
+      _msg,
+      0);
+    _echo2(
+      _error);
+    throw _error;
+  }
   if ( typeof(
          _retries_max) == 'undefined' ||
        _retries_max == "" ) {
@@ -420,6 +467,7 @@ async function
   _overrides_set() {
   let
     _info_get,
+    _rpc,
     _target_network_type;
   _info_get =
     false;
@@ -461,12 +509,27 @@ async function
     const
       _rpc_get =
         _libevm_module._rpc_get;
+    try {
+      _rpc =
+        _rpc_get(
+          [ target_network ])[
+          target_network];
+    }
+    catch(
+      _error) {
+      _msg =
+        "Error running '_rpc_get'.";
+      _msg_error(
+        _msg,
+        0);
+      _echo2(
+        _error);
+      throw _error;
+    }
     _set(
       "target",
       "network",
-      _rpc_get(
-        [ target_network ])[
-        target_network]);
+      _rpc);
   }
   _override_set(
     "display",
@@ -688,7 +751,19 @@ async function
   _main() {
   _global_variables();
   await _cmdline_parse();
-  await _overrides_set();
+  try {
+    await _overrides_set();
+  }
+  catch(
+    _error) {
+    const
+      _msg =
+        "Error running '_overrides_set'.";
+    _msg_error(
+      _msg,
+      0);
+    throw _msg;
+  }
   await _config_show();
   app_opts = [
     wallet_seed,
