@@ -286,6 +286,7 @@ async function
     _balance_file_modified,
     _balance_get_args,
     _life,
+    _msg,
     _network;
   const
     _balance =
